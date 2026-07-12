@@ -124,7 +124,7 @@ export function ChangeEmailSection() {
         </div>
       )}
 
-      <hr className="auth-perforation" />
+      <hr className="auth-divider" />
 
       {isVerifying ? (
         <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>

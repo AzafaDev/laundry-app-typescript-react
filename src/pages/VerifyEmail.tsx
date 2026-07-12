@@ -29,19 +29,10 @@ export function VerifyEmail() {
     resolver: zodResolver(resendVerificationSchema),
   });
 
-  const ticketDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short" })
-    .format(new Date())
-    .toUpperCase();
-
   if (autoVerifyQuery.isSuccess || verifyMutation.isSuccess) {
     return (
       <div className="auth-shell">
         <div className="auth-card auth-success">
-          <span className="auth-print-cover" aria-hidden="true" />
-          <div className="auth-ticket-header">
-            <span>EMAIL VERIFICATION</span>
-            <span className="auth-date">{ticketDate}</span>
-          </div>
           <h2>Email verified</h2>
           <p className="auth-success-text">Your account is ready. You can log in now.</p>
           <Link to="/login" className="auth-button">Go to login</Link>
@@ -54,11 +45,6 @@ export function VerifyEmail() {
     return (
       <div className="auth-shell">
         <div className="auth-card">
-          <span className="auth-print-cover" aria-hidden="true" />
-          <div className="auth-ticket-header">
-            <span>EMAIL VERIFICATION</span>
-            <span className="auth-date">{ticketDate}</span>
-          </div>
           <h2>Verifying your email...</h2>
         </div>
       </div>
@@ -70,11 +56,6 @@ export function VerifyEmail() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
-        <span className="auth-print-cover" aria-hidden="true" />
-        <div className="auth-ticket-header">
-          <span>EMAIL VERIFICATION</span>
-          <span className="auth-date">{ticketDate}</span>
-        </div>
         <h2>Verify your email</h2>
         <p>Paste the verification token we sent to your email.</p>
 
@@ -105,7 +86,7 @@ export function VerifyEmail() {
           </button>
         </form>
 
-        <hr className="auth-perforation" />
+        <hr className="auth-divider" />
 
         {resendMutation.isSuccess ? (
           <p className="auth-success-text">{resendMutation.data?.message}</p>

@@ -17,10 +17,6 @@ export function ForgotPassword() {
 
   const mutation = useForgotPasswordMutation();
 
-  const ticketDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short" })
-    .format(new Date())
-    .toUpperCase();
-
   const onSubmit = (data: ForgotPasswordFormValues) => {
     mutation.mutate(data);
   };
@@ -29,11 +25,6 @@ export function ForgotPassword() {
     return (
       <div className="auth-shell">
         <div className="auth-card auth-success">
-          <span className="auth-print-cover" aria-hidden="true" />
-          <div className="auth-ticket-header">
-            <span>FORGOT PASSWORD</span>
-            <span className="auth-date">{ticketDate}</span>
-          </div>
           <h2>Check your email</h2>
           <p className="auth-success-text">{mutation.data?.message}</p>
           <Link to="/login" className="auth-button">Back to login</Link>
@@ -45,11 +36,6 @@ export function ForgotPassword() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <span className="auth-print-cover" aria-hidden="true" />
-        <div className="auth-ticket-header">
-          <span>FORGOT PASSWORD</span>
-          <span className="auth-date">{ticketDate}</span>
-        </div>
         <h2>Forgot password</h2>
         <p>Enter your email and we'll send you a reset link.</p>
 
@@ -78,7 +64,7 @@ export function ForgotPassword() {
           {mutation.isPending ? "Sending..." : "Send reset link"}
         </button>
 
-        <hr className="auth-perforation" />
+        <hr className="auth-divider" />
 
         <p className="auth-link">
           <Link to="/login">Back to login</Link>

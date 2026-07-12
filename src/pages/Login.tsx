@@ -20,10 +20,6 @@ export function Login() {
 
   const mutation = useLoginMutation();
 
-  const ticketDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short" })
-    .format(new Date())
-    .toUpperCase();
-
   const onSubmit = (data: LoginFormValues) => {
     mutation.mutate(data, {
       onSuccess: () => navigate("/"),
@@ -33,11 +29,6 @@ export function Login() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <span className="auth-print-cover" aria-hidden="true" />
-        <div className="auth-ticket-header">
-          <span>LOGIN</span>
-          <span className="auth-date">{ticketDate}</span>
-        </div>
         <h2>Welcome back</h2>
         <p>Log in to manage your laundry pickups.</p>
 
@@ -80,7 +71,7 @@ export function Login() {
           Continue with Google
         </a>
 
-        <hr className="auth-perforation" />
+        <hr className="auth-divider" />
 
         <p className="auth-link">
           <Link to="/forgot-password">Forgot password?</Link>

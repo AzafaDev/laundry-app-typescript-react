@@ -18,10 +18,6 @@ export function Register() {
 
   const mutation = useRegisterMutation();
 
-  const ticketDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short" })
-    .format(new Date())
-    .toUpperCase();
-
   const onSubmit = (data: RegisterFormValues) => {
     mutation.mutate(data);
   };
@@ -30,11 +26,6 @@ export function Register() {
     return (
       <div className="auth-shell">
         <div className="auth-card auth-success">
-          <span className="auth-print-cover" aria-hidden="true" />
-          <div className="auth-ticket-header">
-            <span>NEW ACCOUNT</span>
-            <span className="auth-date">{ticketDate}</span>
-          </div>
           <h2>Check your email</h2>
           <p className="auth-success-text">We've sent a verification link to {mutation.variables?.email}.</p>
           <Link to="/verify-email" className="auth-button">Verify now</Link>
@@ -46,11 +37,6 @@ export function Register() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <span className="auth-print-cover" aria-hidden="true" />
-        <div className="auth-ticket-header">
-          <span>NEW ACCOUNT</span>
-          <span className="auth-date">{ticketDate}</span>
-        </div>
         <h2>Register</h2>
         <p>Create your account to start booking pickups.</p>
 
@@ -115,7 +101,7 @@ export function Register() {
           {mutation.isPending ? "Registering..." : "Register"}
         </button>
 
-        <hr className="auth-perforation" />
+        <hr className="auth-divider" />
 
         <p className="auth-link">
           Already have an account? <Link to="/login">Login</Link>

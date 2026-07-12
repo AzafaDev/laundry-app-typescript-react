@@ -23,10 +23,6 @@ export function ResetPassword() {
 
   const mutation = useResetPasswordMutation();
 
-  const ticketDate = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short" })
-    .format(new Date())
-    .toUpperCase();
-
   const onSubmit = (data: ResetPasswordFormValues) => {
     mutation.mutate(data, {
       onSuccess: () => navigate("/", { replace: true }),
@@ -36,11 +32,6 @@ export function ResetPassword() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <span className="auth-print-cover" aria-hidden="true" />
-        <div className="auth-ticket-header">
-          <span>RESET PASSWORD</span>
-          <span className="auth-date">{ticketDate}</span>
-        </div>
         <h2>Reset password</h2>
         <p>
           {tokenFromUrl
@@ -98,7 +89,7 @@ export function ResetPassword() {
           {mutation.isPending ? "Resetting..." : "Reset password"}
         </button>
 
-        <hr className="auth-perforation" />
+        <hr className="auth-divider" />
 
         <p className="auth-link">
           <Link to="/login">Back to login</Link>
