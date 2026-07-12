@@ -13,3 +13,13 @@ export const registerSchema = z
   });
 
 export type RegisterFormValues = z.infer<typeof registerSchema>;
+
+export const verifyEmailSchema = z.object({
+  token: z.string().trim().min(1, "Token is required"),
+});
+export type VerifyEmailFormValues = z.infer<typeof verifyEmailSchema>;
+
+export const resendVerificationSchema = z.object({
+  email: z.string().trim().email("Invalid email address"),
+});
+export type ResendVerificationFormValues = z.infer<typeof resendVerificationSchema>;
