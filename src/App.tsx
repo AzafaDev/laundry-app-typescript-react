@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { OAuthCallback } from "./pages/OAuthCallback";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
+import { Profile } from "./pages/Profile";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Route path="/auth/callback" element={<OAuthCallback />} />
         <Route path="/forgot-password" element={<GuestRoute><ForgotPassword /></GuestRoute>} />
         <Route path="/reset-password" element={<GuestRoute><ResetPassword /></GuestRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><div>Profile</div></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );

@@ -60,6 +60,10 @@
   );
 }
 
+.profile-card {
+  max-width: 560px;
+}
+
 .auth-print-cover {
   position: absolute;
   inset: 0;
@@ -103,6 +107,23 @@
 }
 
 .auth-card > p {
+  color: var(--ink-soft);
+  font-size: 13px;
+  margin: 0 0 24px;
+}
+
+.profile-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-section-header h2 {
+  margin: 0 0 4px;
+}
+
+.profile-summary {
   color: var(--ink-soft);
   font-size: 13px;
   margin: 0 0 24px;
