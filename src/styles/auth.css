@@ -259,7 +259,8 @@
   transform: scale(0.97);
 }
 
-.auth-button-secondary {
+.auth-button-secondary,
+.auth-button-secondary:visited {
   background: transparent;
   border: 1px solid var(--ink-soft);
   color: var(--ink);
