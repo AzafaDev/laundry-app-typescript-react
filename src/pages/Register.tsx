@@ -2,9 +2,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "../hooks/auth/useRegisterMutation";
-import { ApiError } from "../api/client";
 import { registerSchema, type RegisterFormValues } from "../schemas/auth";
 import { PasswordInput } from "../components/PasswordInput";
+import { FormField } from "../components/FormField";
+import { ApiErrorMessage } from "../components/ApiErrorMessage";
 import "../styles/auth.css";
 
 export function Register() {
@@ -40,8 +41,7 @@ export function Register() {
         <h2>Register</h2>
         <p>Create your account to start booking pickups.</p>
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="full_name">Full name</label>
+        <FormField label="Full name" htmlFor="full_name" error={errors.full_name?.message}>
           <div className="auth-input-wrap">
             <input
               id="full_name"
@@ -51,11 +51,9 @@ export function Register() {
               {...register("full_name")}
             />
           </div>
-          {errors.full_name && <span className="auth-error">{errors.full_name.message}</span>}
-        </div>
+        </FormField>
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="email">Email</label>
+        <FormField label="Email" htmlFor="email" error={errors.email?.message}>
           <div className="auth-input-wrap">
             <input
               id="email"
@@ -65,37 +63,25 @@ export function Register() {
               {...register("email")}
             />
           </div>
-          {errors.email && <span className="auth-error">{errors.email.message}</span>}
-        </div>
+        </FormField>
 
-        <div className="auth-field">
-          <div className="auth-label-row">
-            <label className="auth-label" htmlFor="password">Password</label>
-            <span className="auth-hint">min. 8 characters</span>
-          </div>
+        <FormField label="Password" htmlFor="password" hint="min. 8 characters" error={errors.password?.message}>
           <PasswordInput
             id="password"
             autoComplete="new-password"
             {...register("password")}
           />
-          {errors.password && <span className="auth-error">{errors.password.message}</span>}
-        </div>
+        </FormField>
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="confirm_password">Confirm password</label>
+        <FormField label="Confirm password" htmlFor="confirm_password" error={errors.confirm_password?.message}>
           <PasswordInput
             id="confirm_password"
             autoComplete="new-password"
             {...register("confirm_password")}
           />
-          {errors.confirm_password && <span className="auth-error">{errors.confirm_password.message}</span>}
-        </div>
+        </FormField>
 
-        {mutation.error && (
-          <p className="auth-error">
-            {mutation.error instanceof ApiError ? mutation.error.message : "Something went wrong"}
-          </p>
-        )}
+        <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Registering..." : "Register"}

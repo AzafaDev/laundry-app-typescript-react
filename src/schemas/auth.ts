@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { emailField, passwordField } from "./shared";
 
 export const registerSchema = z
   .object({
     full_name: z.string().trim().min(1, "Full name is required"),
-    email: z.string().trim().email("Invalid email address"),
-    password: z.string().trim().min(8, "Password must be at least 8 characters"),
+    email: emailField,
+    password: passwordField,
     confirm_password: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
@@ -20,25 +21,25 @@ export const verifyEmailSchema = z.object({
 export type VerifyEmailFormValues = z.infer<typeof verifyEmailSchema>;
 
 export const resendVerificationSchema = z.object({
-  email: z.string().trim().email("Invalid email address"),
+  email: emailField,
 });
 export type ResendVerificationFormValues = z.infer<typeof resendVerificationSchema>;
 
 export const loginSchema = z.object({
-  email: z.string().trim().email("Invalid email address"),
+  email: emailField,
   password: z.string().trim().min(1, "Password is required"),
 });
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().trim().email("Invalid email address"),
+  email: emailField,
 });
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export const resetPasswordSchema = z
   .object({
     token: z.string().trim().min(1, "Token is required"),
-    new_password: z.string().trim().min(8, "Password must be at least 8 characters"),
+    new_password: passwordField,
     confirm_password: z.string(),
   })
   .refine((data) => data.new_password === data.confirm_password, {

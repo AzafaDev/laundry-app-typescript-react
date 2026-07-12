@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../context/AuthContext";
 import { useRequestEmailChangeMutation } from "../../hooks/profile/useRequestEmailChangeMutation";
 import { useVerifyEmailChangeMutation } from "../../hooks/profile/useVerifyEmailChangeMutation";
-import { ApiError } from "../../api/client";
 import {
   requestEmailChangeSchema,
   type RequestEmailChangeFormValues,
@@ -12,6 +11,8 @@ import {
   type VerifyEmailChangeFormValues,
 } from "../../schemas/profile";
 import { PasswordInput } from "../PasswordInput";
+import { FormField } from "../FormField";
+import { ApiErrorMessage } from "../ApiErrorMessage";
 
 export function ChangeEmailSection() {
   const { customer } = useAuth();
@@ -71,8 +72,7 @@ export function ChangeEmailSection() {
           </div>
           <p>Update the email address linked to your account.</p>
 
-          <div className="auth-field">
-            <label className="auth-label" htmlFor="new_email">New email</label>
+          <FormField label="New email" htmlFor="new_email" error={requestForm.formState.errors.new_email?.message}>
             <div className="auth-input-wrap">
               <input
                 id="new_email"
@@ -83,28 +83,21 @@ export function ChangeEmailSection() {
                 {...requestForm.register("new_email")}
               />
             </div>
-            {requestForm.formState.errors.new_email && (
-              <span className="auth-error">{requestForm.formState.errors.new_email.message}</span>
-            )}
-          </div>
+          </FormField>
 
-          <div className="auth-field">
-            <label className="auth-label" htmlFor="email_change_current_password">Current password</label>
+          <FormField
+            label="Current password"
+            htmlFor="email_change_current_password"
+            error={requestForm.formState.errors.current_password?.message}
+          >
             <PasswordInput
               id="email_change_current_password"
               autoComplete="current-password"
               {...requestForm.register("current_password")}
             />
-            {requestForm.formState.errors.current_password && (
-              <span className="auth-error">{requestForm.formState.errors.current_password.message}</span>
-            )}
-          </div>
+          </FormField>
 
-          {requestMutation.error && (
-            <p className="auth-error">
-              {requestMutation.error instanceof ApiError ? requestMutation.error.message : "Something went wrong"}
-            </p>
-          )}
+          <ApiErrorMessage error={requestMutation.error} />
 
           {requestMutation.isSuccess && (
             <p className="auth-success-text">{requestMutation.data?.message}</p>
@@ -132,8 +125,7 @@ export function ChangeEmailSection() {
             <h2>Verify new email</h2>
             <button type="button" className="auth-toggle" onClick={cancelVerifying}>CANCEL</button>
           </div>
-          <div className="auth-field">
-            <label className="auth-label" htmlFor="email_change_token">Token</label>
+          <FormField label="Token" htmlFor="email_change_token" error={verifyForm.formState.errors.token?.message}>
             <div className="auth-input-wrap">
               <input
                 id="email_change_token"
@@ -143,16 +135,9 @@ export function ChangeEmailSection() {
                 {...verifyForm.register("token")}
               />
             </div>
-            {verifyForm.formState.errors.token && (
-              <span className="auth-error">{verifyForm.formState.errors.token.message}</span>
-            )}
-          </div>
+          </FormField>
 
-          {verifyMutation.error && (
-            <p className="auth-error">
-              {verifyMutation.error instanceof ApiError ? verifyMutation.error.message : "Something went wrong"}
-            </p>
-          )}
+          <ApiErrorMessage error={verifyMutation.error} />
 
           <button className="auth-button" type="submit" disabled={verifyMutation.isPending}>
             {verifyMutation.isPending ? "Verifying..." : "Verify new email"}

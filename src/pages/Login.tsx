@@ -3,9 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../hooks/auth/useLoginMutation";
 import { googleLoginUrl } from "../api/auth";
-import { ApiError } from "../api/client";
 import { loginSchema, type LoginFormValues } from "../schemas/auth";
 import { PasswordInput } from "../components/PasswordInput";
+import { FormField } from "../components/FormField";
+import { ApiErrorMessage } from "../components/ApiErrorMessage";
 import "../styles/auth.css";
 
 export function Login() {
@@ -32,8 +33,7 @@ export function Login() {
         <h2>Welcome back</h2>
         <p>Log in to manage your laundry pickups.</p>
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="email">Email</label>
+        <FormField label="Email" htmlFor="email" error={errors.email?.message}>
           <div className="auth-input-wrap">
             <input
               id="email"
@@ -44,24 +44,17 @@ export function Login() {
               {...register("email")}
             />
           </div>
-          {errors.email && <span className="auth-error">{errors.email.message}</span>}
-        </div>
+        </FormField>
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="password">Password</label>
+        <FormField label="Password" htmlFor="password" error={errors.password?.message}>
           <PasswordInput
             id="password"
             autoComplete="current-password"
             {...register("password")}
           />
-          {errors.password && <span className="auth-error">{errors.password.message}</span>}
-        </div>
+        </FormField>
 
-        {mutation.error && (
-          <p className="auth-error">
-            {mutation.error instanceof ApiError ? mutation.error.message : "Something went wrong"}
-          </p>
-        )}
+        <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Logging in..." : "Login"}

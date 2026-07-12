@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useChangePasswordMutation } from "../../hooks/profile/useChangePasswordMutation";
-import { ApiError } from "../../api/client";
 import { changePasswordSchema, type ChangePasswordFormValues } from "../../schemas/profile";
 import { PasswordInput } from "../PasswordInput";
+import { FormField } from "../FormField";
+import { ApiErrorMessage } from "../ApiErrorMessage";
 
 export function ChangePasswordSection() {
   const [isEditing, setIsEditing] = useState(false);
@@ -58,45 +59,32 @@ export function ChangePasswordSection() {
       </div>
       <p>Update the password used to log in.</p>
 
-      <div className="auth-field">
-        <label className="auth-label" htmlFor="current_password">Current password</label>
+      <FormField label="Current password" htmlFor="current_password" error={errors.current_password?.message}>
         <PasswordInput
           id="current_password"
           autoComplete="current-password"
           autoFocus
           {...register("current_password")}
         />
-        {errors.current_password && <span className="auth-error">{errors.current_password.message}</span>}
-      </div>
+      </FormField>
 
-      <div className="auth-field">
-        <div className="auth-label-row">
-          <label className="auth-label" htmlFor="new_password">New password</label>
-          <span className="auth-hint">min. 8 characters</span>
-        </div>
+      <FormField label="New password" htmlFor="new_password" hint="min. 8 characters" error={errors.new_password?.message}>
         <PasswordInput
           id="new_password"
           autoComplete="new-password"
           {...register("new_password")}
         />
-        {errors.new_password && <span className="auth-error">{errors.new_password.message}</span>}
-      </div>
+      </FormField>
 
-      <div className="auth-field">
-        <label className="auth-label" htmlFor="confirm_password">Confirm password</label>
+      <FormField label="Confirm password" htmlFor="confirm_password" error={errors.confirm_password?.message}>
         <PasswordInput
           id="confirm_password"
           autoComplete="new-password"
           {...register("confirm_password")}
         />
-        {errors.confirm_password && <span className="auth-error">{errors.confirm_password.message}</span>}
-      </div>
+      </FormField>
 
-      {mutation.error && (
-        <p className="auth-error">
-          {mutation.error instanceof ApiError ? mutation.error.message : "Something went wrong"}
-        </p>
-      )}
+      <ApiErrorMessage error={mutation.error} />
 
       <button className="auth-button" type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Changing..." : "Change password"}

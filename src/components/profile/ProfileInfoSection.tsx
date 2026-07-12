@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../context/AuthContext";
 import { useUpdateProfileMutation } from "../../hooks/profile/useUpdateProfileMutation";
-import { ApiError } from "../../api/client";
 import { updateProfileSchema, type UpdateProfileFormValues } from "../../schemas/profile";
+import { FormField } from "../FormField";
+import { ApiErrorMessage } from "../ApiErrorMessage";
 
 export function ProfileInfoSection() {
   const { customer } = useAuth();
@@ -63,8 +64,7 @@ export function ProfileInfoSection() {
       </div>
       <p>Your name and phone number.</p>
 
-      <div className="auth-field">
-        <label className="auth-label" htmlFor="full_name">Full name</label>
+      <FormField label="Full name" htmlFor="full_name" error={errors.full_name?.message}>
         <div className="auth-input-wrap">
           <input
             id="full_name"
@@ -74,11 +74,9 @@ export function ProfileInfoSection() {
             {...register("full_name")}
           />
         </div>
-        {errors.full_name && <span className="auth-error">{errors.full_name.message}</span>}
-      </div>
+      </FormField>
 
-      <div className="auth-field">
-        <label className="auth-label" htmlFor="phone">Phone</label>
+      <FormField label="Phone" htmlFor="phone" error={errors.phone?.message}>
         <div className="auth-input-wrap">
           <input
             id="phone"
@@ -87,14 +85,9 @@ export function ProfileInfoSection() {
             {...register("phone")}
           />
         </div>
-        {errors.phone && <span className="auth-error">{errors.phone.message}</span>}
-      </div>
+      </FormField>
 
-      {mutation.error && (
-        <p className="auth-error">
-          {mutation.error instanceof ApiError ? mutation.error.message : "Something went wrong"}
-        </p>
-      )}
+      <ApiErrorMessage error={mutation.error} />
 
       <button className="auth-button" type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Saving..." : "Save changes"}

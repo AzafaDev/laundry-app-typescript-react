@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { useForgotPasswordMutation } from "../hooks/auth/useForgotPasswordMutation";
-import { ApiError } from "../api/client";
 import { forgotPasswordSchema, type ForgotPasswordFormValues } from "../schemas/auth";
+import { FormField } from "../components/FormField";
+import { ApiErrorMessage } from "../components/ApiErrorMessage";
 import "../styles/auth.css";
 
 export function ForgotPassword() {
@@ -39,8 +40,7 @@ export function ForgotPassword() {
         <h2>Forgot password</h2>
         <p>Enter your email and we'll send you a reset link.</p>
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="email">Email</label>
+        <FormField label="Email" htmlFor="email" error={errors.email?.message}>
           <div className="auth-input-wrap">
             <input
               id="email"
@@ -51,14 +51,9 @@ export function ForgotPassword() {
               {...register("email")}
             />
           </div>
-          {errors.email && <span className="auth-error">{errors.email.message}</span>}
-        </div>
+        </FormField>
 
-        {mutation.error && (
-          <p className="auth-error">
-            {mutation.error instanceof ApiError ? mutation.error.message : "Something went wrong"}
-          </p>
-        )}
+        <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Sending..." : "Send reset link"}

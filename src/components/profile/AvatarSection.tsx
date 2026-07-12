@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useUploadAvatarMutation } from "../../hooks/profile/useUploadAvatarMutation";
-import { ApiError } from "../../api/client";
+import { FormField } from "../FormField";
+import { ApiErrorMessage } from "../ApiErrorMessage";
 
 export function AvatarSection() {
   const { customer } = useAuth();
@@ -79,8 +80,7 @@ export function AvatarSection() {
         />
       )}
 
-      <div className="auth-field">
-        <label className="auth-label" htmlFor="avatar">Image file</label>
+      <FormField label="Image file" htmlFor="avatar">
         <div className="auth-input-wrap">
           <button
             type="button"
@@ -102,13 +102,9 @@ export function AvatarSection() {
           onChange={handleFileChange}
           style={{ display: "none" }}
         />
-      </div>
+      </FormField>
 
-      {mutation.error && (
-        <p className="auth-error">
-          {mutation.error instanceof ApiError ? mutation.error.message : "Something went wrong"}
-        </p>
-      )}
+      <ApiErrorMessage error={mutation.error} />
 
       <button className="auth-button" type="submit" disabled={!file || mutation.isPending}>
         {mutation.isPending ? "Uploading..." : "Upload avatar"}

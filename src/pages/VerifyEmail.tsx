@@ -10,7 +10,8 @@ import {
   resendVerificationSchema,
   type ResendVerificationFormValues,
 } from "../schemas/auth";
-import { ApiError } from "../api/client";
+import { FormField } from "../components/FormField";
+import { ApiErrorMessage } from "../components/ApiErrorMessage";
 import "../styles/auth.css";
 
 export function VerifyEmail() {
@@ -60,8 +61,7 @@ export function VerifyEmail() {
         <p>Paste the verification token we sent to your email.</p>
 
         <form onSubmit={verifyForm.handleSubmit((data) => verifyMutation.mutate(data))}>
-          <div className="auth-field">
-            <label className="auth-label" htmlFor="token">Token</label>
+          <FormField label="Token" htmlFor="token" error={verifyForm.formState.errors.token?.message}>
             <div className="auth-input-wrap">
               <input
                 id="token"
@@ -70,16 +70,9 @@ export function VerifyEmail() {
                 {...verifyForm.register("token")}
               />
             </div>
-            {verifyForm.formState.errors.token && (
-              <span className="auth-error">{verifyForm.formState.errors.token.message}</span>
-            )}
-          </div>
+          </FormField>
 
-          {displayError && (
-            <p className="auth-error">
-              {displayError instanceof ApiError ? displayError.message : "Something went wrong"}
-            </p>
-          )}
+          <ApiErrorMessage error={displayError} />
 
           <button className="auth-button" type="submit" disabled={verifyMutation.isPending}>
             {verifyMutation.isPending ? "Verifying..." : "Verify"}
@@ -92,8 +85,7 @@ export function VerifyEmail() {
           <p className="auth-success-text">{resendMutation.data?.message}</p>
         ) : (
           <form onSubmit={resendForm.handleSubmit((data) => resendMutation.mutate(data))}>
-            <div className="auth-field">
-              <label className="auth-label" htmlFor="resend_email">Didn't get the email?</label>
+            <FormField label="Didn't get the email?" htmlFor="resend_email" error={resendForm.formState.errors.email?.message}>
               <div className="auth-input-wrap">
                 <input
                   id="resend_email"
@@ -103,10 +95,7 @@ export function VerifyEmail() {
                   {...resendForm.register("email")}
                 />
               </div>
-              {resendForm.formState.errors.email && (
-                <span className="auth-error">{resendForm.formState.errors.email.message}</span>
-              )}
-            </div>
+            </FormField>
             <button className="auth-button" type="submit" disabled={resendMutation.isPending}>
               {resendMutation.isPending ? "Sending..." : "Resend"}
             </button>
