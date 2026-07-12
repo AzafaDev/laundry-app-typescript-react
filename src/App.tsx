@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
         <Route path="/auth/callback" element={<div>OAuth Callback</div>} />
         <Route path="/forgot-password" element={<div>Forgot Password</div>} />
         <Route path="/reset-password" element={<div>Reset Password</div>} />
-        <Route path="/profile" element={<div>Profile</div>} />
+        <Route path="/profile" element={<ProtectedRoute><div>Profile</div></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );

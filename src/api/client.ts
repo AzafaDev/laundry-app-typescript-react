@@ -8,7 +8,7 @@ export class ApiError extends Error {
   }
 }
 
-export async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+async function rawRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   const isFormData = options.body instanceof FormData;
 
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -27,4 +27,23 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
   }
 
   return data as T;
+}
+
+export async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  try {
+    return await rawRequest<T>(path, options);
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401 && !path.includes("/auth/")) {
+      const refreshRes = await fetch(`${BASE_URL}/api/v1/customer/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (refreshRes.ok) {
+        return rawRequest<T>(path, options);
+      }
+    }
+
+    throw err;
+  }
 }
