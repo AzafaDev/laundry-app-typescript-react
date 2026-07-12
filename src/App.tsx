@@ -5,6 +5,8 @@ import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
 import { Login } from "./pages/Login";
 import { OAuthCallback } from "./pages/OAuthCallback";
+import { ForgotPassword } from "./pages/ForgotPassword";
+import { ResetPassword } from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -15,8 +17,8 @@ function App() {
         <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/auth/callback" element={<OAuthCallback />} />
-        <Route path="/forgot-password" element={<div>Forgot Password</div>} />
-        <Route path="/reset-password" element={<div>Reset Password</div>} />
+        <Route path="/forgot-password" element={<GuestRoute><ForgotPassword /></GuestRoute>} />
+        <Route path="/reset-password" element={<GuestRoute><ResetPassword /></GuestRoute>} />
         <Route path="/profile" element={<ProtectedRoute><div>Profile</div></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>

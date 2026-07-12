@@ -29,3 +29,20 @@ export const loginSchema = z.object({
   password: z.string().trim().min(1, "Password is required"),
 });
 export type LoginFormValues = z.infer<typeof loginSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().trim().email("Invalid email address"),
+});
+export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+  .object({
+    token: z.string().trim().min(1, "Token is required"),
+    new_password: z.string().trim().min(8, "Password must be at least 8 characters"),
+    confirm_password: z.string(),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
+export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;

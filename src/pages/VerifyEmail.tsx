@@ -23,7 +23,7 @@ export function VerifyEmail() {
 
   const verifyForm = useForm<VerifyEmailFormValues>({
     resolver: zodResolver(verifyEmailSchema),
-    values: { token: tokenFromUrl ?? "" },
+    defaultValues: { token: tokenFromUrl ?? "" },
   });
   const resendForm = useForm<ResendVerificationFormValues>({
     resolver: zodResolver(resendVerificationSchema),
