@@ -259,6 +259,18 @@
   transform: scale(0.97);
 }
 
+.auth-button-secondary {
+  background: transparent;
+  border: 1px solid var(--ink-soft);
+  color: var(--ink);
+  margin-top: 10px;
+}
+
+.auth-button-secondary:hover {
+  border-color: var(--stamp);
+  color: var(--stamp);
+}
+
 .auth-button:disabled {
   opacity: 0.55;
   cursor: default;

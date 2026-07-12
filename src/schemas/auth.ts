@@ -23,3 +23,9 @@ export const resendVerificationSchema = z.object({
   email: z.string().trim().email("Invalid email address"),
 });
 export type ResendVerificationFormValues = z.infer<typeof resendVerificationSchema>;
+
+export const loginSchema = z.object({
+  email: z.string().trim().email("Invalid email address"),
+  password: z.string().trim().min(1, "Password is required"),
+});
+export type LoginFormValues = z.infer<typeof loginSchema>;
