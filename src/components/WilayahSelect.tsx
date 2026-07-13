@@ -13,9 +13,12 @@ export interface WilayahValue {
 interface WilayahSelectProps {
   value: WilayahValue;
   onChange: (next: WilayahValue) => void;
+  provinceError?: string;
+  cityError?: string;
+  districtError?: string;
 }
 
-export function WilayahSelect({ value, onChange }: WilayahSelectProps) {
+export function WilayahSelect({ value, onChange, provinceError, cityError, districtError }: WilayahSelectProps) {
   const provincesQuery = useProvincesQuery();
   const citiesQuery = useCitiesQuery(value.provinceId);
   const districtsQuery = useDistrictsQuery(value.cityId);
@@ -52,7 +55,7 @@ export function WilayahSelect({ value, onChange }: WilayahSelectProps) {
 
   return (
     <>
-      <FormField label="Provinsi" htmlFor="province_id">
+      <FormField label="Provinsi" htmlFor="province_id" error={provinceError}>
         <select
           id="province_id"
           className="auth-input"
@@ -66,7 +69,7 @@ export function WilayahSelect({ value, onChange }: WilayahSelectProps) {
         </select>
       </FormField>
 
-      <FormField label="Kota" htmlFor="city_id">
+      <FormField label="Kota" htmlFor="city_id" error={cityError}>
         <select
           id="city_id"
           className="auth-input"
@@ -81,7 +84,7 @@ export function WilayahSelect({ value, onChange }: WilayahSelectProps) {
         </select>
       </FormField>
 
-      <FormField label="Kecamatan" htmlFor="district_id">
+      <FormField label="Kecamatan" htmlFor="district_id" error={districtError}>
         <select
           id="district_id"
           className="auth-input"

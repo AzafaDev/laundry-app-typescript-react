@@ -55,7 +55,15 @@ export function AddressAutocomplete({ onSelect, placeholder }: AddressAutocomple
         {isOpen && (
           <div className="autocomplete-dropdown">
             {showLoading && <p className="autocomplete-status">Mencari...</p>}
-            {showEmpty && <p className="autocomplete-status">Tidak ditemukan, coba kata kunci lain</p>}
+            {showEmpty && (
+              <div className="autocomplete-status">
+                <p>Tidak ditemukan, coba kata kunci lain.</p>
+                <p>
+                  Coba cari area yang lebih umum dulu (kelurahan/kecamatan), lalu koreksi
+                  alamat lengkapnya di kolom Alamat di bawah setelah pilih lokasi.
+                </p>
+              </div>
+            )}
             {showResults &&
               query.data?.map((result, i) => (
                 <button

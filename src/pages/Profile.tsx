@@ -6,6 +6,7 @@ import { ChangeEmailSection } from "../components/profile/ChangeEmailSection";
 import { AvatarSection } from "../components/profile/AvatarSection";
 
 import "../styles/auth.css";
+import { AddressForm } from "../components/AddressForm";
 
 export function Profile() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export function Profile() {
         >
           {logoutMutation.isPending ? "Logging out..." : "Logout"}
         </button>
+        <AddressForm onSuccess={() => console.log("success!")} />
       </div>
     </div>
   );
