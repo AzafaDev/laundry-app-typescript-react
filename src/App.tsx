@@ -10,6 +10,8 @@ import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
 import { Profile } from "./pages/Profile";
 import { Addresses } from "./pages/Addresses";
+import { AddressCreatePage } from "./pages/AddressCreatePage";
+import { AddressEditPage } from "./pages/AddressEditPage";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/reset-password" element={<GuestRoute><ResetPassword /></GuestRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
+          <Route path="/addresses/new" element={<ProtectedRoute><AddressCreatePage /></ProtectedRoute>} />
+          <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
         </Routes>
       </Layout>
     </BrowserRouter>

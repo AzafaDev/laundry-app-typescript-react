@@ -24,6 +24,7 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
     handleSubmit,
     watch,
     setValue,
+    trigger,
     formState: { errors },
   } = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
@@ -65,9 +66,28 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
   };
 
   const handleAutocompleteSelect = (result: { formatted: string; latitude: number; longitude: number }) => {
-    setValue("address", result.formatted, { shouldValidate: true });
-    setValue("latitude", result.latitude, { shouldValidate: true });
-    setValue("longitude", result.longitude, { shouldValidate: true });
+    // Write all three values first (no per-call validation), then trigger
+    // validation once at the end. Validating after each individual setValue
+    // would run the cross-field lat/lng check against a partially-updated
+    // snapshot (e.g. latitude set but longitude not yet), incorrectly
+    // re-adding the error on "latitude" right before the next call could
+    // otherwise clear it.
+    setValue("address", result.formatted);
+    setValue("latitude", result.latitude);
+    setValue("longitude", result.longitude);
+    trigger(["address", "latitude", "longitude"]);
+
+    // A new search result may point to a different region than whatever
+    // province/city/district was previously selected (or prefilled in edit
+    // mode) — there's no reliable way to tell whether it actually did, since
+    // geocoding results aren't mapped to our internal wilayah IDs. Reset
+    // unconditionally rather than risk silently saving a mismatched region.
+    // Left unvalidated on purpose, matching WilayahSelect's own internal
+    // resets — surfacing three new "required" errors immediately after a
+    // helpful autocomplete pick would read as the form punishing the user.
+    setValue("province_id", undefined);
+    setValue("city_id", undefined);
+    setValue("district_id", undefined);
   };
 
   const onSubmit = (values: AddressFormValues) => {
