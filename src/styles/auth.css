@@ -398,11 +398,14 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 24px;
 }
 
 .address-page-header h1 {
   font-size: 20px;
+  letter-spacing: normal;
   margin: 0;
   color: var(--ink);
 }
@@ -424,7 +427,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   margin-bottom: 6px;
 }
 
@@ -455,7 +459,8 @@
 
 .address-actions {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 10px 16px;
 }
 
 .address-skeleton {
@@ -491,4 +496,38 @@
   font-size: 10px;
   font-weight: 400;
   color: var(--ink-soft);
+}
+
+.home-landing {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--bg);
+}
+
+.home-landing-content {
+  max-width: 420px;
+}
+
+.home-landing-content h1 {
+  /* The global h1 rule's -1.68px tracking is tuned for a short display
+     wordmark; a full-sentence, conversational headline like this one reads
+     cramped at that tightness, so it's reset here. */
+  letter-spacing: normal;
+}
+
+.home-landing-content p {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin: 0 0 28px;
+}
+
+.home-landing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
