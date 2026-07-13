@@ -531,3 +531,57 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.home-dashboard {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.home-dashboard-ticket {
+  position: relative;
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px dashed var(--border);
+  padding: 28px 28px 24px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.home-dashboard-ticket::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 22px;
+  height: 22px;
+  background: var(--bg);
+  border-right: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+}
+
+.home-dashboard-greeting {
+  margin: 2px 0 20px;
+  letter-spacing: normal;
+}
+
+.home-dashboard-address {
+  color: var(--ink);
+  font-size: 15px;
+  margin: 0 0 14px;
+}
+
+.home-dashboard-address-label {
+  font-weight: 700;
+}
+
+.home-dashboard-address-empty {
+  color: var(--ink-soft);
+}
+
+.home-dashboard-profile-link {
+  color: var(--ink-soft);
+}
