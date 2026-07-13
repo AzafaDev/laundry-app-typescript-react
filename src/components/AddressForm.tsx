@@ -7,6 +7,7 @@ import { useCreateAddressMutation } from "../hooks/addresses/useCreateAddressMut
 import { useUpdateAddressMutation } from "../hooks/addresses/useUpdateAddressMutation";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
 import { AddressAutocomplete } from "./AddressAutocomplete";
+import { AddressMap } from "./AddressMap";
 import { WilayahSelect, type WilayahValue } from "./WilayahSelect";
 import { FormField } from "./FormField";
 import { ApiErrorMessage } from "./ApiErrorMessage";
@@ -90,6 +91,20 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
     setValue("district_id", undefined);
   };
 
+  const handleMapChange = (lat: number, lng: number) => {
+    // Same reasoning and same batched-write-then-single-trigger pattern as
+    // handleAutocompleteSelect above: a manually placed/dragged pin has the
+    // same "no reliable link to our wilayah IDs" problem a new search
+    // result does, and the two lat/lng fields must be validated together
+    // against a fully-updated snapshot, not one-at-a-time.
+    setValue("latitude", lat);
+    setValue("longitude", lng);
+    trigger(["latitude", "longitude"]);
+    setValue("province_id", undefined);
+    setValue("city_id", undefined);
+    setValue("district_id", undefined);
+  };
+
   const onSubmit = (values: AddressFormValues) => {
     const payload: AddressRequestData = {
       label: values.label,
@@ -122,6 +137,10 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
       </FormField>
 
       <AddressAutocomplete onSelect={handleAutocompleteSelect} />
+      <AddressMap
+        value={{ latitude: watch("latitude"), longitude: watch("longitude") }}
+        onChange={handleMapChange}
+      />
       {errors.latitude && <p className="auth-error">{errors.latitude.message}</p>}
 
       <FormField label="Alamat" htmlFor="address" error={errors.address?.message}>

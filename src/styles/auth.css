@@ -196,7 +196,10 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  z-index: 10;
+  /* Leaflet's own panes/controls use z-index up to 1000 (see
+     leaflet.css) and share this stacking context, so this has to clear
+     that or AddressMap paints over the dropdown regardless of DOM order. */
+  z-index: 1001;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -469,4 +472,23 @@
 .address-empty p {
   color: var(--ink-soft);
   margin: 0 0 20px;
+}
+
+.address-map-field {
+  margin-bottom: 16px;
+}
+
+.address-map {
+  height: 300px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.address-map-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ink-soft);
 }
