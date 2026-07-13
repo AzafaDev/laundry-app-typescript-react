@@ -147,6 +147,23 @@
   outline-offset: 2px;
 }
 
+.auth-toggle:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.auth-toggle:disabled:hover {
+  color: var(--ink-soft);
+}
+
+.auth-toggle-danger:hover {
+  color: var(--error);
+}
+
+.auth-toggle-danger:focus-visible {
+  outline-color: var(--error);
+}
+
 .auth-input {
   font-size: 15px;
   color: var(--ink);
@@ -366,4 +383,90 @@
 .auth-footer a:focus-visible {
   outline: 1px dashed var(--accent);
   outline-offset: 2px;
+}
+
+.address-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.address-page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.address-page-header h1 {
+  font-size: 20px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.address-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+
+.address-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.address-card-label {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.address-card-text {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.address-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.address-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.address-skeleton {
+  height: 88px;
+  border-radius: 6px;
+  background: var(--border);
+}
+
+.address-empty {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.address-empty p {
+  color: var(--ink-soft);
+  margin: 0 0 20px;
 }
