@@ -4,12 +4,12 @@ import { ProfileInfoSection } from "../components/profile/ProfileInfoSection";
 import { ChangePasswordSection } from "../components/profile/ChangePasswordSection";
 import { ChangeEmailSection } from "../components/profile/ChangeEmailSection";
 import { AvatarSection } from "../components/profile/AvatarSection";
+
 import "../styles/auth.css";
 
 export function Profile() {
   const navigate = useNavigate();
   const logoutMutation = useLogoutMutation();
-
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => navigate("/login", { replace: true }),
