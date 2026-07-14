@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAddressQuery } from "../hooks/addresses/useAddressQuery";
-import { AddressForm } from "../components/AddressForm";
+import { AddressForm } from "../components/address/AddressForm";
 import "../styles/auth.css";
 
 export function AddressEditPage() {

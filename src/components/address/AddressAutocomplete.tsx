@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useDebouncedValue } from "../hooks/useDebouncedValue";
-import { useGeocodeSearchQuery } from "../hooks/geocode/useGeocodeSearchQuery";
-import type { GeocodeResult } from "../types/geocode";
-import { FormField } from "./FormField";
+import { useDebouncedValue } from "../../hooks/useDebouncedValue";
+import { useGeocodeSearchQuery } from "../../hooks/geocode/useGeocodeSearchQuery";
+import type { GeocodeResult } from "../../types/geocode";
+import { FormField } from "../FormField";
 
 interface AddressAutocompleteProps {
   onSelect: (result: GeocodeResult) => void;

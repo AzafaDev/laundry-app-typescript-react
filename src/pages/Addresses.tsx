@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
-import { AddressCard } from "../components/AddressCard";
+import { AddressCard } from "../components/address/AddressCard";
 import "../styles/auth.css";
 
 export function Addresses() {

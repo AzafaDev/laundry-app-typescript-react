@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { AddressForm } from "../components/AddressForm";
+import { AddressForm } from "../components/address/AddressForm";
 import "../styles/auth.css";
 
 export function AddressCreatePage() {

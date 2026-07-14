@@ -1,8 +1,8 @@
 import type { ChangeEvent } from "react";
-import { useProvincesQuery } from "../hooks/wilayah/useProvincesQuery";
-import { useCitiesQuery } from "../hooks/wilayah/useCitiesQuery";
-import { useDistrictsQuery } from "../hooks/wilayah/useDistrictsQuery";
-import { FormField } from "./FormField";
+import { useProvincesQuery } from "../../hooks/wilayah/useProvincesQuery";
+import { useCitiesQuery } from "../../hooks/wilayah/useCitiesQuery";
+import { useDistrictsQuery } from "../../hooks/wilayah/useDistrictsQuery";
+import { FormField } from "../FormField";
 
 export interface WilayahValue {
   provinceId?: number;

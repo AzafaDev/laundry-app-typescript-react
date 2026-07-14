@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import type { Address } from "../types/address";
-import { useDeleteAddressMutation } from "../hooks/addresses/useDeleteAddressMutation";
-import { useSetPrimaryAddressMutation } from "../hooks/addresses/useSetPrimaryAddressMutation";
+import type { Address } from "../../types/address";
+import { useDeleteAddressMutation } from "../../hooks/addresses/useDeleteAddressMutation";
+import { useSetPrimaryAddressMutation } from "../../hooks/addresses/useSetPrimaryAddressMutation";
 
 interface AddressCardProps {
   address: Address;
