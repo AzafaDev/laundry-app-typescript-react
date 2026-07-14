@@ -29,18 +29,28 @@ async function rawRequest<T>(path: string, options: RequestInit = {}): Promise<T
   return data as T;
 }
 
+function refreshPathFor(path: string): string | null {
+  if (path.startsWith("/api/v1/employee/")) return "/api/v1/employee/auth/refresh";
+  if (path.startsWith("/api/v1/customer/")) return "/api/v1/customer/auth/refresh";
+  return null;
+}
+
 export async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   try {
     return await rawRequest<T>(path, options);
   } catch (err) {
     if (err instanceof ApiError && err.status === 401 && !path.includes("/auth/")) {
-      const refreshRes = await fetch(`${BASE_URL}/api/v1/customer/auth/refresh`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const refreshPath = refreshPathFor(path);
 
-      if (refreshRes.ok) {
-        return rawRequest<T>(path, options);
+      if (refreshPath) {
+        const refreshRes = await fetch(`${BASE_URL}${refreshPath}`, {
+          method: "POST",
+          credentials: "include",
+        });
+
+        if (refreshRes.ok) {
+          return rawRequest<T>(path, options);
+        }
       }
     }
 
