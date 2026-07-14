@@ -73,6 +73,10 @@ export function Login() {
           Don't have an account? <Link to="/register">Register</Link>
         </p>
       </form>
+
+      <p className="auth-footer">
+        Staff member? <Link to="/staff/login">Log in here</Link>
+      </p>
     </div>
   );
 }
