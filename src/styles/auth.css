@@ -57,6 +57,11 @@
   max-width: 560px;
 }
 
+.auth-card > .auth-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
 .auth-card h2 {
   color: var(--ink);
   font-size: 20px;

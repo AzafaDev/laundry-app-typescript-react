@@ -31,6 +31,12 @@ export const loginSchema = z.object({
 });
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
+export const staffLoginSchema = z.object({
+  email: emailField,
+  password: z.string().trim().min(1, "Password is required"),
+});
+export type StaffLoginFormValues = z.infer<typeof staffLoginSchema>;
+
 export const forgotPasswordSchema = z.object({
   email: emailField,
 });

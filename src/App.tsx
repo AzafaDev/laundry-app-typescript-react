@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GuestRoute } from "./components/GuestRoute";
+import { StaffProtectedRoute } from "./components/StaffProtectedRoute";
+import { StaffGuestRoute } from "./components/StaffGuestRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -13,6 +15,8 @@ import { Profile } from "./pages/Profile";
 import { Addresses } from "./pages/Addresses";
 import { AddressCreatePage } from "./pages/AddressCreatePage";
 import { AddressEditPage } from "./pages/AddressEditPage";
+import { StaffLogin } from "./pages/StaffLogin";
+import { StaffDashboard } from "./pages/StaffDashboard";
 
 function App() {
   return (
@@ -30,6 +34,8 @@ function App() {
           <Route path="/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
           <Route path="/addresses/new" element={<ProtectedRoute><AddressCreatePage /></ProtectedRoute>} />
           <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
+          <Route path="/staff/login" element={<StaffGuestRoute><StaffLogin /></StaffGuestRoute>} />
+          <Route path="/staff/dashboard" element={<StaffProtectedRoute><StaffDashboard /></StaffProtectedRoute>} />
         </Routes>
       </Layout>
     </BrowserRouter>
