@@ -1,6 +1,17 @@
+export type EmployeeRole =
+  | "super_admin"
+  | "outlet_admin"
+  | "washing_worker"
+  | "ironing_worker"
+  | "packing_worker"
+  | "driver";
+
 export interface Employee {
   id: string;
   full_name: string;
   email: string;
-  role: string;
+  phone: string;
+  role: EmployeeRole;
+  outlet_id: string | null;
+  is_active: boolean;
 }

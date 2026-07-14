@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GuestRoute } from "./components/GuestRoute";
 import { StaffProtectedRoute } from "./components/StaffProtectedRoute";
 import { StaffGuestRoute } from "./components/StaffGuestRoute";
+import { SuperAdminRoute } from "./components/SuperAdminRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -17,6 +18,10 @@ import { AddressCreatePage } from "./pages/AddressCreatePage";
 import { AddressEditPage } from "./pages/AddressEditPage";
 import { StaffLogin } from "./pages/StaffLogin";
 import { StaffDashboard } from "./pages/StaffDashboard";
+import { Outlets } from "./pages/admin/Outlets";
+import { OutletForm } from "./pages/admin/OutletForm";
+import { Employees } from "./pages/admin/Employees";
+import { EmployeeForm } from "./pages/admin/EmployeeForm";
 
 function App() {
   return (
@@ -36,6 +41,12 @@ function App() {
           <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
           <Route path="/staff/login" element={<StaffGuestRoute><StaffLogin /></StaffGuestRoute>} />
           <Route path="/staff/dashboard" element={<StaffProtectedRoute><StaffDashboard /></StaffProtectedRoute>} />
+          <Route path="/staff/admin/outlets" element={<SuperAdminRoute><Outlets /></SuperAdminRoute>} />
+          <Route path="/staff/admin/outlets/new" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
+          <Route path="/staff/admin/outlets/:id/edit" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
+          <Route path="/staff/admin/employees" element={<SuperAdminRoute><Employees /></SuperAdminRoute>} />
+          <Route path="/staff/admin/employees/new" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
+          <Route path="/staff/admin/employees/:id/edit" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
         </Routes>
       </Layout>
     </BrowserRouter>
