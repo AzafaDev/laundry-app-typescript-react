@@ -1,0 +1,119 @@
+.admin-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.admin-page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.admin-page-header h1 {
+  font-size: 20px;
+  letter-spacing: normal;
+  margin: 0;
+  color: var(--ink);
+}
+
+.admin-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.admin-table {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.admin-table-header,
+.admin-table-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+}
+
+.admin-table-header {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-table-row {
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.admin-table-row:last-child {
+  border-bottom: none;
+}
+
+.admin-table-cell {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-table-cell-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 12px;
+}
+
+.admin-table-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.admin-status-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--border);
+  color: var(--ink-soft);
+}
+
+.admin-status-badge-active {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.admin-pagination-info {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.admin-pagination-controls {
+  display: flex;
+  gap: 16px;
+}
