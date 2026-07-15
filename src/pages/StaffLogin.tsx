@@ -29,9 +29,9 @@ export function StaffLogin() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <span className="auth-label">Staff</span>
-        <h2>Welcome back</h2>
-        <p>Log in to access your work queue.</p>
+        <span className="auth-label">Staf</span>
+        <h2>Selamat datang kembali</h2>
+        <p>Masuk untuk mengakses antrian kerja kamu.</p>
 
         <FormField label="Email" htmlFor="email" error={errors.email?.message}>
           <div className="auth-input-wrap">
@@ -46,7 +46,7 @@ export function StaffLogin() {
           </div>
         </FormField>
 
-        <FormField label="Password" htmlFor="password" error={errors.password?.message}>
+        <FormField label="Kata sandi" htmlFor="password" error={errors.password?.message}>
           <PasswordInput
             id="password"
             autoComplete="current-password"
@@ -57,13 +57,13 @@ export function StaffLogin() {
         <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Logging in..." : "Login"}
+          {mutation.isPending ? "Masuk..." : "Masuk"}
         </button>
 
         <hr className="auth-divider" />
 
         <p className="auth-link">
-          <Link to="/staff/forgot-password">Forgot password?</Link>
+          <Link to="/staff/forgot-password">Lupa kata sandi?</Link>
         </p>
       </form>
     </div>

@@ -23,7 +23,7 @@ async function rawRequest<T>(path: string, options: RequestInit = {}): Promise<T
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new ApiError(res.status, data.error ?? data.message ?? "Something went wrong");
+    throw new ApiError(res.status, data.error ?? data.message ?? "Terjadi kesalahan");
   }
 
   return data as T;

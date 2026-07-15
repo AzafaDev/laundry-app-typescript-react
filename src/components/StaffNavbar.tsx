@@ -16,19 +16,19 @@ export function StaffNavbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/staff/dashboard" className="navbar-brand">Laundry Staff</Link>
+      <Link to="/staff/dashboard" className="navbar-brand">Laundry Staf</Link>
 
       {!isLoading && isAuthenticated && (
         <div className="navbar-links">
           <span className="navbar-link">{employee?.role}</span>
-          <Link to="/staff/dashboard" className="navbar-link">Dashboard</Link>
+          <Link to="/staff/dashboard" className="navbar-link">Dasbor</Link>
           <button
             type="button"
             className="navbar-link navbar-logout"
             onClick={handleLogout}
             disabled={logoutMutation.isPending}
           >
-            {logoutMutation.isPending ? "Logging out..." : "Logout"}
+            {logoutMutation.isPending ? "Keluar..." : "Keluar"}
           </button>
         </div>
       )}

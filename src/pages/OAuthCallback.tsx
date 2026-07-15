@@ -21,7 +21,7 @@ export function OAuthCallback() {
     return (
       <div className="auth-shell">
         <div className="auth-card">
-          <h2>Signing you in...</h2>
+          <h2>Sedang memproses masuk...</h2>
         </div>
       </div>
     );
@@ -30,9 +30,9 @@ export function OAuthCallback() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
-        <h2>Google sign-in failed</h2>
-        <p>Something went wrong while signing in with Google.</p>
-        <Link to="/login" className="auth-button">Back to login</Link>
+        <h2>Masuk dengan Google gagal</h2>
+        <p>Ada masalah saat masuk dengan Google.</p>
+        <Link to="/login" className="auth-button">Kembali ke halaman masuk</Link>
       </div>
     </div>
   );

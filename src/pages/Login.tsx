@@ -30,8 +30,8 @@ export function Login() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Welcome back</h2>
-        <p>Log in to manage your laundry pickups.</p>
+        <h2>Selamat datang kembali</h2>
+        <p>Masuk untuk mengelola jadwal jemput laundry kamu.</p>
 
         <FormField label="Email" htmlFor="email" error={errors.email?.message}>
           <div className="auth-input-wrap">
@@ -46,7 +46,7 @@ export function Login() {
           </div>
         </FormField>
 
-        <FormField label="Password" htmlFor="password" error={errors.password?.message}>
+        <FormField label="Kata sandi" htmlFor="password" error={errors.password?.message}>
           <PasswordInput
             id="password"
             autoComplete="current-password"
@@ -57,25 +57,25 @@ export function Login() {
         <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Logging in..." : "Login"}
+          {mutation.isPending ? "Masuk..." : "Masuk"}
         </button>
 
         <a href={googleLoginUrl()} className="auth-button auth-button-secondary">
-          Continue with Google
+          Lanjutkan dengan Google
         </a>
 
         <hr className="auth-divider" />
 
         <p className="auth-link">
-          <Link to="/forgot-password">Forgot password?</Link>
+          <Link to="/forgot-password">Lupa kata sandi?</Link>
         </p>
         <p className="auth-link">
-          Don't have an account? <Link to="/register">Register</Link>
+          Belum punya akun? <Link to="/register">Daftar</Link>
         </p>
       </form>
 
       <p className="auth-footer">
-        Staff member? <Link to="/staff/login">Log in here</Link>
+        Staf laundry? <Link to="/staff/login">Masuk di sini</Link>
       </p>
     </div>
   );

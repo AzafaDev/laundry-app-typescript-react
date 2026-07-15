@@ -3,20 +3,20 @@ import { emailField, passwordField } from "./shared";
 
 export const registerSchema = z
   .object({
-    full_name: z.string().trim().min(1, "Full name is required"),
+    full_name: z.string().trim().min(1, "Nama lengkap wajib diisi"),
     email: emailField,
     password: passwordField,
     confirm_password: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
-    message: "Passwords do not match",
+    message: "Kata sandi tidak cocok",
     path: ["confirm_password"],
   });
 
 export type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export const verifyEmailSchema = z.object({
-  token: z.string().trim().min(1, "Token is required"),
+  token: z.string().trim().min(1, "Token wajib diisi"),
 });
 export type VerifyEmailFormValues = z.infer<typeof verifyEmailSchema>;
 
@@ -27,13 +27,13 @@ export type ResendVerificationFormValues = z.infer<typeof resendVerificationSche
 
 export const loginSchema = z.object({
   email: emailField,
-  password: z.string().trim().min(1, "Password is required"),
+  password: z.string().trim().min(1, "Kata sandi wajib diisi"),
 });
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
 export const staffLoginSchema = z.object({
   email: emailField,
-  password: z.string().trim().min(1, "Password is required"),
+  password: z.string().trim().min(1, "Kata sandi wajib diisi"),
 });
 export type StaffLoginFormValues = z.infer<typeof staffLoginSchema>;
 
@@ -44,12 +44,12 @@ export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 export const resetPasswordSchema = z
   .object({
-    token: z.string().trim().min(1, "Token is required"),
+    token: z.string().trim().min(1, "Token wajib diisi"),
     new_password: passwordField,
     confirm_password: z.string(),
   })
   .refine((data) => data.new_password === data.confirm_password, {
-    message: "Passwords do not match",
+    message: "Kata sandi tidak cocok",
     path: ["confirm_password"],
   });
 export type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;

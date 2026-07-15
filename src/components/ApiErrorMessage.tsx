@@ -5,7 +5,7 @@ export function ApiErrorMessage({ error }: { error: unknown }) {
 
   return (
     <p className="auth-error">
-      {error instanceof ApiError ? error.message : "Something went wrong"}
+      {error instanceof ApiError ? error.message : "Terjadi kesalahan"}
     </p>
   );
 }

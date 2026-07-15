@@ -48,7 +48,7 @@ export function ProfileInfoSection() {
     return (
       <div>
         <div className="profile-section-header">
-          <h2>Profile info</h2>
+          <h2>Info profil</h2>
           <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
         </div>
         <p className="profile-summary">{customer?.full_name} &middot; {customer?.phone}</p>
@@ -59,12 +59,12 @@ export function ProfileInfoSection() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="profile-section-header">
-        <h2>Profile info</h2>
-        <button type="button" className="auth-toggle" onClick={cancelEditing}>CANCEL</button>
+        <h2>Info profil</h2>
+        <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
       </div>
-      <p>Your name and phone number.</p>
+      <p>Nama dan nomor HP kamu.</p>
 
-      <FormField label="Full name" htmlFor="full_name" error={errors.full_name?.message}>
+      <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
         <div className="auth-input-wrap">
           <input
             id="full_name"
@@ -76,7 +76,7 @@ export function ProfileInfoSection() {
         </div>
       </FormField>
 
-      <FormField label="Phone" htmlFor="phone" error={errors.phone?.message}>
+      <FormField label="Nomor HP" htmlFor="phone" error={errors.phone?.message}>
         <div className="auth-input-wrap">
           <input
             id="phone"
@@ -90,7 +90,7 @@ export function ProfileInfoSection() {
       <ApiErrorMessage error={mutation.error} />
 
       <button className="auth-button" type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Saving..." : "Save changes"}
+        {mutation.isPending ? "Menyimpan..." : "Simpan perubahan"}
       </button>
     </form>
   );

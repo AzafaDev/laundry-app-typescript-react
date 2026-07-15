@@ -34,9 +34,9 @@ export function VerifyEmail() {
     return (
       <div className="auth-shell">
         <div className="auth-card auth-success">
-          <h2>Email verified</h2>
-          <p className="auth-success-text">Your account is ready. You can log in now.</p>
-          <Link to="/login" className="auth-button">Go to login</Link>
+          <h2>Email terverifikasi</h2>
+          <p className="auth-success-text">Akun kamu sudah siap. Sekarang kamu bisa masuk.</p>
+          <Link to="/login" className="auth-button">Ke halaman masuk</Link>
         </div>
       </div>
     );
@@ -46,7 +46,7 @@ export function VerifyEmail() {
     return (
       <div className="auth-shell">
         <div className="auth-card">
-          <h2>Verifying your email...</h2>
+          <h2>Memverifikasi email kamu...</h2>
         </div>
       </div>
     );
@@ -57,8 +57,8 @@ export function VerifyEmail() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
-        <h2>Verify your email</h2>
-        <p>Paste the verification token we sent to your email.</p>
+        <h2>Verifikasi email kamu</h2>
+        <p>Tempel token verifikasi yang kami kirim ke email kamu.</p>
 
         <form onSubmit={verifyForm.handleSubmit((data) => verifyMutation.mutate(data))}>
           <FormField label="Token" htmlFor="token" error={verifyForm.formState.errors.token?.message}>
@@ -75,7 +75,7 @@ export function VerifyEmail() {
           <ApiErrorMessage error={displayError} />
 
           <button className="auth-button" type="submit" disabled={verifyMutation.isPending}>
-            {verifyMutation.isPending ? "Verifying..." : "Verify"}
+            {verifyMutation.isPending ? "Memverifikasi..." : "Verifikasi"}
           </button>
         </form>
 
@@ -85,7 +85,7 @@ export function VerifyEmail() {
           <p className="auth-success-text">{resendMutation.data?.message}</p>
         ) : (
           <form onSubmit={resendForm.handleSubmit((data) => resendMutation.mutate(data))}>
-            <FormField label="Didn't get the email?" htmlFor="resend_email" error={resendForm.formState.errors.email?.message}>
+            <FormField label="Belum dapat emailnya?" htmlFor="resend_email" error={resendForm.formState.errors.email?.message}>
               <div className="auth-input-wrap">
                 <input
                   id="resend_email"
@@ -97,13 +97,13 @@ export function VerifyEmail() {
               </div>
             </FormField>
             <button className="auth-button" type="submit" disabled={resendMutation.isPending}>
-              {resendMutation.isPending ? "Sending..." : "Resend"}
+              {resendMutation.isPending ? "Mengirim..." : "Kirim ulang"}
             </button>
           </form>
         )}
 
         <p className="auth-link">
-          <Link to="/login">Back to login</Link>
+          <Link to="/login">Kembali ke halaman masuk</Link>
         </p>
       </div>
     </div>

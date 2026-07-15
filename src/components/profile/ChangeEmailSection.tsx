@@ -67,12 +67,12 @@ export function ChangeEmailSection() {
       {isEditing ? (
         <form onSubmit={requestForm.handleSubmit(onRequestSubmit)}>
           <div className="profile-section-header">
-            <h2>Change email</h2>
-            <button type="button" className="auth-toggle" onClick={cancelEditing}>CANCEL</button>
+            <h2>Ubah email</h2>
+            <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
           </div>
-          <p>Update the email address linked to your account.</p>
+          <p>Perbarui alamat email yang terhubung ke akun kamu.</p>
 
-          <FormField label="New email" htmlFor="new_email" error={requestForm.formState.errors.new_email?.message}>
+          <FormField label="Email baru" htmlFor="new_email" error={requestForm.formState.errors.new_email?.message}>
             <div className="auth-input-wrap">
               <input
                 id="new_email"
@@ -86,7 +86,7 @@ export function ChangeEmailSection() {
           </FormField>
 
           <FormField
-            label="Current password"
+            label="Kata sandi saat ini"
             htmlFor="email_change_current_password"
             error={requestForm.formState.errors.current_password?.message}
           >
@@ -104,13 +104,13 @@ export function ChangeEmailSection() {
           )}
 
           <button className="auth-button" type="submit" disabled={requestMutation.isPending}>
-            {requestMutation.isPending ? "Sending..." : "Send verification email"}
+            {requestMutation.isPending ? "Mengirim..." : "Kirim email verifikasi"}
           </button>
         </form>
       ) : (
         <div>
           <div className="profile-section-header">
-            <h2>Change email</h2>
+            <h2>Ubah email</h2>
             <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
           </div>
           <p className="profile-summary">{customer?.email}</p>
@@ -122,8 +122,8 @@ export function ChangeEmailSection() {
       {isVerifying ? (
         <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>
           <div className="profile-section-header">
-            <h2>Verify new email</h2>
-            <button type="button" className="auth-toggle" onClick={cancelVerifying}>CANCEL</button>
+            <h2>Verifikasi email baru</h2>
+            <button type="button" className="auth-toggle" onClick={cancelVerifying}>BATAL</button>
           </div>
           <FormField label="Token" htmlFor="email_change_token" error={verifyForm.formState.errors.token?.message}>
             <div className="auth-input-wrap">
@@ -140,13 +140,13 @@ export function ChangeEmailSection() {
           <ApiErrorMessage error={verifyMutation.error} />
 
           <button className="auth-button" type="submit" disabled={verifyMutation.isPending}>
-            {verifyMutation.isPending ? "Verifying..." : "Verify new email"}
+            {verifyMutation.isPending ? "Memverifikasi..." : "Verifikasi email baru"}
           </button>
         </form>
       ) : (
         <div className="profile-section-header">
-          <p className="profile-summary" style={{ margin: 0 }}>Already have a token?</p>
-          <button type="button" className="auth-toggle" onClick={startVerifying}>ENTER TOKEN</button>
+          <p className="profile-summary" style={{ margin: 0 }}>Sudah punya token?</p>
+          <button type="button" className="auth-toggle" onClick={startVerifying}>MASUKKAN TOKEN</button>
         </div>
       )}
     </div>

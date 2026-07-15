@@ -17,7 +17,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HT
           className="auth-toggle"
           onClick={() => setVisible((v) => !v)}
         >
-          {visible ? "HIDE" : "SHOW"}
+          {visible ? "SEMBUNYIKAN" : "TAMPILKAN"}
         </button>
       </div>
     );

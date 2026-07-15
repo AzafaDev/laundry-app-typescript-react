@@ -43,7 +43,7 @@ export function ChangePasswordSection() {
     return (
       <div>
         <div className="profile-section-header">
-          <h2>Change password</h2>
+          <h2>Ubah kata sandi</h2>
           <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
         </div>
         <p className="profile-summary">••••••••</p>
@@ -54,12 +54,12 @@ export function ChangePasswordSection() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="profile-section-header">
-        <h2>Change password</h2>
-        <button type="button" className="auth-toggle" onClick={cancelEditing}>CANCEL</button>
+        <h2>Ubah kata sandi</h2>
+        <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
       </div>
-      <p>Update the password used to log in.</p>
+      <p>Perbarui kata sandi yang kamu pakai buat masuk.</p>
 
-      <FormField label="Current password" htmlFor="current_password" error={errors.current_password?.message}>
+      <FormField label="Kata sandi saat ini" htmlFor="current_password" error={errors.current_password?.message}>
         <PasswordInput
           id="current_password"
           autoComplete="current-password"
@@ -68,7 +68,7 @@ export function ChangePasswordSection() {
         />
       </FormField>
 
-      <FormField label="New password" htmlFor="new_password" hint="min. 8 characters" error={errors.new_password?.message}>
+      <FormField label="Kata sandi baru" htmlFor="new_password" hint="minimal 8 karakter" error={errors.new_password?.message}>
         <PasswordInput
           id="new_password"
           autoComplete="new-password"
@@ -76,7 +76,7 @@ export function ChangePasswordSection() {
         />
       </FormField>
 
-      <FormField label="Confirm password" htmlFor="confirm_password" error={errors.confirm_password?.message}>
+      <FormField label="Konfirmasi kata sandi" htmlFor="confirm_password" error={errors.confirm_password?.message}>
         <PasswordInput
           id="confirm_password"
           autoComplete="new-password"
@@ -87,7 +87,7 @@ export function ChangePasswordSection() {
       <ApiErrorMessage error={mutation.error} />
 
       <button className="auth-button" type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Changing..." : "Change password"}
+        {mutation.isPending ? "Menyimpan..." : "Ubah kata sandi"}
       </button>
     </form>
   );

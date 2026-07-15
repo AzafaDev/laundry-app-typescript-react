@@ -27,9 +27,9 @@ export function Register() {
     return (
       <div className="auth-shell">
         <div className="auth-card auth-success">
-          <h2>Check your email</h2>
-          <p className="auth-success-text">We've sent a verification link to {mutation.variables?.email}.</p>
-          <Link to="/verify-email" className="auth-button">Verify now</Link>
+          <h2>Cek email kamu</h2>
+          <p className="auth-success-text">Kami sudah mengirim link verifikasi ke {mutation.variables?.email}.</p>
+          <Link to="/verify-email" className="auth-button">Verifikasi sekarang</Link>
         </div>
       </div>
     );
@@ -38,10 +38,10 @@ export function Register() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Register</h2>
-        <p>Create your account to start booking pickups.</p>
+        <h2>Daftar</h2>
+        <p>Simpan alamat dan kelola akun kamu dalam satu tempat, siap dipakai tiap kali butuh layanan laundry.</p>
 
-        <FormField label="Full name" htmlFor="full_name" error={errors.full_name?.message}>
+        <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
           <div className="auth-input-wrap">
             <input
               id="full_name"
@@ -65,7 +65,7 @@ export function Register() {
           </div>
         </FormField>
 
-        <FormField label="Password" htmlFor="password" hint="min. 8 characters" error={errors.password?.message}>
+        <FormField label="Kata sandi" htmlFor="password" hint="minimal 8 karakter" error={errors.password?.message}>
           <PasswordInput
             id="password"
             autoComplete="new-password"
@@ -73,7 +73,7 @@ export function Register() {
           />
         </FormField>
 
-        <FormField label="Confirm password" htmlFor="confirm_password" error={errors.confirm_password?.message}>
+        <FormField label="Konfirmasi kata sandi" htmlFor="confirm_password" error={errors.confirm_password?.message}>
           <PasswordInput
             id="confirm_password"
             autoComplete="new-password"
@@ -84,13 +84,13 @@ export function Register() {
         <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Registering..." : "Register"}
+          {mutation.isPending ? "Mendaftar..." : "Daftar"}
         </button>
 
         <hr className="auth-divider" />
 
         <p className="auth-link">
-          Already have an account? <Link to="/login">Login</Link>
+          Sudah punya akun? <Link to="/login">Masuk</Link>
         </p>
       </form>
     </div>

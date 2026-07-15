@@ -16,9 +16,9 @@ export function StaffDashboard() {
   return (
     <div>
       <p>Halo, {employee?.full_name}</p>
-      <p>Role: {employee?.role}</p>
+      <p>Peran: {employee?.role}</p>
       <button type="button" onClick={handleLogout} disabled={logoutMutation.isPending}>
-        {logoutMutation.isPending ? "Logging out..." : "Logout"}
+        {logoutMutation.isPending ? "Keluar..." : "Keluar"}
       </button>
     </div>
   );

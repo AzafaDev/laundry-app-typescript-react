@@ -26,9 +26,9 @@ export function ForgotPassword() {
     return (
       <div className="auth-shell">
         <div className="auth-card auth-success">
-          <h2>Check your email</h2>
+          <h2>Cek email kamu</h2>
           <p className="auth-success-text">{mutation.data?.message}</p>
-          <Link to="/login" className="auth-button">Back to login</Link>
+          <Link to="/login" className="auth-button">Kembali ke halaman masuk</Link>
         </div>
       </div>
     );
@@ -37,8 +37,8 @@ export function ForgotPassword() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Forgot password</h2>
-        <p>Enter your email and we'll send you a reset link.</p>
+        <h2>Lupa kata sandi</h2>
+        <p>Masukkan email kamu, nanti kami kirim link buat atur ulang kata sandi.</p>
 
         <FormField label="Email" htmlFor="email" error={errors.email?.message}>
           <div className="auth-input-wrap">
@@ -56,13 +56,13 @@ export function ForgotPassword() {
         <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Sending..." : "Send reset link"}
+          {mutation.isPending ? "Mengirim..." : "Kirim link reset"}
         </button>
 
         <hr className="auth-divider" />
 
         <p className="auth-link">
-          <Link to="/login">Back to login</Link>
+          <Link to="/login">Kembali ke halaman masuk</Link>
         </p>
       </form>
     </div>

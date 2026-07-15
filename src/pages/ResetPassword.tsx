@@ -33,11 +33,11 @@ export function ResetPassword() {
   return (
     <div className="auth-shell">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Reset password</h2>
+        <h2>Atur ulang kata sandi</h2>
         <p>
           {tokenFromUrl
-            ? "Choose a new password."
-            : "Enter the token from your email and choose a new password."}
+            ? "Pilih kata sandi baru."
+            : "Masukkan token dari email kamu, lalu pilih kata sandi baru."}
         </p>
 
         {tokenFromUrl ? (
@@ -55,7 +55,7 @@ export function ResetPassword() {
           </FormField>
         )}
 
-        <FormField label="New password" htmlFor="new_password" hint="min. 8 characters" error={errors.new_password?.message}>
+        <FormField label="Kata sandi baru" htmlFor="new_password" hint="minimal 8 karakter" error={errors.new_password?.message}>
           <PasswordInput
             id="new_password"
             autoComplete="new-password"
@@ -63,7 +63,7 @@ export function ResetPassword() {
           />
         </FormField>
 
-        <FormField label="Confirm password" htmlFor="confirm_password" error={errors.confirm_password?.message}>
+        <FormField label="Konfirmasi kata sandi" htmlFor="confirm_password" error={errors.confirm_password?.message}>
           <PasswordInput
             id="confirm_password"
             autoComplete="new-password"
@@ -74,13 +74,13 @@ export function ResetPassword() {
         <ApiErrorMessage error={mutation.error} />
 
         <button className="auth-button" type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Resetting..." : "Reset password"}
+          {mutation.isPending ? "Memproses..." : "Atur ulang kata sandi"}
         </button>
 
         <hr className="auth-divider" />
 
         <p className="auth-link">
-          <Link to="/login">Back to login</Link>
+          <Link to="/login">Kembali ke halaman masuk</Link>
         </p>
       </form>
     </div>

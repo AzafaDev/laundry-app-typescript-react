@@ -41,7 +41,7 @@ export function Profile() {
           onClick={handleLogout}
           disabled={logoutMutation.isPending}
         >
-          {logoutMutation.isPending ? "Logging out..." : "Logout"}
+          {logoutMutation.isPending ? "Keluar..." : "Keluar"}
         </button>
       </div>
     </div>

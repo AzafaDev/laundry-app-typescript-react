@@ -30,13 +30,13 @@ export function Navbar() {
                 onClick={handleLogout}
                 disabled={logoutMutation.isPending}
               >
-                {logoutMutation.isPending ? "Logging out..." : "Logout"}
+                {logoutMutation.isPending ? "Keluar..." : "Keluar"}
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="navbar-link">Login</Link>
-              <Link to="/register" className="navbar-link">Register</Link>
+              <Link to="/login" className="navbar-link">Masuk</Link>
+              <Link to="/register" className="navbar-link">Daftar</Link>
             </>
           )}
         </div>

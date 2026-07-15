@@ -54,11 +54,11 @@ export function AvatarSection() {
         {displayUrl ? (
           <img
             src={displayUrl}
-            alt="Avatar"
+            alt="Foto profil"
             style={{ width: 96, height: 96, objectFit: "cover" }}
           />
         ) : (
-          <p className="profile-summary">No avatar uploaded.</p>
+          <p className="profile-summary">Belum ada foto profil.</p>
         )}
       </div>
     );
@@ -68,19 +68,19 @@ export function AvatarSection() {
     <form onSubmit={handleSubmit}>
       <div className="profile-section-header">
         <h2>Avatar</h2>
-        <button type="button" className="auth-toggle" onClick={cancelEditing}>CANCEL</button>
+        <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
       </div>
-      <p>Upload a photo for your profile.</p>
+      <p>Unggah foto buat profil kamu.</p>
 
       {displayUrl && (
         <img
           src={displayUrl}
-          alt="Avatar preview"
+          alt="Pratinjau foto profil"
           style={{ width: 96, height: 96, objectFit: "cover", marginBottom: 12 }}
         />
       )}
 
-      <FormField label="Image file" htmlFor="avatar">
+      <FormField label="File gambar" htmlFor="avatar">
         <div className="auth-input-wrap">
           <button
             type="button"
@@ -88,10 +88,10 @@ export function AvatarSection() {
             style={{ marginTop: 0 }}
             onClick={() => fileInputRef.current?.click()}
           >
-            Choose file
+            Pilih file
           </button>
           <span className="profile-summary" style={{ margin: 0 }}>
-            {file?.name ?? "No file selected"}
+            {file?.name ?? "Belum ada file dipilih"}
           </span>
         </div>
         <input
@@ -107,7 +107,7 @@ export function AvatarSection() {
       <ApiErrorMessage error={mutation.error} />
 
       <button className="auth-button" type="submit" disabled={!file || mutation.isPending}>
-        {mutation.isPending ? "Uploading..." : "Upload avatar"}
+        {mutation.isPending ? "Mengunggah..." : "Unggah foto profil"}
       </button>
     </form>
   );
