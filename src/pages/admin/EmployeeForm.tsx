@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -148,29 +149,47 @@ function EditEmployeeFormFields({ initialData, onSuccess }: { initialData: Emplo
   const updateMutation = useUpdateEmployeeMutation();
   const assignMutation = useAssignEmployeeOutletMutation();
   const isPending = updateMutation.isPending || assignMutation.isPending;
+  const [partialFailureMessage, setPartialFailureMessage] = useState<string | null>(null);
 
   const onSubmit = async (values: UpdateEmployeeFormValues) => {
+    setPartialFailureMessage(null);
     const outletChanged = values.outlet_id !== initialData.outlet_id;
 
-    if (outletChanged && values.outlet_id) {
-      // Assign first — assignEmployeeOutlet never rejects assigning a non-null outlet
-      // regardless of current role, while updateEmployee's outlet_admin check needs
-      // a valid outlet already in the DB before the role change lands.
-      await assignMutation.mutateAsync({ id: initialData.id, outletId: values.outlet_id });
-      await updateMutation.mutateAsync({
-        id: initialData.id,
-        data: { full_name: values.full_name, phone: values.phone, role: values.role },
-      });
-    } else {
-      // Update first — when unassigning (null), assignEmployeeOutlet only rejects
-      // while the DB role is still outlet_admin, so the role must move off first.
-      await updateMutation.mutateAsync({
-        id: initialData.id,
-        data: { full_name: values.full_name, phone: values.phone, role: values.role },
-      });
-      if (outletChanged) {
+    try {
+      if (outletChanged && values.outlet_id) {
+        // Assign first — assignEmployeeOutlet never rejects assigning a non-null outlet
+        // regardless of current role, while updateEmployee's outlet_admin check needs
+        // a valid outlet already in the DB before the role change lands.
         await assignMutation.mutateAsync({ id: initialData.id, outletId: values.outlet_id });
+        try {
+          await updateMutation.mutateAsync({
+            id: initialData.id,
+            data: { full_name: values.full_name, phone: values.phone, role: values.role },
+          });
+        } catch {
+          setPartialFailureMessage("Outlet berhasil diubah, tapi update profil gagal — coba submit ulang.");
+          return;
+        }
+      } else {
+        // Update first — when unassigning (null), assignEmployeeOutlet only rejects
+        // while the DB role is still outlet_admin, so the role must move off first.
+        await updateMutation.mutateAsync({
+          id: initialData.id,
+          data: { full_name: values.full_name, phone: values.phone, role: values.role },
+        });
+        if (outletChanged) {
+          try {
+            await assignMutation.mutateAsync({ id: initialData.id, outletId: values.outlet_id });
+          } catch {
+            setPartialFailureMessage("Profil berhasil diubah, tapi outlet gagal diubah — coba submit ulang.");
+            return;
+          }
+        }
       }
+    } catch {
+      // First step failed — updateMutation/assignMutation.error is already set by
+      // mutateAsync, and the existing ApiErrorMessage below renders it.
+      return;
     }
 
     onSuccess();
@@ -208,6 +227,7 @@ function EditEmployeeFormFields({ initialData, onSuccess }: { initialData: Emplo
         <OutletSelect id="outlet_id" value={watch("outlet_id")} onChange={(v) => setValue("outlet_id", v)} />
       </FormField>
 
+      {partialFailureMessage && <p className="auth-error">{partialFailureMessage}</p>}
       <ApiErrorMessage error={updateMutation.error ?? assignMutation.error} />
 
       <button className="auth-button" type="submit" disabled={isPending}>
