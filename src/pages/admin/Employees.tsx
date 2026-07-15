@@ -6,7 +6,6 @@ import { useEmployeesQuery } from "../../hooks/employees/useEmployeesQuery";
 import { useSoftDeleteEmployeeMutation } from "../../hooks/employees/useSoftDeleteEmployeeMutation";
 import { useHardDeleteEmployeeMutation } from "../../hooks/employees/useHardDeleteEmployeeMutation";
 import { useResendInviteMutation } from "../../hooks/employees/useResendInviteMutation";
-import { useOutletsQuery, OUTLET_SELECT_LIMIT } from "../../hooks/outlets/useOutletsQuery";
 import { useStaffAuth } from "../../context/StaffAuthContext";
 import type { Employee, EmployeeRole } from "../../types/employee";
 import "../../styles/auth.css";
@@ -32,11 +31,10 @@ const ROLE_LABELS: Record<EmployeeRole, string> = {
 
 interface EmployeeRowProps {
   employee: Employee;
-  outletName: string | null;
   isSelf: boolean;
 }
 
-function EmployeeRow({ employee, outletName, isSelf }: EmployeeRowProps) {
+function EmployeeRow({ employee, isSelf }: EmployeeRowProps) {
   const softDelete = useSoftDeleteEmployeeMutation();
   const hardDelete = useHardDeleteEmployeeMutation();
   const resendInvite = useResendInviteMutation();
@@ -65,7 +63,13 @@ function EmployeeRow({ employee, outletName, isSelf }: EmployeeRowProps) {
       <span className="admin-table-cell">{employee.full_name}</span>
       <span className="admin-table-cell">{employee.email}</span>
       <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>{ROLE_LABELS[employee.role]}</span>
-      <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>{outletName ?? "—"}</span>
+      <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>
+        {employee.outlet_deleted ? (
+          <span className="admin-status-badge admin-status-badge-danger">Outlet dihapus</span>
+        ) : (
+          employee.outlet_name ?? "—"
+        )}
+      </span>
       <span className="admin-table-cell" style={{ flex: "0 0 110px" }}>
         {isDeleted ? (
           <span className="admin-status-badge">Dihapus</span>
@@ -126,13 +130,10 @@ export function Employees() {
     limit,
     offset,
   });
-  const outletsQuery = useOutletsQuery(OUTLET_SELECT_LIMIT, 0);
-
   const employees = employeesQuery.data?.data ?? [];
   const totalCount = employeesQuery.data?.total_count ?? 0;
   const rangeStart = totalCount === 0 ? 0 : offset + 1;
   const rangeEnd = Math.min(offset + limit, totalCount);
-  const outletNameById = new Map((outletsQuery.data?.data ?? []).map((o) => [o.id, o.name]));
 
   return (
     <div className="admin-page admin-page-wide">
@@ -200,7 +201,6 @@ export function Employees() {
             <EmployeeRow
               key={employee.id}
               employee={employee}
-              outletName={employee.outlet_id ? outletNameById.get(employee.outlet_id) ?? null : null}
               isSelf={employee.id === currentEmployee?.id}
             />
           ))

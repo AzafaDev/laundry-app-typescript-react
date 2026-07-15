@@ -17,4 +17,6 @@ export interface Employee {
   deleted_at: string | null;
   invite_sent?: boolean;
   message?: string;
+  outlet_name?: string | null;
+  outlet_deleted?: boolean;
 }

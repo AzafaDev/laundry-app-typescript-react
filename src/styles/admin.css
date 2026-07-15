@@ -104,6 +104,11 @@
   color: #ffffff;
 }
 
+.admin-status-badge-danger {
+  background: var(--error);
+  color: #ffffff;
+}
+
 .admin-pagination {
   display: flex;
   align-items: center;
