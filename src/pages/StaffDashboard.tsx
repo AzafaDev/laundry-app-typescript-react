@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useStaffAuth } from "../context/StaffAuthContext";
 import { useStaffLogoutMutation } from "../hooks/staffAuth/useStaffLogoutMutation";
+import "../styles/auth.css";
 
 export function StaffDashboard() {
   const { employee } = useStaffAuth();
@@ -14,12 +15,23 @@ export function StaffDashboard() {
   };
 
   return (
-    <div>
-      <p>Halo, {employee?.full_name}</p>
-      <p>Peran: {employee?.role}</p>
-      <button type="button" onClick={handleLogout} disabled={logoutMutation.isPending}>
-        {logoutMutation.isPending ? "Keluar..." : "Keluar"}
-      </button>
+    <div className="home-landing">
+      <div className="home-dashboard">
+        <div className="home-dashboard-ticket">
+          <span className="auth-label">Staf</span>
+          <h1 className="home-dashboard-greeting">{employee?.full_name}</h1>
+          <span className="auth-label">{employee?.role}</span>
+
+          <button
+            className="auth-button auth-button-secondary"
+            type="button"
+            onClick={handleLogout}
+            disabled={logoutMutation.isPending}
+          >
+            {logoutMutation.isPending ? "Keluar..." : "Keluar"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
