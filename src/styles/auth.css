@@ -20,6 +20,26 @@
   }
 }
 
+:root[data-theme="dark"] {
+  --bg: #14181a;
+  --card-bg: #1b2220;
+  --ink: #e7ecea;
+  --ink-soft: #93a19d;
+  --accent: #6fbfb8;
+  --error: #e08469;
+  --border: rgba(231, 236, 234, 0.18);
+}
+
+:root[data-theme="light"] {
+  --bg: #eef1f0;
+  --card-bg: #ffffff;
+  --ink: #1c2422;
+  --ink-soft: #5c6764;
+  --accent: #2e6f6b;
+  --error: #b23a2e;
+  --border: rgba(28, 36, 34, 0.16);
+}
+
 [data-portal="staff"] {
   --accent: #a85a26;
 }
@@ -33,6 +53,24 @@
   [data-portal="staff"] .auth-badge-staff {
     color: #1c2422;
   }
+}
+
+:root[data-theme="dark"] [data-portal="staff"] {
+  --accent: #e08f52;
+}
+
+:root[data-theme="dark"] [data-portal="staff"] .auth-button,
+:root[data-theme="dark"] [data-portal="staff"] .auth-badge-staff {
+  color: #1c2422;
+}
+
+:root[data-theme="light"] [data-portal="staff"] {
+  --accent: #a85a26;
+}
+
+:root[data-theme="light"] [data-portal="staff"] .auth-button,
+:root[data-theme="light"] [data-portal="staff"] .auth-badge-staff {
+  color: #ffffff;
 }
 
 .auth-shell {
