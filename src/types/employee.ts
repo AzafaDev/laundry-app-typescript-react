@@ -14,4 +14,7 @@ export interface Employee {
   role: EmployeeRole;
   outlet_id: string | null;
   is_active: boolean;
+  deleted_at: string | null;
+  invite_sent?: boolean;
+  message?: string;
 }
