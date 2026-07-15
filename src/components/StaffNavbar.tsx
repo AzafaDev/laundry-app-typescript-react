@@ -20,8 +20,14 @@ export function StaffNavbar() {
 
       {!isLoading && isAuthenticated && (
         <div className="navbar-links">
-          <span className="navbar-link">{employee?.role}</span>
           <Link to="/staff/dashboard" className="navbar-link">Dasbor</Link>
+          {employee?.role === "super_admin" && (
+            <>
+              <Link to="/staff/admin/outlets" className="navbar-link">Outlet</Link>
+              <Link to="/staff/admin/employees" className="navbar-link">Karyawan</Link>
+            </>
+          )}
+          <span className="navbar-link">{employee?.role}</span>
           <button
             type="button"
             className="navbar-link navbar-logout"
