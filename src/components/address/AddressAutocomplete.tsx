@@ -1,21 +1,29 @@
 import { useEffect, useRef, useState } from "react";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { useGeocodeSearchQuery } from "../../hooks/geocode/useGeocodeSearchQuery";
 import type { GeocodeResult } from "../../types/geocode";
 import { FormField } from "../FormField";
 
+type GeocodeSearchQueryHook = (query: string, limit?: number) => UseQueryResult<GeocodeResult[], Error>;
+
 interface AddressAutocompleteProps {
   onSelect: (result: GeocodeResult) => void;
   placeholder?: string;
+  useSearchQuery?: GeocodeSearchQueryHook;
 }
 
-export function AddressAutocomplete({ onSelect, placeholder }: AddressAutocompleteProps) {
+export function AddressAutocomplete({
+  onSelect,
+  placeholder,
+  useSearchQuery = useGeocodeSearchQuery,
+}: AddressAutocompleteProps) {
   const [inputValue, setInputValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   const debouncedQuery = useDebouncedValue(inputValue, 400);
-  const query = useGeocodeSearchQuery(debouncedQuery);
+  const query = useSearchQuery(debouncedQuery);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

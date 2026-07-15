@@ -7,7 +7,9 @@ import type { Outlet } from "../../types/outlet";
 import { useOutletQuery } from "../../hooks/outlets/useOutletQuery";
 import { useCreateOutletMutation } from "../../hooks/outlets/useCreateOutletMutation";
 import { useUpdateOutletMutation } from "../../hooks/outlets/useUpdateOutletMutation";
+import { AddressAutocomplete } from "../../components/address/AddressAutocomplete";
 import { AddressMap } from "../../components/address/AddressMap";
+import { useStaffGeocodeSearchQuery } from "../../hooks/geocode/useStaffGeocodeSearchQuery";
 import { FormField } from "../../components/FormField";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
 import "../../styles/auth.css";
@@ -45,6 +47,13 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
   const updateMutation = useUpdateOutletMutation();
   const mutation = isEdit ? updateMutation : createMutation;
 
+  const handleAutocompleteSelect = (result: { formatted: string; latitude: number; longitude: number }) => {
+    setValue("address", result.formatted);
+    setValue("latitude", result.latitude);
+    setValue("longitude", result.longitude);
+    trigger(["address", "latitude", "longitude"]);
+  };
+
   const handleMapChange = (lat: number, lng: number) => {
     // Batch both writes, then validate once against the fully-updated
     // snapshot — same reasoning as AddressForm's handleMapChange: per-call
@@ -78,6 +87,8 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
           <input id="name" className="auth-input" {...register("name")} />
         </div>
       </FormField>
+
+      <AddressAutocomplete useSearchQuery={useStaffGeocodeSearchQuery} onSelect={handleAutocompleteSelect} />
 
       <FormField label="Alamat" htmlFor="address" error={errors.address?.message}>
         <div className="auth-input-wrap">
