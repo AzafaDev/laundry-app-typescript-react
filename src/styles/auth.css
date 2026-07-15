@@ -592,3 +592,53 @@
 .home-dashboard-profile-link {
   color: var(--ink-soft);
 }
+
+.home-dashboard-ticket-skeleton {
+  position: relative;
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px dashed var(--border);
+  padding: 28px 28px 24px;
+  box-sizing: border-box;
+}
+
+.home-dashboard-ticket-skeleton::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 22px;
+  height: 22px;
+  background: var(--bg);
+  border-right: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+}
+
+.skeleton-bar {
+  display: block;
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.skeleton-bar-label {
+  width: 40px;
+  height: 11px;
+  margin-bottom: 12px;
+}
+
+.skeleton-bar-title {
+  width: 140px;
+  height: 26px;
+  margin-bottom: 20px;
+}
+
+.skeleton-bar-text {
+  width: 190px;
+  height: 15px;
+  margin-bottom: 14px;
+}
+
+.skeleton-bar-action {
+  width: 96px;
+  height: 11px;
+}

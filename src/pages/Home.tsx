@@ -7,8 +7,23 @@ export function Home() {
   const { customer, isLoading: authLoading, isAuthenticated } = useAuth();
   const addressesQuery = useAddressesQuery(isAuthenticated);
 
-  if (authLoading || (isAuthenticated && addressesQuery.isLoading)) {
+  if (authLoading) {
     return <div className="home-landing" />;
+  }
+
+  if (isAuthenticated && addressesQuery.isLoading) {
+    return (
+      <div className="home-landing">
+        <div className="home-dashboard">
+          <div className="home-dashboard-ticket-skeleton">
+            <span className="skeleton-bar skeleton-bar-label" />
+            <span className="skeleton-bar skeleton-bar-title" />
+            <span className="skeleton-bar skeleton-bar-text" />
+            <span className="skeleton-bar skeleton-bar-action" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (isAuthenticated) {
