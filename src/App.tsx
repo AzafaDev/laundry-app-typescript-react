@@ -17,6 +17,8 @@ import { Addresses } from "./pages/Addresses";
 import { AddressCreatePage } from "./pages/AddressCreatePage";
 import { AddressEditPage } from "./pages/AddressEditPage";
 import { StaffLogin } from "./pages/StaffLogin";
+import { StaffForgotPassword } from "./pages/StaffForgotPassword";
+import { StaffResetPassword } from "./pages/StaffResetPassword";
 import { StaffDashboard } from "./pages/StaffDashboard";
 import { Outlets } from "./pages/admin/Outlets";
 import { OutletForm } from "./pages/admin/OutletForm";
@@ -40,6 +42,8 @@ function App() {
           <Route path="/addresses/new" element={<ProtectedRoute><AddressCreatePage /></ProtectedRoute>} />
           <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
           <Route path="/staff/login" element={<StaffGuestRoute><StaffLogin /></StaffGuestRoute>} />
+          <Route path="/staff/forgot-password" element={<StaffGuestRoute><StaffForgotPassword /></StaffGuestRoute>} />
+          <Route path="/staff/reset-password" element={<StaffGuestRoute><StaffResetPassword /></StaffGuestRoute>} />
           <Route path="/staff/dashboard" element={<StaffProtectedRoute><StaffDashboard /></StaffProtectedRoute>} />
           <Route path="/staff/admin/outlets" element={<SuperAdminRoute><Outlets /></SuperAdminRoute>} />
           <Route path="/staff/admin/outlets/new" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
