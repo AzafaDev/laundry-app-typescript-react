@@ -7,5 +7,8 @@ export function useVerifyEmailQuery(token: string | null) {
     queryFn: () => verifyEmail(token!),
     enabled: !!token,
     retry: false,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 }
