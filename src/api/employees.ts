@@ -55,3 +55,6 @@ export const softDeleteEmployee = (id: string) =>
 
 export const hardDeleteEmployee = (id: string) =>
   request<{ message: string }>(`/api/v1/employee/admin/employees/${id}/permanent`, { method: "DELETE" });
+
+export const resendInvite = (id: string) =>
+  request<Employee>(`/api/v1/employee/admin/employees/${id}/resend-invite`, { method: "POST" });

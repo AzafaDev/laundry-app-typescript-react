@@ -5,6 +5,7 @@ import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { useEmployeesQuery } from "../../hooks/employees/useEmployeesQuery";
 import { useSoftDeleteEmployeeMutation } from "../../hooks/employees/useSoftDeleteEmployeeMutation";
 import { useHardDeleteEmployeeMutation } from "../../hooks/employees/useHardDeleteEmployeeMutation";
+import { useResendInviteMutation } from "../../hooks/employees/useResendInviteMutation";
 import { useOutletsQuery } from "../../hooks/outlets/useOutletsQuery";
 import { useStaffAuth } from "../../context/StaffAuthContext";
 import type { Employee, EmployeeRole } from "../../types/employee";
@@ -38,7 +39,14 @@ interface EmployeeRowProps {
 function EmployeeRow({ employee, outletName, isSelf }: EmployeeRowProps) {
   const softDelete = useSoftDeleteEmployeeMutation();
   const hardDelete = useHardDeleteEmployeeMutation();
+  const resendInvite = useResendInviteMutation();
   const isDeleted = !!employee.deleted_at;
+
+  const handleResendInvite = () => {
+    if (window.confirm(`Kirim ulang undangan ke "${employee.full_name}"?`)) {
+      resendInvite.mutate(employee.id);
+    }
+  };
 
   const handleSoftDelete = () => {
     if (window.confirm(`Nonaktifkan "${employee.full_name}"?`)) {
@@ -67,8 +75,18 @@ function EmployeeRow({ employee, outletName, isSelf }: EmployeeRowProps) {
           </span>
         )}
       </span>
-      <span className="admin-table-cell-actions" style={{ flex: "0 0 170px" }}>
+      <span className="admin-table-cell-actions" style={{ flex: "0 0 260px" }}>
         <Link to={`/staff/admin/employees/${employee.id}/edit`} className="auth-toggle">UBAH</Link>
+        {!employee.is_active && !isDeleted && (
+          <button
+            type="button"
+            className="auth-toggle"
+            onClick={handleResendInvite}
+            disabled={resendInvite.isPending}
+          >
+            KIRIM ULANG UNDANGAN
+          </button>
+        )}
         {!isDeleted ? (
           <button
             type="button"
@@ -170,7 +188,7 @@ export function Employees() {
           <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>Peran</span>
           <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>Outlet</span>
           <span className="admin-table-cell" style={{ flex: "0 0 110px" }}>Status</span>
-          <span className="admin-table-cell-actions" style={{ flex: "0 0 170px" }}>Aksi</span>
+          <span className="admin-table-cell-actions" style={{ flex: "0 0 260px" }}>Aksi</span>
         </div>
 
         {employeesQuery.isLoading ? (
