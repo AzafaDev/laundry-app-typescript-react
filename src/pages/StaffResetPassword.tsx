@@ -31,7 +31,7 @@ export function StaffResetPassword() {
   };
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell" data-portal="staff">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
         <h2>Atur ulang kata sandi</h2>
         <p>

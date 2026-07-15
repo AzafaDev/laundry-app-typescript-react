@@ -53,7 +53,7 @@ export function Register() {
           </div>
         </FormField>
 
-        <FormField label="Email" htmlFor="email" error={errors.email?.message}>
+        <FormField label="Email" htmlFor="email" hint="contoh: nama@email.com" error={errors.email?.message}>
           <div className="auth-input-wrap">
             <input
               id="email"

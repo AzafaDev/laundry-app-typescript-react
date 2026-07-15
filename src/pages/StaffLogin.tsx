@@ -27,9 +27,9 @@ export function StaffLogin() {
   };
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell" data-portal="staff">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <span className="auth-label">Staf</span>
+        <span className="auth-badge-staff">Staf</span>
         <h2>Selamat datang kembali</h2>
         <p>Masuk untuk mengakses antrian kerja kamu.</p>
 

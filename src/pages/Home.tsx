@@ -65,13 +65,31 @@ export function Home() {
 
   return (
     <div className="home-landing">
-      <div className="home-landing-content">
+      <div className="home-landing-content home-landing-ticket">
         <h1>Laundry jadi lebih mudah</h1>
         <p>Simpan alamat dan kelola akun kamu dalam satu tempat, siap dipakai tiap kali butuh layanan laundry.</p>
         <div className="home-landing-actions">
           <Link to="/register" className="auth-button">Daftar</Link>
           <Link to="/login" className="auth-button auth-button-secondary">Masuk</Link>
         </div>
+
+        <ol className="home-landing-steps">
+          <li>
+            <span className="home-landing-step-index">01</span>
+            <span className="home-landing-step-label">Pesan</span>
+            <span className="home-landing-step-text">Jadwalkan jemput dari alamat kamu.</span>
+          </li>
+          <li>
+            <span className="home-landing-step-index">02</span>
+            <span className="home-landing-step-label">Kami jemput &amp; cuci</span>
+            <span className="home-landing-step-text">Laundry diproses dan dijaga kualitasnya.</span>
+          </li>
+          <li>
+            <span className="home-landing-step-index">03</span>
+            <span className="home-landing-step-label">Kami antar kembali</span>
+            <span className="home-landing-step-text">Bersih, terlipat, tiba di alamatmu.</span>
+          </li>
+        </ol>
       </div>
     </div>
   );

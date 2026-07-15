@@ -24,7 +24,7 @@ export function StaffForgotPassword() {
 
   if (mutation.isSuccess) {
     return (
-      <div className="auth-shell">
+      <div className="auth-shell" data-portal="staff">
         <div className="auth-card auth-success">
           <h2>Cek email kamu</h2>
           <p className="auth-success-text">{mutation.data?.message}</p>
@@ -35,7 +35,7 @@ export function StaffForgotPassword() {
   }
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell" data-portal="staff">
       <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
         <h2>Lupa kata sandi</h2>
         <p>Masukkan email kamu, nanti kami kirim link buat atur ulang kata sandi.</p>
