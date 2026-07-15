@@ -13,7 +13,7 @@ import { useEmployeeQuery } from "../../hooks/employees/useEmployeeQuery";
 import { useCreateEmployeeMutation } from "../../hooks/employees/useCreateEmployeeMutation";
 import { useUpdateEmployeeMutation } from "../../hooks/employees/useUpdateEmployeeMutation";
 import { useAssignEmployeeOutletMutation } from "../../hooks/employees/useAssignEmployeeOutletMutation";
-import { useOutletsQuery } from "../../hooks/outlets/useOutletsQuery";
+import { useOutletsQuery, OUTLET_SELECT_LIMIT } from "../../hooks/outlets/useOutletsQuery";
 import { FormField } from "../../components/FormField";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
 import "../../styles/auth.css";
@@ -31,7 +31,7 @@ const ROLE_LABELS: Record<EmployeeRole, string> = {
 const ROLES = Object.keys(ROLE_LABELS) as EmployeeRole[];
 
 function OutletSelect({ id, value, onChange }: { id: string; value: string | null; onChange: (v: string | null) => void }) {
-  const outletsQuery = useOutletsQuery(500, 0);
+  const outletsQuery = useOutletsQuery(OUTLET_SELECT_LIMIT, 0);
   const outlets = outletsQuery.data?.data ?? [];
 
   return (

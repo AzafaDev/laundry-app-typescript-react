@@ -6,7 +6,7 @@ import { useEmployeesQuery } from "../../hooks/employees/useEmployeesQuery";
 import { useSoftDeleteEmployeeMutation } from "../../hooks/employees/useSoftDeleteEmployeeMutation";
 import { useHardDeleteEmployeeMutation } from "../../hooks/employees/useHardDeleteEmployeeMutation";
 import { useResendInviteMutation } from "../../hooks/employees/useResendInviteMutation";
-import { useOutletsQuery } from "../../hooks/outlets/useOutletsQuery";
+import { useOutletsQuery, OUTLET_SELECT_LIMIT } from "../../hooks/outlets/useOutletsQuery";
 import { useStaffAuth } from "../../context/StaffAuthContext";
 import type { Employee, EmployeeRole } from "../../types/employee";
 import "../../styles/auth.css";
@@ -126,7 +126,7 @@ export function Employees() {
     limit,
     offset,
   });
-  const outletsQuery = useOutletsQuery(500, 0);
+  const outletsQuery = useOutletsQuery(OUTLET_SELECT_LIMIT, 0);
 
   const employees = employeesQuery.data?.data ?? [];
   const totalCount = employeesQuery.data?.total_count ?? 0;
