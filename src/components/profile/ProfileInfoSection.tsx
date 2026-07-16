@@ -17,7 +17,7 @@ export function ProfileInfoSection() {
     formState: { errors },
   } = useForm<UpdateProfileFormValues>({
     resolver: zodResolver(updateProfileSchema),
-    defaultValues: {
+    values: {
       full_name: customer?.full_name ?? "",
       phone: customer?.phone ?? "",
     },
