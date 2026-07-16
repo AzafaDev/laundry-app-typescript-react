@@ -7,6 +7,7 @@ export const outletSchema = z
     latitude: z.number().optional(),
     longitude: z.number().optional(),
     is_active: z.boolean(),
+    service_radius_km: z.number().positive("Radius harus lebih dari 0"),
   })
   .superRefine((data, ctx) => {
     if (!data.latitude || !data.longitude) {

@@ -19,6 +19,7 @@ function OutletRow({ outlet }: { outlet: Outlet }) {
     <div className="admin-table-row">
       <span className="admin-table-cell">{outlet.name}</span>
       <span className="admin-table-cell">{outlet.address}</span>
+      <span className="admin-table-cell" style={{ flex: "0 0 90px" }}>{outlet.service_radius_km} km</span>
       <span className="admin-table-cell" style={{ flex: "0 0 90px" }}>
         <span className={`admin-status-badge ${outlet.is_active ? "admin-status-badge-active" : ""}`}>
           {outlet.is_active ? "Aktif" : "Nonaktif"}
@@ -59,6 +60,7 @@ export function Outlets() {
         <div className="admin-table-header">
           <span className="admin-table-cell">Nama</span>
           <span className="admin-table-cell">Alamat</span>
+          <span className="admin-table-cell" style={{ flex: "0 0 90px" }}>Radius</span>
           <span className="admin-table-cell" style={{ flex: "0 0 90px" }}>Status</span>
           <span className="admin-table-cell-actions" style={{ flex: "0 0 90px" }}>Aksi</span>
         </div>

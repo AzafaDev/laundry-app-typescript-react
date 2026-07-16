@@ -8,6 +8,7 @@ export interface OutletRequestData {
   latitude: number;
   longitude: number;
   is_active: boolean;
+  service_radius_km: number;
 }
 
 export const getOutlets = (limit: number, offset: number) =>

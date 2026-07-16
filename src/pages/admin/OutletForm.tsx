@@ -39,8 +39,9 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
           latitude: initialData.latitude,
           longitude: initialData.longitude,
           is_active: initialData.is_active,
+          service_radius_km: initialData.service_radius_km,
         }
-      : { is_active: true },
+      : { is_active: true, service_radius_km: 10 },
   });
 
   const createMutation = useCreateOutletMutation();
@@ -71,6 +72,7 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
       latitude: values.latitude!,
       longitude: values.longitude!,
       is_active: values.is_active,
+      service_radius_km: values.service_radius_km,
     };
 
     if (isEdit) {
@@ -101,6 +103,24 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
         onChange={handleMapChange}
       />
       {errors.latitude && <p className="auth-error">{errors.latitude.message}</p>}
+
+      <FormField
+        label="Radius jangkauan (km)"
+        htmlFor="service_radius_km"
+        hint="Jarak maksimum dari outlet ini yang masih otomatis dilayani saat pelanggan membuat pesanan"
+        error={errors.service_radius_km?.message}
+      >
+        <div className="auth-input-wrap">
+          <input
+            id="service_radius_km"
+            className="auth-input"
+            type="number"
+            step="0.1"
+            min="0.1"
+            {...register("service_radius_km", { valueAsNumber: true })}
+          />
+        </div>
+      </FormField>
 
       <div className="auth-checkbox-row">
         <input id="is_active" type="checkbox" {...register("is_active")} />

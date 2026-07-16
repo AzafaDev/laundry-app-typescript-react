@@ -5,4 +5,5 @@ export interface Outlet {
   latitude: number;
   longitude: number;
   is_active: boolean;
+  service_radius_km: number;
 }
