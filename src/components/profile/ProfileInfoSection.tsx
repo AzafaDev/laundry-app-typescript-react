@@ -51,7 +51,10 @@ export function ProfileInfoSection() {
           <h2>Info profil</h2>
           <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
         </div>
-        <p className="profile-summary">{customer?.full_name} &middot; {customer?.phone}</p>
+        <p className="profile-summary">
+          {customer?.full_name}
+          {customer?.phone && <> &middot; {customer.phone}</>}
+        </p>
       </div>
     );
   }
