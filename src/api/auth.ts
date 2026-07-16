@@ -1,7 +1,7 @@
 import { request } from "./client";
 import type { Customer, MessageResponse } from "../types/customer";
 
-export const register = (data: { full_name: string; email: string; password: string; confirm_password: string }) =>
+export const register = (data: { full_name: string; email: string; phone: string; password: string; confirm_password: string }) =>
   request<Customer>("/api/v1/customer/auth/register", { method: "POST", body: JSON.stringify(data) });
 
 export const login = (data: { email: string; password: string }) =>

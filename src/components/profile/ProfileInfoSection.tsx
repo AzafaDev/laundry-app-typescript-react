@@ -63,6 +63,9 @@ export function ProfileInfoSection() {
         <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
       </div>
       <p>Nama dan nomor HP kamu.</p>
+      {!customer?.phone && (
+        <p className="profile-notice">Lengkapi nomor HP kamu juga, ya — supaya kami bisa menghubungimu soal pesanan.</p>
+      )}
 
       <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
         <div className="auth-input-wrap">

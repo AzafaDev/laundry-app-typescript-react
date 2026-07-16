@@ -70,6 +70,18 @@ export function Register() {
           </div>
         </FormField>
 
+        <FormField label="Nomor HP" htmlFor="phone" error={errors.phone?.message}>
+          <div className="auth-input-wrap">
+            <input
+              id="phone"
+              className="auth-input"
+              type="tel"
+              autoComplete="tel"
+              {...register("phone")}
+            />
+          </div>
+        </FormField>
+
         <FormField label="Kata sandi" htmlFor="password" hint="minimal 8 karakter" error={errors.password?.message}>
           <PasswordInput
             id="password"

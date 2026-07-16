@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const addressSchema = z
   .object({
-    label: z.string().trim().min(1, "Label is required"),
-    address: z.string().trim().min(1, "Address is required"),
+    label: z.string().trim().min(1, "Label wajib diisi"),
+    address: z.string().trim().min(1, "Alamat wajib diisi"),
     province_id: z.number().optional(),
     city_id: z.number().optional(),
     district_id: z.number().optional(),

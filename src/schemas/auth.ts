@@ -5,6 +5,7 @@ export const registerSchema = z
   .object({
     full_name: z.string().trim().min(1, "Nama lengkap wajib diisi"),
     email: emailField,
+    phone: z.string().trim().min(1, "Nomor HP wajib diisi"),
     password: passwordField,
     confirm_password: z.string(),
   })
