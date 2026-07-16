@@ -43,7 +43,7 @@ export function ResetPassword() {
         {tokenFromUrl ? (
           <input type="hidden" {...register("token")} />
         ) : (
-          <FormField label="Token" htmlFor="token" error={errors.token?.message}>
+          <FormField label="Token" htmlFor="token" hint="salin kode panjang dari link di email" error={errors.token?.message}>
             <div className="auth-input-wrap">
               <input
                 id="token"

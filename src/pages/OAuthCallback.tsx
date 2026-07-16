@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { googleLoginUrl } from "../api/auth";
 import "../styles/auth.css";
 
 export function OAuthCallback() {
@@ -32,7 +33,8 @@ export function OAuthCallback() {
       <div className="auth-card">
         <h2>Masuk dengan Google gagal</h2>
         <p>Ada masalah saat masuk dengan Google.</p>
-        <Link to="/login" className="auth-button">Kembali ke halaman masuk</Link>
+        <a href={googleLoginUrl()} className="auth-button">Coba lagi dengan Google</a>
+        <Link to="/login" className="auth-button auth-button-secondary">Kembali ke halaman masuk</Link>
       </div>
     </div>
   );

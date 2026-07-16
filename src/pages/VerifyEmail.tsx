@@ -17,6 +17,7 @@ import "../styles/auth.css";
 export function VerifyEmail() {
   const [searchParams] = useSearchParams();
   const tokenFromUrl = searchParams.get("token");
+  const emailFromUrl = searchParams.get("email");
 
   const autoVerifyQuery = useVerifyEmailQuery(tokenFromUrl);
   const verifyMutation = useVerifyEmailMutation();
@@ -28,6 +29,7 @@ export function VerifyEmail() {
   });
   const resendForm = useForm<ResendVerificationFormValues>({
     resolver: zodResolver(resendVerificationSchema),
+    defaultValues: { email: emailFromUrl ?? "" },
   });
 
   if (autoVerifyQuery.isSuccess || verifyMutation.isSuccess) {
@@ -61,7 +63,7 @@ export function VerifyEmail() {
         <p>Tempel token verifikasi yang kami kirim ke email kamu.</p>
 
         <form onSubmit={verifyForm.handleSubmit((data) => verifyMutation.mutate(data))}>
-          <FormField label="Token" htmlFor="token" error={verifyForm.formState.errors.token?.message}>
+          <FormField label="Token" htmlFor="token" hint="salin kode panjang dari link di email" error={verifyForm.formState.errors.token?.message}>
             <div className="auth-input-wrap">
               <input
                 id="token"

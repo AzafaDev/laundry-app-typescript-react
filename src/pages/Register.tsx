@@ -29,7 +29,12 @@ export function Register() {
         <div className="auth-card auth-success">
           <h2>Cek email kamu</h2>
           <p className="auth-success-text">Kami sudah mengirim link verifikasi ke {mutation.variables?.email}.</p>
-          <Link to="/verify-email" className="auth-button">Verifikasi sekarang</Link>
+          <Link
+            to={`/verify-email?email=${encodeURIComponent(mutation.variables?.email ?? "")}`}
+            className="auth-button"
+          >
+            Verifikasi sekarang
+          </Link>
         </div>
       </div>
     );
