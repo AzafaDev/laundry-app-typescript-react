@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ArrowLeft, Bell, CheckCheck, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 import { useNotificationsQuery } from "../hooks/notifications/useNotificationsQuery";
 import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
 import { useMarkNotificationReadMutation } from "../hooks/notifications/useMarkNotificationReadMutation";
@@ -39,7 +40,11 @@ export function Notifications() {
         </div>
         {unreadCount > 0 && (
           <button
-            onClick={() => markAllReadMutation.mutate()}
+            onClick={() =>
+              markAllReadMutation.mutate(undefined, {
+                onSuccess: () => toast.success("Semua notifikasi ditandai dibaca"),
+              })
+            }
             disabled={markAllReadMutation.isPending}
             className="self-start sm:self-auto inline-flex items-center gap-2 rounded-xl border border-outline-variant px-4 py-2.5 text-sm font-medium text-on-surface hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
           >

@@ -1,9 +1,10 @@
 import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
-import { AlertCircle, ArrowLeft, CheckCircle2, CreditCard, Loader2, XCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AlertCircle, ArrowLeft, CheckCircle2, CreditCard, Loader2, RefreshCw, XCircle } from "lucide-react";
 import { useOrderDetailQuery } from "../hooks/orders/useOrderDetailQuery";
 import { usePaymentStatusQuery } from "../hooks/payments/usePaymentStatusQuery";
 import { useCreateTransactionMutation } from "../hooks/payments/useCreateTransactionMutation";
+import { useSyncPaymentStatusMutation } from "../hooks/payments/useSyncPaymentStatusMutation";
 import { formatRupiah } from "../utils/formatPrice";
 import { formatDateTime } from "../components/orders/orderConstants";
 import { ApiError } from "../api/client";
@@ -15,6 +16,17 @@ export function Payment() {
   const orderQuery = useOrderDetailQuery(id);
   const paymentQuery = usePaymentStatusQuery(id);
   const createTransaction = useCreateTransactionMutation();
+  const syncStatus = useSyncPaymentStatusMutation();
+
+  // Midtrans redirects back here after checkout (finish/unfinish/error), but
+  // its webhook may not have landed in our DB yet — sync once per mount so
+  // the status shown isn't stale while waiting on the webhook.
+  const hasSyncedRef = useRef(false);
+  useEffect(() => {
+    if (!id || hasSyncedRef.current) return;
+    hasSyncedRef.current = true;
+    syncStatus.mutate(id);
+  }, [id, syncStatus]);
 
   const payment = paymentQuery.data;
   const isPaid = payment?.status === "paid";
@@ -72,7 +84,20 @@ export function Payment() {
 
       <div className="rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
-          <p className="text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
+            {!isPaid && (
+              <button
+                type="button"
+                onClick={() => syncStatus.mutate(id!)}
+                disabled={syncStatus.isPending || !id}
+                title="Cek status pembayaran terbaru"
+                className="text-on-surface-variant hover:text-primary disabled:opacity-50 transition-colors"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${syncStatus.isPending ? "animate-spin" : ""}`} />
+              </button>
+            )}
+          </div>
           {isPaid && (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
               <CheckCircle2 className="w-3.5 h-3.5" />

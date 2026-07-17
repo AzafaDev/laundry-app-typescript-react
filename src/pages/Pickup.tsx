@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { AlertCircle, ArrowLeft, CheckCircle2, Loader2, MapPin, Truck } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft, CheckCircle2, Loader2, MapPin, Truck } from "lucide-react";
+import toast from "react-hot-toast";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
 import { useCreateOrderMutation } from "../hooks/orders/useCreateOrderMutation";
-import { ApiError } from "../api/client";
+import { createOrderSchema, type CreateOrderFormValues } from "../schemas/order";
+import { ApiErrorMessage } from "../components/ApiErrorMessage";
+import "../styles/auth.css";
 
 const getTodayDateKey = () => {
   const now = new Date();
@@ -22,26 +27,48 @@ export function Pickup() {
   const addressesQuery = useAddressesQuery();
   const createOrderMutation = useCreateOrderMutation();
 
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState(getTodayDateKey());
   const [successInvoice, setSuccessInvoice] = useState<string | null>(null);
 
+  const {
+    watch,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateOrderFormValues>({
+    resolver: zodResolver(createOrderSchema),
+    defaultValues: { pickup_address_id: "", pickup_date: getTodayDateKey() },
+  });
+
   const addresses = addressesQuery.data ?? [];
-  // Derived, not state: defaults to the primary (or first) address until the
-  // user explicitly picks a different one. Avoids a setState-in-effect just
-  // to seed an initial selection from data that's already available to render.
+  // Falls back to the primary (or first) address purely for display/submit
+  // purposes until the user explicitly picks one — the RHF field itself
+  // stays empty until either a click or submit-time writes to it, so no
+  // effect is needed to seed it from data that arrives asynchronously.
   const defaultAddressId = addresses.find((a) => a.is_primary)?.id ?? addresses[0]?.id ?? null;
-  const effectiveAddressId = selectedAddressId ?? defaultAddressId;
+  const watchedAddressId = watch("pickup_address_id");
+  const effectiveAddressId = watchedAddressId || defaultAddressId;
+  const selectedDate = watch("pickup_date");
 
   const canOrder = !!effectiveAddressId && !addressesQuery.isLoading && !createOrderMutation.isPending && !successInvoice;
 
-  const handleSubmit = () => {
-    if (!effectiveAddressId) return;
+  const onSubmit = (values: CreateOrderFormValues) => {
     setSuccessInvoice(null);
     createOrderMutation.mutate(
-      { pickup_address_id: effectiveAddressId, pickup_date: selectedDate },
-      { onSuccess: (order) => setSuccessInvoice(order.invoice_number) },
+      { pickup_address_id: values.pickup_address_id, pickup_date: values.pickup_date },
+      {
+        onSuccess: (order) => {
+          setSuccessInvoice(order.invoice_number);
+          toast.success("Pesanan pickup berhasil dibuat");
+        },
+      },
     );
+  };
+
+  const handleSubmitClick = () => {
+    if (!watchedAddressId && defaultAddressId) {
+      setValue("pickup_address_id", defaultAddressId, { shouldValidate: true });
+    }
+    void handleSubmit(onSubmit)();
   };
 
   return (
@@ -95,7 +122,7 @@ export function Pickup() {
                 <button
                   key={address.id}
                   type="button"
-                  onClick={() => setSelectedAddressId(address.id)}
+                  onClick={() => setValue("pickup_address_id", address.id, { shouldValidate: true })}
                   className={`w-full text-left rounded-2xl border px-4 py-4 transition-all ${
                     isSelected ? "border-primary bg-primary/5 ring-1 ring-primary" : "border-outline-variant bg-surface hover:border-primary/40"
                   }`}
@@ -124,7 +151,7 @@ export function Pickup() {
             <button
               key={d.key}
               type="button"
-              onClick={() => setSelectedDate(d.key)}
+              onClick={() => setValue("pickup_date", d.key, { shouldValidate: true })}
               className={`py-3 px-2 rounded-2xl border-2 text-center transition-all ${
                 selectedDate === d.key ? "border-primary bg-primary/5" : "border-outline-variant bg-surface hover:border-primary/40"
               }`}
@@ -137,13 +164,11 @@ export function Pickup() {
         </div>
       </section>
 
-      {createOrderMutation.isError && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm text-red-700 flex items-start gap-2">
-          <AlertCircle className="mt-0.5 w-4 h-4 shrink-0" />
-          <span>
-            {createOrderMutation.error instanceof ApiError ? createOrderMutation.error.message : "Gagal membuat order."}
-          </span>
-        </div>
+      <ApiErrorMessage error={createOrderMutation.error} />
+      {(errors.pickup_address_id || errors.pickup_date) && (
+        <p className="text-xs text-error">
+          {errors.pickup_address_id?.message ?? errors.pickup_date?.message}
+        </p>
       )}
       {successInvoice && (
         <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-4 text-sm text-green-700 flex items-start gap-2">
@@ -159,7 +184,7 @@ export function Pickup() {
 
       <button
         type="button"
-        onClick={handleSubmit}
+        onClick={handleSubmitClick}
         disabled={!canOrder}
         className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-base font-bold text-on-primary hover:bg-primary/90 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >

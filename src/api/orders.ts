@@ -1,5 +1,5 @@
 import { request } from "./client";
-import type { CreateComplaintPayload, Order, OrderDetail, OrderListResponse, OrderStatus } from "../types/order";
+import type { ComplaintType, Order, OrderDetail, OrderListResponse, OrderStatus } from "../types/order";
 
 export interface ListOrdersQuery {
   status?: OrderStatus | "";
@@ -34,8 +34,21 @@ export const createOrder = (data: { pickup_address_id: string; pickup_date: stri
 export const completeOrder = (id: string) =>
   request<Order>(`/api/v1/customer/orders/${id}/complete`, { method: "PATCH" });
 
-export const createComplaint = (orderId: string, data: CreateComplaintPayload) =>
-  request<{ id: string; message: string }>(`/api/v1/customer/orders/${orderId}/complaint`, {
+export interface CreateComplaintInput {
+  complaint_type: ComplaintType;
+  description: string;
+  photos?: File[];
+}
+
+export const createComplaint = (orderId: string, data: CreateComplaintInput) => {
+  const formData = new FormData();
+  formData.append("complaint_type", data.complaint_type);
+  formData.append("description", data.description);
+  for (const photo of data.photos ?? []) {
+    formData.append("photos", photo);
+  }
+  return request<{ id: string; message: string }>(`/api/v1/customer/orders/${orderId}/complaint`, {
     method: "POST",
-    body: JSON.stringify(data),
+    body: formData,
   });
+};

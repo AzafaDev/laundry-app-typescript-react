@@ -91,9 +91,3 @@ export interface OrderDetail extends Order {
   payment: Payment | null;
   complaints: ComplaintSummary[];
 }
-
-export interface CreateComplaintPayload {
-  complaint_type: ComplaintType;
-  description: string;
-  photo_urls?: string[];
-}

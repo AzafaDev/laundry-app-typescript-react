@@ -1,12 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 import { useOrderDetailQuery } from "../hooks/orders/useOrderDetailQuery";
 import { useCompleteOrderMutation } from "../hooks/orders/useCompleteOrderMutation";
 import { OrderProgressTracker } from "../components/orders/OrderProgressTracker";
 import { ComplaintModal } from "../components/orders/ComplaintModal";
 import { COMPLAINT_STATUS_LABEL, formatDateTime } from "../components/orders/orderConstants";
 import { formatRupiah } from "../utils/formatPrice";
+import { ApiError } from "../api/client";
 
 export function OrderDetail() {
   const { id } = useParams<{ id: string }>();
@@ -79,7 +81,13 @@ export function OrderDetail() {
 
         <OrderProgressTracker
           order={order}
-          onComplete={() => completeMutation.mutate(order.id)}
+          onComplete={() =>
+            completeMutation.mutate(order.id, {
+              onSuccess: () => toast.success("Pesanan ditandai selesai"),
+              onError: (err) =>
+                toast.error(err instanceof ApiError ? err.message : "Gagal menandai pesanan selesai"),
+            })
+          }
           isCompleting={completeMutation.isPending}
           onComplaint={() => setComplaintOpen(true)}
         />
