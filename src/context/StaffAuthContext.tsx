@@ -1,4 +1,5 @@
 import { createContext, useContext, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { useStaffProfileQuery } from "../hooks/staffAuth/useStaffProfileQuery";
 import type { Employee } from "../types/employee";
 
@@ -11,7 +12,8 @@ interface StaffAuthContextValue {
 const StaffAuthContext = createContext<StaffAuthContextValue | undefined>(undefined);
 
 export function StaffAuthProvider({ children }: { children: ReactNode }) {
-  const { data: employee, isLoading } = useStaffProfileQuery();
+  const location = useLocation();
+  const { data: employee, isLoading } = useStaffProfileQuery(location.pathname.startsWith("/staff"));
 
   const value: StaffAuthContextValue = {
     employee: employee ?? null,

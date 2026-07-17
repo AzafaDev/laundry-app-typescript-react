@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../../api/staffAuth";
 import { ApiError } from "../../api/client";
 
-export function useStaffProfileQuery() {
+export function useStaffProfileQuery(enabled = true) {
   return useQuery({
     queryKey: ["staff-profile"],
     queryFn: async () => {
@@ -16,5 +16,6 @@ export function useStaffProfileQuery() {
       }
     },
     retry: false,
+    enabled,
   });
 }

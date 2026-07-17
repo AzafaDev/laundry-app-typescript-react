@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Bell, CheckCheck, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ArrowLeft, Bell, CheckCheck, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useNotificationsQuery } from "../hooks/notifications/useNotificationsQuery";
 import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
 import { useMarkNotificationReadMutation } from "../hooks/notifications/useMarkNotificationReadMutation";
@@ -24,6 +25,10 @@ export function Notifications() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 md:px-8 py-8 space-y-6">
+      <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
+        <ArrowLeft className="w-4 h-4" />
+        Kembali ke beranda
+      </Link>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-2">

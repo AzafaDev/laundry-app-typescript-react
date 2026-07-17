@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../../api/profile";
 import { ApiError } from "../../api/client";
 
-export function useProfileQuery() {
+export function useProfileQuery(enabled = true) {
   return useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -16,5 +16,6 @@ export function useProfileQuery() {
       }
     },
     retry: false,
+    enabled,
   });
 }

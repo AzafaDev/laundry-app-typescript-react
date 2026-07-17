@@ -13,9 +13,16 @@ function getCsrfToken(): string | null {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+const MUTATING_METHODS = new Set(["POST", "PATCH", "PUT", "DELETE"]);
+
 async function rawRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   const isFormData = options.body instanceof FormData;
-  const csrfToken = getCsrfToken();
+  const method = (options.method ?? "GET").toUpperCase();
+  // Only attach the CSRF header on mutating requests — the backend's
+  // csrfMiddleware is only ever attached to those routes, and sending a
+  // custom header on every GET forces an unnecessary CORS preflight on all
+  // of them for no benefit.
+  const csrfToken = MUTATING_METHODS.has(method) ? getCsrfToken() : null;
 
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,

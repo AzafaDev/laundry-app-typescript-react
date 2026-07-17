@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GuestRoute } from "./components/GuestRoute";
@@ -32,38 +32,36 @@ import { EmployeeForm } from "./pages/admin/EmployeeForm";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
-          <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="/auth/callback" element={<OAuthCallback />} />
-          <Route path="/forgot-password" element={<GuestRoute><ForgotPassword /></GuestRoute>} />
-          <Route path="/reset-password" element={<GuestRoute><ResetPassword /></GuestRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
-          <Route path="/addresses/new" element={<ProtectedRoute><AddressCreatePage /></ProtectedRoute>} />
-          <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
-          <Route path="/pickup" element={<ProtectedRoute><Pickup /></ProtectedRoute>} />
-          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-          <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
-          <Route path="/payment/:id" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-          <Route path="/staff/login" element={<StaffGuestRoute><StaffLogin /></StaffGuestRoute>} />
-          <Route path="/staff/forgot-password" element={<StaffGuestRoute><StaffForgotPassword /></StaffGuestRoute>} />
-          <Route path="/staff/reset-password" element={<StaffGuestRoute><StaffResetPassword /></StaffGuestRoute>} />
-          <Route path="/staff/dashboard" element={<StaffProtectedRoute><StaffDashboard /></StaffProtectedRoute>} />
-          <Route path="/staff/admin/outlets" element={<SuperAdminRoute><Outlets /></SuperAdminRoute>} />
-          <Route path="/staff/admin/outlets/new" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
-          <Route path="/staff/admin/outlets/:id/edit" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
-          <Route path="/staff/admin/employees" element={<SuperAdminRoute><Employees /></SuperAdminRoute>} />
-          <Route path="/staff/admin/employees/new" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
-          <Route path="/staff/admin/employees/:id/edit" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
+        <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/auth/callback" element={<OAuthCallback />} />
+        <Route path="/forgot-password" element={<GuestRoute><ForgotPassword /></GuestRoute>} />
+        <Route path="/reset-password" element={<GuestRoute><ResetPassword /></GuestRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
+        <Route path="/addresses/new" element={<ProtectedRoute><AddressCreatePage /></ProtectedRoute>} />
+        <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
+        <Route path="/pickup" element={<ProtectedRoute><Pickup /></ProtectedRoute>} />
+        <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+        <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+        <Route path="/payment/:id" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+        <Route path="/staff/login" element={<StaffGuestRoute><StaffLogin /></StaffGuestRoute>} />
+        <Route path="/staff/forgot-password" element={<StaffGuestRoute><StaffForgotPassword /></StaffGuestRoute>} />
+        <Route path="/staff/reset-password" element={<StaffGuestRoute><StaffResetPassword /></StaffGuestRoute>} />
+        <Route path="/staff/dashboard" element={<StaffProtectedRoute><StaffDashboard /></StaffProtectedRoute>} />
+        <Route path="/staff/admin/outlets" element={<SuperAdminRoute><Outlets /></SuperAdminRoute>} />
+        <Route path="/staff/admin/outlets/new" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/outlets/:id/edit" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/employees" element={<SuperAdminRoute><Employees /></SuperAdminRoute>} />
+        <Route path="/staff/admin/employees/new" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/employees/:id/edit" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
+      </Routes>
+    </Layout>
   );
 }
 

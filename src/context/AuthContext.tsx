@@ -1,4 +1,5 @@
 import { createContext, useContext, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { useProfileQuery } from "../hooks/profile/useProfileQuery";
 import type { Customer } from "../types/customer";
 
@@ -11,7 +12,8 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: customer, isLoading } = useProfileQuery();
+  const location = useLocation();
+  const { data: customer, isLoading } = useProfileQuery(!location.pathname.startsWith("/staff"));
 
   const value: AuthContextValue = {
     customer: customer ?? null,

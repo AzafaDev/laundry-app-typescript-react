@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../hooks/auth/useLogoutMutation";
 import { ProfileInfoSection } from "../components/profile/ProfileInfoSection";
 import { ChangePasswordSection } from "../components/profile/ChangePasswordSection";
@@ -19,6 +19,10 @@ export function Profile() {
   return (
     <div className="auth-shell">
       <div className="auth-card profile-card">
+        <p className="auth-link">
+          <Link to="/">← Kembali ke beranda</Link>
+        </p>
+
         <ProfileInfoSection />
 
         <hr className="auth-divider" />

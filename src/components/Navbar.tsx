@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useLogoutMutation } from "../hooks/auth/useLogoutMutation";
+import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
 import "../styles/navbar.css";
 
 export function Navbar() {
@@ -9,6 +10,8 @@ export function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const logoutMutation = useLogoutMutation();
+  const unreadCountQuery = useUnreadCountQuery(isAuthenticated);
+  const unreadCount = unreadCountQuery.data?.unread_count ?? 0;
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
@@ -32,6 +35,11 @@ export function Navbar() {
           </button>
           {isAuthenticated ? (
             <>
+              <Link to="/pickup" className="navbar-link">Pesan Laundry</Link>
+              <Link to="/orders" className="navbar-link">Pesanan</Link>
+              <Link to="/notifications" className="navbar-link">
+                Notifikasi{unreadCount > 0 ? ` (${unreadCount})` : ""}
+              </Link>
               <Link to="/profile" className="navbar-link">Profil</Link>
               <Link to="/addresses" className="navbar-link">Alamat</Link>
               <button

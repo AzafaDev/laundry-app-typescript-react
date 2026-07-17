@@ -9,6 +9,9 @@ export function Addresses() {
   if (addressesQuery.isLoading) {
     return (
       <div className="address-page">
+        <p className="auth-link">
+          <Link to="/">← Kembali ke beranda</Link>
+        </p>
         <div className="address-page-header">
           <h1>Alamat</h1>
         </div>
@@ -23,6 +26,9 @@ export function Addresses() {
   if (addressesQuery.data?.length === 0) {
     return (
       <div className="address-page">
+        <p className="auth-link">
+          <Link to="/">← Kembali ke beranda</Link>
+        </p>
         <div className="address-empty">
           <p>Belum ada alamat tersimpan</p>
           <Link to="/addresses/new" className="auth-button">Tambah Alamat Baru</Link>
@@ -33,6 +39,9 @@ export function Addresses() {
 
   return (
     <div className="address-page">
+      <p className="auth-link">
+        <Link to="/">← Kembali ke beranda</Link>
+      </p>
       <div className="address-page-header">
         <h1>Alamat</h1>
         <Link to="/addresses/new" className="auth-toggle">TAMBAH ALAMAT</Link>
