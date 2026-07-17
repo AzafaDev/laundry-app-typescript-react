@@ -16,6 +16,11 @@ import { Profile } from "./pages/Profile";
 import { Addresses } from "./pages/Addresses";
 import { AddressCreatePage } from "./pages/AddressCreatePage";
 import { AddressEditPage } from "./pages/AddressEditPage";
+import { Pickup } from "./pages/Pickup";
+import { Orders } from "./pages/Orders";
+import { OrderDetail } from "./pages/OrderDetail";
+import { Payment } from "./pages/Payment";
+import { Notifications } from "./pages/Notifications";
 import { StaffLogin } from "./pages/StaffLogin";
 import { StaffForgotPassword } from "./pages/StaffForgotPassword";
 import { StaffResetPassword } from "./pages/StaffResetPassword";
@@ -41,6 +46,11 @@ function App() {
           <Route path="/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
           <Route path="/addresses/new" element={<ProtectedRoute><AddressCreatePage /></ProtectedRoute>} />
           <Route path="/addresses/:id/edit" element={<ProtectedRoute><AddressEditPage /></ProtectedRoute>} />
+          <Route path="/pickup" element={<ProtectedRoute><Pickup /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+          <Route path="/payment/:id" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           <Route path="/staff/login" element={<StaffGuestRoute><StaffLogin /></StaffGuestRoute>} />
           <Route path="/staff/forgot-password" element={<StaffGuestRoute><StaffForgotPassword /></StaffGuestRoute>} />
           <Route path="/staff/reset-password" element={<StaffGuestRoute><StaffResetPassword /></StaffGuestRoute>} />
