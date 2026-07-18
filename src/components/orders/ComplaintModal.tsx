@@ -112,7 +112,7 @@ export function ComplaintModal({ orderId, onClose }: Props) {
           <div className="space-y-1">
             <label className="text-sm font-bold text-on-surface">Jenis Komplain</label>
             <select
-              className="w-full bg-white border border-outline-variant rounded-lg p-3 text-sm focus:border-primary"
+              className="w-full bg-surface border border-outline-variant rounded-lg p-3 text-sm text-on-surface focus:border-primary"
               {...register("complaint_type")}
             >
               {COMPLAINT_TYPE_OPTIONS.map((opt) => (
@@ -126,7 +126,7 @@ export function ComplaintModal({ orderId, onClose }: Props) {
           <div className="space-y-1">
             <label className="text-sm font-bold text-on-surface">Deskripsi</label>
             <textarea
-              className="w-full bg-white border border-outline-variant rounded-lg p-3 text-sm h-28 focus:border-primary"
+              className="w-full bg-surface border border-outline-variant rounded-lg p-3 text-sm text-on-surface h-28 focus:border-primary"
               placeholder="Jelaskan kendala yang kamu alami..."
               {...register("description")}
             />

@@ -266,61 +266,6 @@
   cursor: default;
 }
 
-.autocomplete-wrap {
-  position: relative;
-}
-
-.autocomplete-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  /* Leaflet's own panes/controls use z-index up to 1000 (see
-     leaflet.css) and share this stacking context, so this has to clear
-     that or AddressMap paints over the dropdown regardless of DOM order. */
-  z-index: 1001;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  max-height: 240px;
-  overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.autocomplete-option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 10px 12px;
-  font-size: 14px;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.autocomplete-option:hover,
-.autocomplete-option:focus-visible {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  outline: none;
-}
-
-.autocomplete-status {
-  padding: 10px 12px;
-  font-size: 13px;
-  color: var(--ink-soft);
-}
-
-.autocomplete-status p {
-  margin: 0;
-}
-
-.autocomplete-status p + p {
-  margin-top: 4px;
-  font-size: 12px;
-  opacity: 0.85;
-}
-
 .auth-checkbox-row {
   display: flex;
   align-items: center;

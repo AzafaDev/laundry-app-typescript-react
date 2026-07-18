@@ -4,6 +4,7 @@ import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { useGeocodeSearchQuery } from "../../hooks/geocode/useGeocodeSearchQuery";
 import type { GeocodeResult } from "../../types/geocode";
 import { FormField } from "../FormField";
+import { inputClasses } from "../ui/Input";
 
 type GeocodeSearchQueryHook = (query: string, limit?: number) => UseQueryResult<GeocodeResult[], Error>;
 
@@ -49,10 +50,10 @@ export function AddressAutocomplete({
 
   return (
     <FormField label="Cari alamat" htmlFor="address_autocomplete" hint="Ketik minimal 3 karakter">
-      <div className="autocomplete-wrap" ref={wrapRef}>
+      <div className="relative" ref={wrapRef}>
         <input
           id="address_autocomplete"
-          className="auth-input"
+          className={inputClasses}
           placeholder={placeholder}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -61,12 +62,16 @@ export function AddressAutocomplete({
         />
 
         {isOpen && (
-          <div className="autocomplete-dropdown">
-            {showLoading && <p className="autocomplete-status">Mencari...</p>}
+          // Leaflet's own panes/controls use z-index up to 1000 (see
+          // leaflet.css) and share this stacking context, so this has to
+          // clear that or AddressMap paints over the dropdown regardless
+          // of DOM order.
+          <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-[1001] max-h-60 overflow-y-auto rounded-xl border border-outline-variant bg-surface-container-lowest shadow-lg">
+            {showLoading && <p className="px-3 py-2.5 text-sm text-on-surface-variant">Mencari...</p>}
             {showEmpty && (
-              <div className="autocomplete-status">
+              <div className="px-3 py-2.5 text-sm text-on-surface-variant space-y-1">
                 <p>Tidak ditemukan, coba kata kunci lain.</p>
-                <p>
+                <p className="text-xs opacity-85">
                   Coba cari area yang lebih umum dulu (kelurahan/kecamatan), lalu koreksi
                   alamat lengkapnya di kolom Alamat di bawah setelah pilih lokasi.
                 </p>
@@ -77,7 +82,7 @@ export function AddressAutocomplete({
                 <button
                   key={`${result.formatted}-${i}`}
                   type="button"
-                  className="autocomplete-option"
+                  className="block w-full text-left px-3 py-2.5 text-sm text-on-surface bg-transparent hover:bg-primary/10 focus-visible:bg-primary/10 focus-visible:outline-none transition-colors"
                   onClick={() => handleSelect(result)}
                 >
                   {result.formatted}

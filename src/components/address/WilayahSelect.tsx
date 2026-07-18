@@ -3,6 +3,7 @@ import { useProvincesQuery } from "../../hooks/wilayah/useProvincesQuery";
 import { useCitiesQuery } from "../../hooks/wilayah/useCitiesQuery";
 import { useDistrictsQuery } from "../../hooks/wilayah/useDistrictsQuery";
 import { FormField } from "../FormField";
+import { inputClasses } from "../ui/Input";
 
 export interface WilayahValue {
   provinceId?: number;
@@ -58,7 +59,7 @@ export function WilayahSelect({ value, onChange, provinceError, cityError, distr
       <FormField label="Provinsi" htmlFor="province_id" error={provinceError}>
         <select
           id="province_id"
-          className="auth-input"
+          className={inputClasses}
           value={value.provinceId ?? ""}
           onChange={handleProvinceChange}
         >
@@ -72,7 +73,7 @@ export function WilayahSelect({ value, onChange, provinceError, cityError, distr
       <FormField label="Kota" htmlFor="city_id" error={cityError}>
         <select
           id="city_id"
-          className="auth-input"
+          className={inputClasses}
           value={value.cityId ?? ""}
           onChange={handleCityChange}
           disabled={cityDisabled}
@@ -87,7 +88,7 @@ export function WilayahSelect({ value, onChange, provinceError, cityError, distr
       <FormField label="Kecamatan" htmlFor="district_id" error={districtError}>
         <select
           id="district_id"
-          className="auth-input"
+          className={inputClasses}
           value={value.districtId ?? ""}
           onChange={handleDistrictChange}
           disabled={districtDisabled}

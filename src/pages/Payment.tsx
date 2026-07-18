@@ -144,7 +144,7 @@ export function Payment() {
           type="button"
           onClick={handlePay}
           disabled={createTransaction.isPending}
-          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-sm font-bold text-white hover:bg-primary-container hover:text-on-primary-container transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-sm font-bold text-on-primary hover:bg-primary-container hover:text-on-primary-container transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
         >
           {createTransaction.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
           {isExpiredOrFailed ? "Coba Bayar Lagi" : "Bayar Sekarang dengan Midtrans"}
