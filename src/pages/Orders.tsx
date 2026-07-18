@@ -74,6 +74,7 @@ export function Orders() {
         searchInput={searchInput}
         status={status}
         hasFilters={hasFilters}
+        isSearching={ordersQuery.isFetching && !ordersQuery.isLoading}
         onSearchChange={handleSearchChange}
         onStatusChange={handleStatusChange}
         onClear={clearFilters}
