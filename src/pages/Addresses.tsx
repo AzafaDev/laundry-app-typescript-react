@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { MapPin } from "lucide-react";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
 import { AddressCard } from "../components/address/AddressCard";
 import { buttonClasses } from "../components/ui/buttonStyles";
 import { BackLink } from "../components/ui/BackLink";
+import { EmptyState } from "../components/ui/PageState";
 
 export function Addresses() {
   const addressesQuery = useAddressesQuery();
@@ -24,10 +26,15 @@ export function Addresses() {
     return (
       <main className="max-w-2xl mx-auto px-4 md:px-8 py-10 space-y-6">
         <BackLink to="/">Kembali ke beranda</BackLink>
-        <div className="text-center py-12 px-6">
-          <p className="text-sm text-on-surface-variant mb-5">Belum ada alamat tersimpan</p>
-          <Link to="/addresses/new" className={buttonClasses("primary", "md")}>Tambah Alamat Baru</Link>
-        </div>
+        <EmptyState
+          icon={MapPin}
+          title="Belum ada alamat tersimpan"
+          description="Tambahkan alamat pertama kamu supaya kurir tahu ke mana harus jemput."
+          tone="primary"
+          action={
+            <Link to="/addresses/new" className={buttonClasses("primary", "md")}>Tambah Alamat Baru</Link>
+          }
+        />
       </main>
     );
   }

@@ -1,37 +1,10 @@
 import { Link } from "react-router-dom";
-import {
-  BadgeCheck,
-  Building2,
-  CheckCircle2,
-  Circle,
-  Clock,
-  Droplets,
-  Flame,
-  Home,
-  Package,
-  PackageCheck,
-  Truck,
-  Wallet,
-  type LucideIcon,
-} from "lucide-react";
+import { BadgeCheck, Circle } from "lucide-react";
 import type { OrderDetail, OrderStatus } from "../../types/order";
 import { formatDateTime, ORDER_PROGRESS_STEPS, ORDER_STATUS_LABEL } from "./orderConstants";
+import { STEP_ICON } from "./statusIcons";
 
 const PAYABLE_STATUSES: OrderStatus[] = ["washing", "ironing", "packing", "waiting_payment"];
-
-const STEP_ICON: Record<OrderStatus, LucideIcon> = {
-  waiting_pickup_driver: Clock,
-  laundry_to_outlet: Truck,
-  laundry_arrived_outlet: Building2,
-  washing: Droplets,
-  ironing: Flame,
-  packing: Package,
-  waiting_payment: Wallet,
-  ready_for_delivery: PackageCheck,
-  delivery_to_customer: Truck,
-  received_by_customer: Home,
-  completed: CheckCircle2,
-};
 
 interface Props {
   order: OrderDetail;

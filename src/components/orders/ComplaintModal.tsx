@@ -97,7 +97,7 @@ export function ComplaintModal({ orderId, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-[10px]">
-      <div className="bg-surface-container-lowest w-full max-w-md rounded-xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div className="animate-fade-up bg-surface-container-lowest w-full max-w-md rounded-xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
         <div className="p-6 border-b border-outline-variant flex justify-between items-center shrink-0">
           <h2 className="text-lg font-bold text-on-surface flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-error" />

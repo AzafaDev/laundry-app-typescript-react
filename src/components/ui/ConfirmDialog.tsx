@@ -49,7 +49,7 @@ export function ConfirmDialog({
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="confirm-dialog-title"
-        className="w-full max-w-sm rounded-2xl bg-surface-container-lowest shadow-2xl p-6 space-y-5"
+        className="animate-fade-up w-full max-w-sm rounded-2xl bg-surface-container-lowest shadow-2xl p-6 space-y-5"
         onClick={(e) => e.stopPropagation()}
       >
         <div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, CheckCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bell, CheckCheck } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNotificationsQuery } from "../hooks/notifications/useNotificationsQuery";
 import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
@@ -7,6 +7,7 @@ import { useMarkNotificationReadMutation } from "../hooks/notifications/useMarkN
 import { useMarkAllNotificationsReadMutation } from "../hooks/notifications/useMarkAllNotificationsReadMutation";
 import { NotificationItem } from "../components/notifications/NotificationItem";
 import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
+import { Pagination } from "../components/ui/Pagination";
 import { BackLink } from "../components/ui/BackLink";
 import { Eyebrow } from "../components/ui/Eyebrow";
 
@@ -23,7 +24,6 @@ export function Notifications() {
 
   const notifications = notificationsQuery.data?.data ?? [];
   const total = notificationsQuery.data?.total_count ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
   const unreadCount = unreadCountQuery.data?.unread_count ?? 0;
 
   return (
@@ -66,40 +66,15 @@ export function Notifications() {
       )}
 
       {!notificationsQuery.isLoading && !notificationsQuery.isError && notifications.length > 0 && (
-        <>
-          <p className="text-xs text-on-surface-variant">
-            Menampilkan {notifications.length} dari {total} notifikasi
-          </p>
-          <div className="space-y-3">
-            {notifications.map((n) => (
-              <NotificationItem key={n.id} notification={n} onMarkRead={(id) => markReadMutation.mutate(id)} />
-            ))}
-          </div>
-        </>
+        <div className="space-y-3">
+          {notifications.map((n) => (
+            <NotificationItem key={n.id} notification={n} onMarkRead={(id) => markReadMutation.mutate(id)} />
+          ))}
+        </div>
       )}
 
-      {!notificationsQuery.isLoading && !notificationsQuery.isError && totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 pt-2">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="inline-flex items-center gap-1 rounded-xl border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface disabled:opacity-40 hover:border-primary hover:text-primary transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Sebelumnya
-          </button>
-          <span className="text-sm text-on-surface-variant px-2">
-            {page} / {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className="inline-flex items-center gap-1 rounded-xl border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface disabled:opacity-40 hover:border-primary hover:text-primary transition-colors"
-          >
-            Berikutnya
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
+      {!notificationsQuery.isLoading && !notificationsQuery.isError && notifications.length > 0 && (
+        <Pagination page={page} limit={LIMIT} totalCount={total} onPageChange={setPage} />
       )}
     </main>
   );

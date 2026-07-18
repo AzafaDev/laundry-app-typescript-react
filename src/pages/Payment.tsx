@@ -82,7 +82,7 @@ export function Payment() {
       <div className="rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <p className="text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
+            <p className="font-mono text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
             {!isPaid && (
               <button
                 type="button"
@@ -97,7 +97,7 @@ export function Payment() {
             )}
           </div>
           {isPaid && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-container px-3 py-1 text-xs font-semibold text-on-primary-container">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Lunas
             </span>
@@ -136,7 +136,7 @@ export function Payment() {
       )}
 
       {isPaid ? (
-        <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-5 text-center text-sm text-green-700 font-medium">
+        <div className="animate-fade-up rounded-2xl border border-primary/30 bg-primary-container px-4 py-5 text-center text-sm text-on-primary-container font-medium">
           Pembayaran kamu sudah berhasil. Terima kasih!
         </div>
       ) : (

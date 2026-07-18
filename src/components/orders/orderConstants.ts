@@ -30,6 +30,16 @@ export const COMPLAINT_STATUS_LABEL: Record<string, string> = {
   rejected: "Ditolak",
 };
 
+const COMPLAINT_STATUS_BADGE_CLASSES: Record<string, string> = {
+  open: "bg-tertiary-container text-on-tertiary-container",
+  in_progress: "bg-secondary-container text-on-secondary-container",
+  resolved: "bg-primary-container text-on-primary-container",
+  rejected: "bg-error-container text-on-error-container",
+};
+
+export const complaintBadgeClasses = (status: string) =>
+  COMPLAINT_STATUS_BADGE_CLASSES[status] ?? "bg-surface-container text-on-surface-variant";
+
 export const formatDateTime = (value: string | Date) =>
   new Intl.DateTimeFormat("id-ID", {
     day: "2-digit",

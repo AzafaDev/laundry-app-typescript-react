@@ -49,13 +49,26 @@ interface EmptyStateProps {
   title: string;
   description: string;
   action?: ReactNode;
+  /**
+   * "neutral": nothing to do here right now (empty inbox, no filter results).
+   * "primary": an invitation to take the first action (first order, first address).
+   */
+  tone?: "neutral" | "primary";
 }
 
-export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
+export function EmptyState({ icon: Icon, title, description, action, tone = "neutral" }: EmptyStateProps) {
   return (
-    <div className="rounded-2xl border border-dashed border-outline-variant bg-surface px-6 py-12 text-center">
-      <div className="w-14 h-14 rounded-full bg-surface-container mx-auto flex items-center justify-center mb-4">
-        <Icon className="w-6 h-6 text-outline" />
+    <div
+      className={`rounded-2xl border border-dashed px-6 py-12 text-center ${
+        tone === "primary" ? "border-primary/30 bg-primary/5" : "border-outline-variant bg-surface"
+      }`}
+    >
+      <div
+        className={`w-14 h-14 rounded-full mx-auto flex items-center justify-center mb-4 ${
+          tone === "primary" ? "bg-primary/15 text-primary" : "bg-surface-container text-outline"
+        }`}
+      >
+        <Icon className="w-6 h-6" />
       </div>
       <p className="font-semibold text-on-surface mb-1">{title}</p>
       <p className={`text-sm text-on-surface-variant ${action ? "mb-5" : ""}`}>{description}</p>

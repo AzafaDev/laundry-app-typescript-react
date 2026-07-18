@@ -167,11 +167,11 @@ export function Pickup() {
         </p>
       )}
       {successInvoice && (
-        <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-4 text-sm text-green-700 flex items-start gap-2">
+        <div className="animate-fade-up rounded-2xl border border-primary/30 bg-primary-container px-4 py-4 text-sm text-on-primary-container flex items-start gap-2">
           <CheckCircle2 className="mt-0.5 w-4 h-4 shrink-0" />
           <div className="space-y-3">
-            <p>Order {successInvoice} berhasil dibuat! Kurir akan segera menjemput laundry Anda.</p>
-            <Link to="/orders" className="inline-flex items-center rounded-xl bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-700 transition-colors">
+            <p>Order <span className="font-mono">{successInvoice}</span> berhasil dibuat! Kurir akan segera menjemput laundry kamu.</p>
+            <Link to="/orders" className="inline-flex items-center rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-on-primary hover:bg-primary/90 transition-colors">
               Lihat progress pesanan
             </Link>
           </div>

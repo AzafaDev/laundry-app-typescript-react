@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ClipboardList, RefreshCw } from "lucide-react";
+import { ClipboardList, RefreshCw } from "lucide-react";
 import { useOrdersQuery } from "../hooks/orders/useOrdersQuery";
 import { OrderCard } from "../components/orders/OrderCard";
 import { OrderFilters } from "../components/orders/OrderFilters";
 import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
+import { Pagination } from "../components/ui/Pagination";
 import { buttonClasses } from "../components/ui/buttonStyles";
 import { BackLink } from "../components/ui/BackLink";
 import { Eyebrow } from "../components/ui/Eyebrow";
@@ -47,7 +48,6 @@ export function Orders() {
 
   const orders = ordersQuery.data?.data ?? [];
   const total = ordersQuery.data?.total_count ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
 
   return (
     <main className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-6">
@@ -105,7 +105,8 @@ export function Orders() {
           <EmptyState
             icon={ClipboardList}
             title="Belum ada pesanan"
-            description="Buat order pertama Anda untuk mulai melihat tracking progress."
+            description="Buat order pertama kamu untuk mulai melihat tracking progress."
+            tone="primary"
             action={
               <Link to="/pickup" className={buttonClasses("primary", "md")}>
                 Buat Order Sekarang
@@ -116,40 +117,15 @@ export function Orders() {
       )}
 
       {!ordersQuery.isLoading && !ordersQuery.isError && orders.length > 0 && (
-        <>
-          <p className="text-xs text-on-surface-variant">
-            Menampilkan {orders.length} dari {total} pesanan
-          </p>
-          <div className="space-y-4">
-            {orders.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
-          </div>
-        </>
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
+        </div>
       )}
 
-      {!ordersQuery.isLoading && !ordersQuery.isError && totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 pt-2">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="inline-flex items-center gap-1 rounded-xl border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface disabled:opacity-40 hover:border-primary hover:text-primary transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Sebelumnya
-          </button>
-          <span className="text-sm text-on-surface-variant px-2">
-            {page} / {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className="inline-flex items-center gap-1 rounded-xl border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface disabled:opacity-40 hover:border-primary hover:text-primary transition-colors"
-          >
-            Berikutnya
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
+      {!ordersQuery.isLoading && !ordersQuery.isError && orders.length > 0 && (
+        <Pagination page={page} limit={LIMIT} totalCount={total} onPageChange={setPage} />
       )}
     </main>
   );

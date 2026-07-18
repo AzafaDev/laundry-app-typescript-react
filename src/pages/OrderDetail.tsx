@@ -5,7 +5,7 @@ import { useOrderDetailQuery } from "../hooks/orders/useOrderDetailQuery";
 import { useCompleteOrderMutation } from "../hooks/orders/useCompleteOrderMutation";
 import { OrderProgressTracker } from "../components/orders/OrderProgressTracker";
 import { ComplaintModal } from "../components/orders/ComplaintModal";
-import { COMPLAINT_STATUS_LABEL, formatDateTime } from "../components/orders/orderConstants";
+import { COMPLAINT_STATUS_LABEL, complaintBadgeClasses, formatDateTime } from "../components/orders/orderConstants";
 import { formatRupiah } from "../utils/formatPrice";
 import { ApiError } from "../api/client";
 import { LoadingState, ErrorState } from "../components/ui/PageState";
@@ -42,7 +42,7 @@ export function OrderDetail() {
 
       <div className="rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm space-y-5">
         <div>
-          <p className="text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
+          <p className="font-mono text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
           <p className="text-sm text-on-surface-variant mt-0.5">Outlet: {order.outlet_name ?? "-"}</p>
           <p className="text-xs text-on-surface-variant mt-0.5">Dibuat: {formatDateTime(order.created_at)}</p>
         </div>
@@ -88,11 +88,14 @@ export function OrderDetail() {
           <div className="rounded-xl border border-outline-variant bg-surface-container-low px-3 py-3 space-y-1">
             <p className="text-xs font-medium text-on-surface-variant uppercase tracking-wide">Komplain</p>
             {order.complaints.map((c) => (
-              <div key={c.id} className="text-sm">
+              <div key={c.id} className="text-sm space-y-1">
                 <p className="text-on-surface">{c.description}</p>
-                <p className="text-xs text-on-surface-variant">
-                  {COMPLAINT_STATUS_LABEL[c.status] ?? c.status} &middot; {formatDateTime(c.created_at)}
-                </p>
+                <div className="flex items-center gap-2">
+                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${complaintBadgeClasses(c.status)}`}>
+                    {COMPLAINT_STATUS_LABEL[c.status] ?? c.status}
+                  </span>
+                  <span className="font-mono text-xs text-on-surface-variant">{formatDateTime(c.created_at)}</span>
+                </div>
               </div>
             ))}
           </div>
