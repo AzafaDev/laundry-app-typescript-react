@@ -38,6 +38,8 @@ export function StaffNavbar() {
               <>
                 <Link to="/staff/admin/outlets" className="navbar-link">Outlet</Link>
                 <Link to="/staff/admin/employees" className="navbar-link">Karyawan</Link>
+                <Link to="/staff/admin/laundry-items" className="navbar-link">Item Laundry</Link>
+                <Link to="/staff/admin/clothing-types" className="navbar-link">Jenis Pakaian</Link>
               </>
             )}
             {station && (

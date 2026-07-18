@@ -38,6 +38,10 @@ import { StationHistory } from "./pages/staff/StationHistory";
 import { DriverTasks } from "./pages/staff/DriverTasks";
 import { DriverActiveTask } from "./pages/staff/DriverActiveTask";
 import { DriverTaskHistory } from "./pages/staff/DriverTaskHistory";
+import { LaundryItems } from "./pages/admin/LaundryItems";
+import { LaundryItemForm } from "./pages/admin/LaundryItemForm";
+import { ClothingTypes } from "./pages/admin/ClothingTypes";
+import { ClothingTypeForm } from "./pages/admin/ClothingTypeForm";
 
 function App() {
   return (
@@ -76,6 +80,12 @@ function App() {
         <Route path="/staff/driver/tasks" element={<DriverRoute><DriverTasks /></DriverRoute>} />
         <Route path="/staff/driver/active" element={<DriverRoute><DriverActiveTask /></DriverRoute>} />
         <Route path="/staff/driver/history" element={<DriverRoute><DriverTaskHistory /></DriverRoute>} />
+        <Route path="/staff/admin/laundry-items" element={<SuperAdminRoute><LaundryItems /></SuperAdminRoute>} />
+        <Route path="/staff/admin/laundry-items/new" element={<SuperAdminRoute><LaundryItemForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/laundry-items/:id/edit" element={<SuperAdminRoute><LaundryItemForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/clothing-types" element={<SuperAdminRoute><ClothingTypes /></SuperAdminRoute>} />
+        <Route path="/staff/admin/clothing-types/new" element={<SuperAdminRoute><ClothingTypeForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/clothing-types/:id/edit" element={<SuperAdminRoute><ClothingTypeForm /></SuperAdminRoute>} />
       </Routes>
     </Layout>
   );
