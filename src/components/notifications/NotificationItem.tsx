@@ -45,15 +45,19 @@ export function NotificationItem({ notification, onMarkRead }: Props) {
           notification.is_read ? "bg-surface-container text-on-surface-variant" : "bg-primary/15 text-primary"
         }`}
       >
-        <Icon className="w-5 h-5" />
+        <Icon className="w-5 h-5" aria-hidden="true" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
-          <p className="font-semibold text-on-surface text-sm">{notification.title}</p>
-          {!notification.is_read && <span className="shrink-0 w-2 h-2 rounded-full bg-primary" />}
+          <p className="font-semibold text-on-surface text-sm">
+            {!notification.is_read && <span className="sr-only">Belum dibaca: </span>}
+            {notification.title}
+          </p>
+          {!notification.is_read && <span className="shrink-0 w-2 h-2 rounded-full bg-primary" aria-hidden="true" />}
         </div>
         <p className="text-sm text-on-surface-variant mt-0.5">{notification.body}</p>
         <p className="text-xs text-on-surface-variant/70 mt-1.5">{formatDateTime(notification.created_at)}</p>
+        {!notification.is_read && <span className="sr-only">Ketuk untuk menandai sudah dibaca.</span>}
       </div>
     </button>
   );

@@ -90,6 +90,7 @@ export function Payment() {
                 onClick={() => syncStatus.mutate(id!)}
                 disabled={syncStatus.isPending || !id}
                 title="Cek status pembayaran terbaru"
+                aria-label="Cek status pembayaran terbaru"
                 className="text-on-surface-variant hover:text-primary disabled:opacity-50 transition-colors"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${syncStatus.isPending ? "animate-spin" : ""}`} />
