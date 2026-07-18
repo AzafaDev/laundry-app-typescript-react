@@ -21,6 +21,9 @@ export interface EmployeeShiftRequestData {
 export const getWorkShifts = (limit: number, offset: number) =>
   request<PaginatedResponse<WorkShift>>(`/api/v1/employee/admin/shifts?limit=${limit}&offset=${offset}`);
 
+export const getDeletedWorkShifts = (limit: number, offset: number) =>
+  request<PaginatedResponse<WorkShift>>(`/api/v1/employee/admin/shifts/deleted?limit=${limit}&offset=${offset}`);
+
 export const getWorkShift = (id: string) =>
   request<WorkShift>(`/api/v1/employee/admin/shifts/${id}`);
 

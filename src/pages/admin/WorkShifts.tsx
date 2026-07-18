@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import { usePaginationParams } from "../../hooks/usePaginationParams";
 import { useWorkShiftsQuery } from "../../hooks/shifts/useWorkShiftsQuery";
+import { useDeletedWorkShiftsQuery } from "../../hooks/shifts/useDeletedWorkShiftsQuery";
 import { useSoftDeleteWorkShiftMutation } from "../../hooks/shifts/useSoftDeleteWorkShiftMutation";
+import { useHardDeleteWorkShiftMutation } from "../../hooks/shifts/useHardDeleteWorkShiftMutation";
 import type { WorkShift } from "../../types/shift";
 import { buttonClasses } from "../../components/ui/buttonStyles";
 import { Card } from "../../components/ui/Card";
@@ -74,12 +76,79 @@ function WorkShiftRow({ shift }: { shift: WorkShift }) {
   );
 }
 
+function DeletedWorkShiftRow({ shift }: { shift: WorkShift }) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const hardDeleteMutation = useHardDeleteWorkShiftMutation();
+
+  const handlePermanentDelete = () => {
+    hardDeleteMutation.mutate(shift.id, {
+      onSuccess: () => toast.success("Shift berhasil dihapus permanen"),
+    });
+    setConfirmOpen(false);
+  };
+
+  const isPermanentDeleteDisabled = hardDeleteMutation.isPending;
+  const permanentDeleteError = hardDeleteMutation.error instanceof ApiError ? hardDeleteMutation.error.message : null;
+
+  return (
+    <>
+      <tr className="border-b border-outline-variant last:border-0 opacity-60">
+        <td className="py-3 px-2 text-sm text-on-surface line-through">{shift.name}</td>
+        <td className="py-3 px-2 text-sm text-on-surface">{shift.start_time}</td>
+        <td className="py-3 px-2 text-sm text-on-surface">{shift.end_time}</td>
+        <td className="py-3 px-2">
+          <span className="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold bg-surface-container text-on-surface-variant">
+            Dihapus
+          </span>
+        </td>
+        <td className="py-3 px-2 text-right whitespace-nowrap">
+          <button
+            type="button"
+            onClick={() => setConfirmOpen(true)}
+            disabled={isPermanentDeleteDisabled}
+            title={permanentDeleteError || ""}
+            className="text-sm font-semibold text-error hover:underline disabled:opacity-50"
+          >
+            Hapus Permanen
+          </button>
+        </td>
+      </tr>
+      {permanentDeleteError && (
+        <tr className="bg-error-container/20 border-b border-outline-variant">
+          <td colSpan={5} className="py-2 px-2">
+            <p className="text-xs text-error">{permanentDeleteError}</p>
+          </td>
+        </tr>
+      )}
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Hapus permanen?"
+        description={`Shift "${shift.name}" akan dihapus selamanya. Tindakan ini tidak bisa dibatalkan.`}
+        confirmLabel="Hapus Permanen"
+        danger
+        onConfirm={handlePermanentDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
+    </>
+  );
+}
+
 export function WorkShifts() {
   const { page, limit, offset, setPage } = usePaginationParams();
+  const [showDeleted, setShowDeleted] = useState(false);
+
   const shiftsQuery = useWorkShiftsQuery(limit, offset);
+  const deletedShiftsQuery = useDeletedWorkShiftsQuery(limit, offset);
 
   const shifts = shiftsQuery.data?.data ?? [];
   const totalCount = shiftsQuery.data?.total_count ?? 0;
+
+  const deletedShifts = deletedShiftsQuery.data?.data ?? [];
+  const deletedTotalCount = deletedShiftsQuery.data?.total_count ?? 0;
+
+  const currentShifts = showDeleted ? deletedShifts : shifts;
+  const currentTotalCount = showDeleted ? deletedTotalCount : totalCount;
+  const currentQuery = showDeleted ? deletedShiftsQuery : shiftsQuery;
 
   return (
     <main className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-6">
@@ -93,14 +162,32 @@ export function WorkShifts() {
         </Link>
       </div>
 
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            setShowDeleted(!showDeleted);
+            setPage(1);
+          }}
+          className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface transition-colors"
+        >
+          {showDeleted ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          {showDeleted ? "Sembunyikan yang dihapus" : "Tampilkan yang dihapus"}
+        </button>
+      </div>
+
       <Card className="p-0 overflow-hidden">
-        {shiftsQuery.isLoading ? (
+        {currentQuery.isLoading ? (
           <div className="p-6">
             <LoadingState label="Memuat shift..." bordered={false} />
           </div>
-        ) : shifts.length === 0 ? (
+        ) : currentShifts.length === 0 ? (
           <div className="p-6">
-            <EmptyState icon={Plus} title="Belum ada shift" description="Tambahkan shift kerja pertama kamu." />
+            {showDeleted ? (
+              <EmptyState icon={Plus} title="Belum ada shift yang dihapus" description="Shift yang dihapus akan muncul di sini." />
+            ) : (
+              <EmptyState icon={Plus} title="Belum ada shift" description="Tambahkan shift kerja pertama kamu." />
+            )}
           </div>
         ) : (
           <table className="w-full">
@@ -114,15 +201,15 @@ export function WorkShifts() {
               </tr>
             </thead>
             <tbody>
-              {shifts.map((shift) => (
-                <WorkShiftRow key={shift.id} shift={shift} />
-              ))}
+              {showDeleted
+                ? deletedShifts.map((shift) => <DeletedWorkShiftRow key={shift.id} shift={shift} />)
+                : shifts.map((shift) => <WorkShiftRow key={shift.id} shift={shift} />)}
             </tbody>
           </table>
         )}
       </Card>
 
-      <Pagination page={page} limit={limit} totalCount={totalCount} onPageChange={setPage} />
+      <Pagination page={page} limit={limit} totalCount={currentTotalCount} onPageChange={setPage} />
     </main>
   );
 }
