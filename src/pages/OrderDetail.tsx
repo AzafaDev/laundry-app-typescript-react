@@ -45,6 +45,9 @@ export function OrderDetail() {
           <p className="font-mono text-xs text-on-surface-variant font-medium tracking-wide uppercase">{order.invoice_number}</p>
           <p className="text-sm text-on-surface-variant mt-0.5">Outlet: {order.outlet_name ?? "-"}</p>
           <p className="text-xs text-on-surface-variant mt-0.5">Dibuat: {formatDateTime(order.created_at)}</p>
+          {!!order.total_weight_kg && (
+            <p className="text-xs text-on-surface-variant mt-0.5">Berat cucian: {order.total_weight_kg} kg</p>
+          )}
         </div>
 
         {order.items.length > 0 && (

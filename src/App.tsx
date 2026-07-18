@@ -7,6 +7,7 @@ import { StaffGuestRoute } from "./components/StaffGuestRoute";
 import { SuperAdminRoute } from "./components/SuperAdminRoute";
 import { WorkerRoute } from "./components/WorkerRoute";
 import { DriverRoute } from "./components/DriverRoute";
+import { OutletAdminRoute } from "./components/OutletAdminRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -42,6 +43,12 @@ import { LaundryItems } from "./pages/admin/LaundryItems";
 import { LaundryItemForm } from "./pages/admin/LaundryItemForm";
 import { ClothingTypes } from "./pages/admin/ClothingTypes";
 import { ClothingTypeForm } from "./pages/admin/ClothingTypeForm";
+import { PendingProcessOrders } from "./pages/admin/PendingProcessOrders";
+import { ProcessOrderForm } from "./pages/admin/ProcessOrderForm";
+import { StaffProfile } from "./pages/staff/StaffProfile";
+import { StaffNotifications } from "./pages/staff/StaffNotifications";
+import { BypassRequests } from "./pages/admin/BypassRequests";
+import { OutletOrders } from "./pages/admin/OutletOrders";
 
 function App() {
   return (
@@ -67,6 +74,8 @@ function App() {
         <Route path="/staff/forgot-password" element={<StaffGuestRoute><StaffForgotPassword /></StaffGuestRoute>} />
         <Route path="/staff/reset-password" element={<StaffGuestRoute><StaffResetPassword /></StaffGuestRoute>} />
         <Route path="/staff/dashboard" element={<StaffProtectedRoute><StaffDashboard /></StaffProtectedRoute>} />
+        <Route path="/staff/profile" element={<StaffProtectedRoute><StaffProfile /></StaffProtectedRoute>} />
+        <Route path="/staff/notifications" element={<StaffProtectedRoute><StaffNotifications /></StaffProtectedRoute>} />
         <Route path="/staff/admin/outlets" element={<SuperAdminRoute><Outlets /></SuperAdminRoute>} />
         <Route path="/staff/admin/outlets/new" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/outlets/:id/edit" element={<SuperAdminRoute><OutletForm /></SuperAdminRoute>} />
@@ -86,6 +95,10 @@ function App() {
         <Route path="/staff/admin/clothing-types" element={<SuperAdminRoute><ClothingTypes /></SuperAdminRoute>} />
         <Route path="/staff/admin/clothing-types/new" element={<SuperAdminRoute><ClothingTypeForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/clothing-types/:id/edit" element={<SuperAdminRoute><ClothingTypeForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/orders/pending-process" element={<OutletAdminRoute><PendingProcessOrders /></OutletAdminRoute>} />
+        <Route path="/staff/admin/orders/:id/process" element={<OutletAdminRoute><ProcessOrderForm /></OutletAdminRoute>} />
+        <Route path="/staff/admin/bypass-requests" element={<OutletAdminRoute><BypassRequests /></OutletAdminRoute>} />
+        <Route path="/staff/admin/orders" element={<OutletAdminRoute><OutletOrders /></OutletAdminRoute>} />
       </Routes>
     </Layout>
   );

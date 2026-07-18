@@ -1,23 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Clock, History, ListChecks, Package, Shirt, Truck } from "lucide-react";
+import { Bell, ClipboardList, Clock, History, ListChecks, Package, PackageSearch, ShieldAlert, Shirt, Truck, UserRound } from "lucide-react";
 import { useStaffAuth } from "../context/StaffAuthContext";
 import { useStaffLogoutMutation } from "../hooks/staffAuth/useStaffLogoutMutation";
+import { useStaffUnreadCountQuery } from "../hooks/staffNotifications/useStaffUnreadCountQuery";
 import { STATION_FOR_ROLE, STATION_LABEL } from "../components/worker/workerConstants";
+import { ROLE_LABEL } from "../constants/roleLabels";
 import "../styles/auth.css";
-
-const ROLE_LABEL: Record<string, string> = {
-  super_admin: "Super Admin",
-  outlet_admin: "Admin Outlet",
-  washing_worker: "Worker Cuci",
-  ironing_worker: "Worker Setrika",
-  packing_worker: "Worker Packing",
-  driver: "Driver",
-};
 
 export function StaffDashboard() {
   const { employee } = useStaffAuth();
   const navigate = useNavigate();
   const logoutMutation = useStaffLogoutMutation();
+  const unreadCountQuery = useStaffUnreadCountQuery();
+  const unreadCount = unreadCountQuery.data?.unread_count ?? 0;
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
@@ -71,6 +66,23 @@ export function StaffDashboard() {
             </div>
           )}
 
+          {employee?.role === "outlet_admin" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
+              <Link to="/staff/admin/orders" className="auth-button">
+                <ClipboardList className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Semua Pesanan
+              </Link>
+              <Link to="/staff/admin/orders/pending-process" className="auth-button auth-button-secondary">
+                <PackageSearch className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Proses Pesanan
+              </Link>
+              <Link to="/staff/admin/bypass-requests" className="auth-button auth-button-secondary">
+                <ShieldAlert className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Permintaan Bypass
+              </Link>
+            </div>
+          )}
+
           {employee?.role === "driver" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
               <Link to="/staff/attendance" className="auth-button auth-button-secondary">
@@ -96,14 +108,24 @@ export function StaffDashboard() {
             </div>
           )}
 
-          <button
-            className="auth-button auth-button-secondary"
-            type="button"
-            onClick={handleLogout}
-            disabled={logoutMutation.isPending}
-          >
-            {logoutMutation.isPending ? "Keluar..." : "Keluar"}
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
+            <Link to="/staff/notifications" className="auth-button auth-button-secondary">
+              <Bell className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              Notifikasi{unreadCount > 0 ? ` (${unreadCount})` : ""}
+            </Link>
+            <Link to="/staff/profile" className="auth-button auth-button-secondary">
+              <UserRound className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              Profil
+            </Link>
+            <button
+              className="auth-button auth-button-secondary"
+              type="button"
+              onClick={handleLogout}
+              disabled={logoutMutation.isPending}
+            >
+              {logoutMutation.isPending ? "Keluar..." : "Keluar"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

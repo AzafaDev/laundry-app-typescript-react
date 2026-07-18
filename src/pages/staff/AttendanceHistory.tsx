@@ -1,11 +1,24 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 import { useMyAttendanceLogsQuery } from "../../hooks/attendance/useMyAttendanceLogsQuery";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
+import { Card } from "../../components/ui/Card";
+import { Pagination } from "../../components/ui/Pagination";
+import { LoadingState, EmptyState } from "../../components/ui/PageState";
+import { BackLink } from "../../components/ui/BackLink";
 import "../../styles/auth.css";
 
 const LIMIT = 20;
+const STATUS_LABEL: Record<string, string> = {
+  on_time: "Tepat waktu",
+  late: "Telat",
+  absent: "Tidak hadir",
+};
+const STATUS_BADGE: Record<string, string> = {
+  on_time: "bg-primary/10 text-primary",
+  late: "bg-amber-100 text-amber-700",
+  absent: "bg-error/10 text-error",
+};
 
 export function AttendanceHistory() {
   const [page, setPage] = useState(1);
@@ -14,63 +27,50 @@ export function AttendanceHistory() {
 
   const logs = logsQuery.data?.data ?? [];
   const total = logsQuery.data?.total_count ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / LIMIT));
 
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <Link to="/staff/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Kembali ke dashboard
-      </Link>
+      <BackLink to="/staff/dashboard">Kembali ke dashboard</BackLink>
 
       <h1 className="text-2xl font-bold text-on-surface">Riwayat Absensi</h1>
 
       <ApiErrorMessage error={logsQuery.error} />
 
-      {logsQuery.isLoading && <p className="text-sm text-on-surface-variant">Memuat...</p>}
-      {!logsQuery.isLoading && logs.length === 0 && (
-        <p className="text-sm text-on-surface-variant">Belum ada riwayat absensi.</p>
+      {logsQuery.isLoading && (
+        <Card>
+          <LoadingState label="Memuat riwayat absensi..." bordered={false} />
+        </Card>
+      )}
+
+      {!logsQuery.isLoading && logs.length === 0 && !logsQuery.isError && (
+        <Card>
+          <EmptyState icon={CalendarClock} title="Belum ada riwayat" description="Riwayat check-in/check-out kamu akan muncul di sini." />
+        </Card>
       )}
 
       <div className="space-y-2">
         {logs.map((log) => (
-          <div key={log.id} className="rounded-xl border border-outline-variant bg-surface p-4 flex items-center justify-between">
+          <div key={log.id} className="rounded-xl border border-outline-variant bg-surface p-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-sm font-medium text-on-surface">{log.date}</p>
+              {log.outlet_name && <p className="text-xs text-on-surface-variant">{log.outlet_name}</p>}
               <p className="text-xs text-on-surface-variant">
                 {log.check_in_time ? new Date(log.check_in_time).toLocaleTimeString("id-ID") : "-"} —{" "}
                 {log.check_out_time ? new Date(log.check_out_time).toLocaleTimeString("id-ID") : "-"}
               </p>
+              {log.is_late && <p className="text-xs text-error mt-0.5">Telat {log.late_minutes} menit</p>}
+              {log.notes && <p className="text-xs text-on-surface-variant italic mt-0.5">"{log.notes}"</p>}
             </div>
-            <div className="text-right">
-              <p className="text-xs font-semibold text-on-surface">{log.status}</p>
-              {log.is_late && <p className="text-xs text-error">Telat {log.late_minutes} menit</p>}
-            </div>
+            {log.status && (
+              <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold shrink-0 ${STATUS_BADGE[log.status] ?? ""}`}>
+                {STATUS_LABEL[log.status] ?? log.status}
+              </span>
+            )}
           </div>
         ))}
       </div>
 
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-3 pt-2">
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="text-sm font-medium text-primary disabled:opacity-40"
-          >
-            Sebelumnya
-          </button>
-          <span className="text-sm text-on-surface-variant">{page} / {totalPages}</span>
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className="text-sm font-medium text-primary disabled:opacity-40"
-          >
-            Berikutnya
-          </button>
-        </div>
-      )}
+      {logs.length > 0 && <Pagination page={page} limit={LIMIT} totalCount={total} onPageChange={setPage} />}
     </main>
   );
 }

@@ -8,6 +8,7 @@ import { useHardDeleteEmployeeMutation } from "../../hooks/employees/useHardDele
 import { useResendInviteMutation } from "../../hooks/employees/useResendInviteMutation";
 import { useStaffAuth } from "../../context/StaffAuthContext";
 import type { Employee, EmployeeRole } from "../../types/employee";
+import { BackLink } from "../../components/ui/BackLink";
 import "../../styles/auth.css";
 import "../../styles/admin.css";
 
@@ -137,6 +138,7 @@ export function Employees() {
 
   return (
     <div className="admin-page admin-page-wide">
+      <BackLink to="/staff/dashboard" className="mb-4">Kembali ke dashboard</BackLink>
       <div className="admin-page-header">
         <h1>Karyawan</h1>
         <Link to="/staff/admin/employees/new" className="auth-toggle">TAMBAH KARYAWAN</Link>

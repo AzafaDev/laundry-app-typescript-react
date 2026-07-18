@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -16,6 +16,14 @@ export function Navbar() {
   const unreadCount = unreadCountQuery.data?.unread_count ?? 0;
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
@@ -41,6 +49,8 @@ export function Navbar() {
           >
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
+
+          {menuOpen && <div className="navbar-backdrop" onClick={closeMenu} />}
 
           <div className={`navbar-links ${menuOpen ? "navbar-links-open" : ""}`}>
             <button

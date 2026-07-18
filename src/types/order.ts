@@ -17,10 +17,13 @@ export interface Order {
   outlet_id: string;
   outlet_name?: string;
   outlet_address?: string;
+  customer_name?: string;
+  customer_phone?: string;
   pickup_address_id: string;
   status: OrderStatus;
   pickup_date: string;
   delivery_fee: number;
+  total_weight_kg?: number;
   total_price: number;
   created_at: string;
   message?: string;

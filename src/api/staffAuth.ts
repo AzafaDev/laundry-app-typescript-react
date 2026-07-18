@@ -19,3 +19,6 @@ export const forgotPassword = (email: string) =>
 
 export const resetPassword = (data: { token: string; new_password: string; confirm_password: string }) =>
   request<Employee>("/api/v1/employee/auth/reset-password", { method: "POST", body: JSON.stringify(data) });
+
+export const changeStaffPassword = (data: { current_password: string; new_password: string; confirm_password: string }) =>
+  request<Employee>("/api/v1/employee/profile/password", { method: "PATCH", body: JSON.stringify(data) });

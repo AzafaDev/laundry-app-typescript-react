@@ -58,8 +58,10 @@ export interface StationHistoryResponse {
 export interface BypassRequest {
   id: string;
   order_id: string;
+  invoice_number?: string;
   station: string;
   requested_by: string;
+  requested_by_name?: string;
   expected_items: NormalizedItem[];
   actual_items: NormalizedItem[];
   discrepancy_description: string;
@@ -68,4 +70,9 @@ export interface BypassRequest {
   status: "pending" | "approved" | "rejected";
   reviewed_by?: string;
   admin_notes?: string;
+}
+
+export interface BypassListResponse {
+  data: BypassRequest[];
+  total_count: number;
 }

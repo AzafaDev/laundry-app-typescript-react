@@ -37,11 +37,18 @@ export interface CreateBypassInput {
   discrepancy_description: string;
   actual_items: ActualBreakdownItem[];
   actual_satuan_items: ActualSatuanItem[];
-  photo_evidence?: string[];
+  photos?: File[];
 }
 
-export const createBypassRequest = (data: CreateBypassInput) =>
-  request<BypassRequest>("/api/v1/employee/worker/bypass", { method: "POST", body: JSON.stringify(data) });
+export const createBypassRequest = (data: CreateBypassInput) => {
+  const { photos, ...payload } = data;
+  const formData = new FormData();
+  formData.append("payload", JSON.stringify(payload));
+  for (const photo of photos ?? []) {
+    formData.append("photos", photo);
+  }
+  return request<BypassRequest>("/api/v1/employee/worker/bypass", { method: "POST", body: formData });
+};
 
 export const getBypassByOrder = (orderId: string) =>
   request<{ data: BypassRequest[] }>(`/api/v1/employee/worker/orders/${orderId}/bypass`);

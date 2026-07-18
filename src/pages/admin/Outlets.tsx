@@ -3,6 +3,7 @@ import { usePaginationParams } from "../../hooks/usePaginationParams";
 import { useOutletsQuery } from "../../hooks/outlets/useOutletsQuery";
 import { useDeleteOutletMutation } from "../../hooks/outlets/useDeleteOutletMutation";
 import type { Outlet } from "../../types/outlet";
+import { BackLink } from "../../components/ui/BackLink";
 import "../../styles/auth.css";
 import "../../styles/admin.css";
 
@@ -51,6 +52,7 @@ export function Outlets() {
 
   return (
     <div className="admin-page">
+      <BackLink to="/staff/dashboard" className="mb-4">Kembali ke dashboard</BackLink>
       <div className="admin-page-header">
         <h1>Outlet</h1>
         <Link to="/staff/admin/outlets/new" className="auth-toggle">TAMBAH OUTLET</Link>
