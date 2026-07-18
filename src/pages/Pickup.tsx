@@ -143,13 +143,13 @@ export function Pickup() {
 
       <section className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm space-y-5">
         <h2 className="text-base font-bold text-on-surface">Jadwal Pickup</h2>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-1 px-1 pb-1">
           {PICKUP_DATES.map((d) => (
             <button
               key={d.key}
               type="button"
               onClick={() => setValue("pickup_date", d.key, { shouldValidate: true })}
-              className={`py-3 px-2 rounded-2xl border-2 text-center transition-all ${
+              className={`shrink-0 w-[76px] snap-start py-3 px-2 rounded-2xl border-2 text-center transition-all ${
                 selectedDate === d.key ? "border-primary bg-primary/5" : "border-outline-variant bg-surface hover:border-primary/40"
               }`}
             >
