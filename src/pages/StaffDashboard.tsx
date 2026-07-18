@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Clock, History, Package } from "lucide-react";
+import { Clock, History, ListChecks, Package, Truck } from "lucide-react";
 import { useStaffAuth } from "../context/StaffAuthContext";
 import { useStaffLogoutMutation } from "../hooks/staffAuth/useStaffLogoutMutation";
 import { STATION_FOR_ROLE, STATION_LABEL } from "../components/worker/workerConstants";
@@ -55,6 +55,31 @@ export function StaffDashboard() {
               <Link to="/staff/station/history" className="auth-button auth-button-secondary">
                 <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
                 Riwayat {STATION_LABEL[station]}
+              </Link>
+              <Link to="/staff/attendance/history" className="auth-button auth-button-secondary">
+                <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Riwayat Absensi
+              </Link>
+            </div>
+          )}
+
+          {employee?.role === "driver" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
+              <Link to="/staff/attendance" className="auth-button auth-button-secondary">
+                <Clock className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Absensi
+              </Link>
+              <Link to="/staff/driver/tasks" className="auth-button">
+                <ListChecks className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Task Tersedia
+              </Link>
+              <Link to="/staff/driver/active" className="auth-button auth-button-secondary">
+                <Truck className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Task Aktif
+              </Link>
+              <Link to="/staff/driver/history" className="auth-button auth-button-secondary">
+                <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Riwayat Task
               </Link>
               <Link to="/staff/attendance/history" className="auth-button auth-button-secondary">
                 <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />

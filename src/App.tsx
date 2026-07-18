@@ -6,6 +6,7 @@ import { StaffProtectedRoute } from "./components/StaffProtectedRoute";
 import { StaffGuestRoute } from "./components/StaffGuestRoute";
 import { SuperAdminRoute } from "./components/SuperAdminRoute";
 import { WorkerRoute } from "./components/WorkerRoute";
+import { DriverRoute } from "./components/DriverRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -34,6 +35,9 @@ import { Attendance } from "./pages/staff/Attendance";
 import { AttendanceHistory } from "./pages/staff/AttendanceHistory";
 import { Station } from "./pages/staff/Station";
 import { StationHistory } from "./pages/staff/StationHistory";
+import { DriverTasks } from "./pages/staff/DriverTasks";
+import { DriverActiveTask } from "./pages/staff/DriverActiveTask";
+import { DriverTaskHistory } from "./pages/staff/DriverTaskHistory";
 
 function App() {
   return (
@@ -69,6 +73,9 @@ function App() {
         <Route path="/staff/attendance/history" element={<StaffProtectedRoute><AttendanceHistory /></StaffProtectedRoute>} />
         <Route path="/staff/station" element={<WorkerRoute><Station /></WorkerRoute>} />
         <Route path="/staff/station/history" element={<WorkerRoute><StationHistory /></WorkerRoute>} />
+        <Route path="/staff/driver/tasks" element={<DriverRoute><DriverTasks /></DriverRoute>} />
+        <Route path="/staff/driver/active" element={<DriverRoute><DriverActiveTask /></DriverRoute>} />
+        <Route path="/staff/driver/history" element={<DriverRoute><DriverTaskHistory /></DriverRoute>} />
       </Routes>
     </Layout>
   );

@@ -48,6 +48,15 @@ export function StaffNavbar() {
                 <Link to="/staff/attendance/history" className="navbar-link">Riwayat Absensi</Link>
               </>
             )}
+            {employee?.role === "driver" && (
+              <>
+                <Link to="/staff/attendance" className="navbar-link">Absensi</Link>
+                <Link to="/staff/driver/tasks" className="navbar-link">Task Tersedia</Link>
+                <Link to="/staff/driver/active" className="navbar-link">Task Aktif</Link>
+                <Link to="/staff/driver/history" className="navbar-link">Riwayat Task</Link>
+                <Link to="/staff/attendance/history" className="navbar-link">Riwayat Absensi</Link>
+              </>
+            )}
             <span className="navbar-link">{employee?.role}</span>
             <button
               type="button"

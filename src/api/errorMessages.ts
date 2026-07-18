@@ -53,4 +53,10 @@ export const errorMessages: Record<string, string> = {
   no_active_shift: "Kamu tidak punya shift aktif",
   invalid_station: "Station tidak valid",
   station_access_denied: "Kamu tidak punya akses ke station ini",
+  driver_has_active_task: "Kamu masih punya task aktif, selesaikan dulu sebelum ambil task baru",
+  invalid_task_id: "Task tidak valid",
+  task_not_found: "Task tidak ditemukan",
+  task_already_claimed: "Task sudah diambil driver lain",
+  task_not_completable: "Task ini tidak bisa diselesaikan",
+  order_status_mismatch: "Status pesanan sudah berubah, coba muat ulang",
 };
