@@ -103,3 +103,52 @@ export async function requestAllowStatus<T>(
 
   return data as T;
 }
+
+// Download a file from a blob response endpoint. Handles 422 errors specially
+// (e.g., export data too large) by parsing the error as JSON rather than a blob.
+export async function downloadFile(path: string, options: RequestInit = {}): Promise<void> {
+  const method = (options.method ?? "GET").toUpperCase();
+  const csrfToken = MUTATING_METHODS.has(method) ? getCsrfToken() : null;
+
+  const res = await fetch(`${BASE_URL}${path}`, {
+    ...options,
+    credentials: "include",
+    headers: {
+      ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+      ...options.headers,
+    },
+  });
+
+  // 422 (unprocessable entity) returns JSON error, not a blob
+  if (res.status === 422) {
+    const data = await res.json().catch(() => ({}));
+    throw new ApiError(res.status, data.error ?? data.message ?? "Terjadi kesalahan");
+  }
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new ApiError(res.status, data.error ?? data.message ?? "Terjadi kesalahan");
+  }
+
+  const blob = await res.blob();
+  const filename = extractFilename(res.headers.get("content-disposition") ?? "");
+
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+// Extract filename from Content-Disposition header. e.g.,
+// "attachment; filename=attendance_report_2026-07-18.csv" → "attendance_report_2026-07-18.csv"
+function extractFilename(contentDisposition: string): string {
+  const match = contentDisposition.match(/filename=([^;]+)/);
+  if (match && match[1]) {
+    return match[1].replace(/^["']|["']$/g, "");
+  }
+  return "download";
+}

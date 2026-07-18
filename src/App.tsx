@@ -8,6 +8,7 @@ import { SuperAdminRoute } from "./components/SuperAdminRoute";
 import { WorkerRoute } from "./components/WorkerRoute";
 import { DriverRoute } from "./components/DriverRoute";
 import { OutletAdminRoute } from "./components/OutletAdminRoute";
+import { AdminRoute } from "./components/AdminRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -45,6 +46,9 @@ import { ClothingTypes } from "./pages/admin/ClothingTypes";
 import { ClothingTypeForm } from "./pages/admin/ClothingTypeForm";
 import { WorkShifts } from "./pages/admin/WorkShifts";
 import { WorkShiftForm } from "./pages/admin/WorkShiftForm";
+import { AttendanceReport } from "./pages/admin/AttendanceReport";
+import { SalesReport } from "./pages/admin/SalesReport";
+import { EmployeePerformanceReport } from "./pages/admin/EmployeePerformanceReport";
 import { PendingProcessOrders } from "./pages/admin/PendingProcessOrders";
 import { ProcessOrderForm } from "./pages/admin/ProcessOrderForm";
 import { StaffProfile } from "./pages/staff/StaffProfile";
@@ -100,6 +104,9 @@ function App() {
         <Route path="/staff/admin/shifts" element={<SuperAdminRoute><WorkShifts /></SuperAdminRoute>} />
         <Route path="/staff/admin/shifts/new" element={<SuperAdminRoute><WorkShiftForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/shifts/:id/edit" element={<SuperAdminRoute><WorkShiftForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/attendance" element={<AdminRoute><AttendanceReport /></AdminRoute>} />
+        <Route path="/staff/admin/reports/sales" element={<AdminRoute><SalesReport /></AdminRoute>} />
+        <Route path="/staff/admin/reports/employee-performance" element={<AdminRoute><EmployeePerformanceReport /></AdminRoute>} />
         <Route path="/staff/admin/orders/pending-process" element={<OutletAdminRoute><PendingProcessOrders /></OutletAdminRoute>} />
         <Route path="/staff/admin/orders/:id/process" element={<OutletAdminRoute><ProcessOrderForm /></OutletAdminRoute>} />
         <Route path="/staff/admin/bypass-requests" element={<OutletAdminRoute><BypassRequests /></OutletAdminRoute>} />

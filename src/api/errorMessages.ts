@@ -96,4 +96,5 @@ export const errorMessages: Record<string, string> = {
   invalid_day_of_week: "Hari dalam minggu tidak valid (harus 0–6)",
   must_set_day_of_week_xor_date: "Pilih salah satu: hari dalam minggu atau tanggal spesifik",
   invalid_date: "Format tanggal tidak valid (gunakan YYYY-MM-DD)",
+  "data terlalu besar, persempit filter": "Data terlalu besar, persempit filter",
 };
