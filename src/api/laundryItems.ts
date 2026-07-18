@@ -2,6 +2,14 @@ import { request } from "./client";
 import type { LaundryItem } from "../types/laundryItem";
 import type { PaginatedResponse } from "../types/pagination";
 
+export interface PublicLaundryItem {
+  id: string;
+  name: string;
+  description: string;
+  unit: string;
+  base_price: number;
+}
+
 export interface LaundryItemRequestData {
   name: string;
   description: string;
@@ -9,6 +17,9 @@ export interface LaundryItemRequestData {
   base_price: number;
   is_active: boolean;
 }
+
+export const getPublicLaundryItems = () =>
+  request<{ data: PublicLaundryItem[] }>("/api/v1/customer/laundry-items");
 
 export const getLaundryItems = (limit: number, offset: number) =>
   request<PaginatedResponse<LaundryItem>>(`/api/v1/employee/admin/laundry-items?limit=${limit}&offset=${offset}`);

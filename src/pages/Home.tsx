@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
+import { usePublicLaundryItemsQuery } from "../hooks/laundryItems/usePublicLaundryItemsQuery";
 import { ClaimTag } from "../components/ui/ClaimTag";
 import { buttonClasses } from "../components/ui/buttonStyles";
 
@@ -14,6 +15,7 @@ const HOW_IT_WORKS = [
 export function Home() {
   const { customer, isLoading: authLoading, isAuthenticated } = useAuth();
   const addressesQuery = useAddressesQuery(isAuthenticated);
+  const laundryItemsQuery = usePublicLaundryItemsQuery(!isAuthenticated);
 
   if (authLoading || (isAuthenticated && addressesQuery.isLoading)) {
     return (
@@ -65,8 +67,10 @@ export function Home() {
     );
   }
 
+  const laundryItems = laundryItemsQuery.data?.data ?? [];
+
   return (
-    <div className="min-h-[100svh] flex flex-col items-center justify-center text-center px-6 py-12">
+    <div className="min-h-[100svh] flex flex-col items-center justify-center text-center px-6 py-12 gap-8">
       <ClaimTag className="max-w-[420px] w-full text-left">
         <span className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">Tiket Digital</span>
         <h1 className="mt-2 text-3xl font-bold text-on-surface">Laundry jadi lebih mudah</h1>
@@ -91,6 +95,40 @@ export function Home() {
           ))}
         </ol>
       </ClaimTag>
+
+      {laundryItemsQuery.isLoading ? (
+        <div className="max-w-[420px] w-full flex items-center justify-center py-8">
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+        </div>
+      ) : laundryItems.length > 0 ? (
+        <ClaimTag className="max-w-[420px] w-full text-left">
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">Daftar Harga</span>
+          <h2 className="mt-2 text-2xl font-bold text-on-surface">Layanan Laundry</h2>
+
+          <div className="mt-5 space-y-3">
+            {laundryItems.map((item) => (
+              <div key={item.id} className="py-3 border-b border-dashed border-outline-variant last:border-0">
+                <div className="flex items-baseline justify-between gap-4">
+                  <div className="text-left">
+                    <p className="font-bold text-sm text-on-surface">{item.name}</p>
+                    {item.description && (
+                      <p className="text-xs text-on-surface-variant mt-0.5">{item.description}</p>
+                    )}
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="font-mono text-sm font-semibold text-primary">
+                      Rp{item.base_price.toLocaleString("id-ID")}
+                    </p>
+                    <p className="text-xs text-on-surface-variant mt-0.5">/{item.unit}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-5 text-xs text-on-surface-variant italic">Harga dasar per item. Total akan dihitung saat melakukan pemesanan.</p>
+        </ClaimTag>
+      ) : null}
     </div>
   );
 }

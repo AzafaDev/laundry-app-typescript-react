@@ -5,6 +5,6 @@ export function useHardDeleteWorkShiftMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: hardDeleteWorkShift,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["work-shifts"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["work-shifts-deleted"] }),
   });
 }
