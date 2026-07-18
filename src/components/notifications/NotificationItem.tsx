@@ -36,8 +36,10 @@ export function NotificationItem({ notification, onMarkRead }: Props) {
       onClick={() => {
         if (!notification.is_read) onMarkRead(notification.id);
       }}
-      className={`w-full text-left rounded-2xl border p-4 flex gap-3 items-start transition-colors ${
-        notification.is_read ? "border-outline-variant bg-surface" : "border-primary/30 bg-primary/5"
+      className={`w-full text-left rounded-2xl border p-4 flex gap-3 items-start transition-all duration-200 ease-out ${
+        notification.is_read
+          ? "border-outline-variant bg-surface"
+          : "border-primary/30 bg-primary/5 hover:bg-primary/10 hover:border-primary/50 active:scale-[0.99]"
       }`}
     >
       <div

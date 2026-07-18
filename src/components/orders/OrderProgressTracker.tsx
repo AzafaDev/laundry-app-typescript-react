@@ -61,7 +61,7 @@ export function OrderProgressTracker({ order, onComplete, isCompleting, onCompla
           return (
             <li key={step.key} className="relative flex items-start gap-3 pb-4 last:pb-0">
               <span
-                className={`relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 ${
+                className={`relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
                   isCurrent
                     ? "border-primary bg-primary text-on-primary"
                     : isDone

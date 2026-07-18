@@ -11,7 +11,7 @@ export function OrderCard({ order }: { order: Order }) {
   return (
     <Link
       to={`/orders/${order.id}`}
-      className="block rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm hover:border-primary/40 transition-colors"
+      className="block rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm hover:border-primary/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-out"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
