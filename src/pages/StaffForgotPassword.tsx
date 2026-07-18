@@ -5,7 +5,10 @@ import { useStaffForgotPasswordMutation } from "../hooks/staffAuth/useStaffForgo
 import { forgotPasswordSchema, type ForgotPasswordFormValues } from "../schemas/auth";
 import { FormField } from "../components/FormField";
 import { ApiErrorMessage } from "../components/ApiErrorMessage";
-import "../styles/auth.css";
+import { Button } from "../components/ui/Button";
+import { buttonClasses } from "../components/ui/buttonStyles";
+import { inputClasses } from "../components/ui/Input";
+import { AuthShell } from "../components/ui/AuthShell";
 
 export function StaffForgotPassword() {
   const {
@@ -24,47 +27,43 @@ export function StaffForgotPassword() {
 
   if (mutation.isSuccess) {
     return (
-      <div className="auth-shell" data-portal="staff">
-        <div className="auth-card auth-success">
-          <h2>Cek email kamu</h2>
-          <p className="auth-success-text">{mutation.data?.message}</p>
-          <Link to="/staff/login" className="auth-button">Kembali ke halaman masuk</Link>
+      <AuthShell data-portal="staff">
+        <div className="w-full max-w-sm rounded-3xl border border-outline-variant bg-surface-container-lowest p-7 shadow-sm space-y-5 text-center">
+          <h2 className="text-xl font-bold text-on-surface">Cek email kamu</h2>
+          <p className="text-sm text-on-surface-variant">{mutation.data?.message}</p>
+          <Link to="/staff/login" className={buttonClasses("primary", "md", "w-full")}>Kembali ke halaman masuk</Link>
         </div>
-      </div>
+      </AuthShell>
     );
   }
 
   return (
-    <div className="auth-shell" data-portal="staff">
-      <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Lupa kata sandi</h2>
-        <p>Masukkan email kamu, nanti kami kirim link buat atur ulang kata sandi.</p>
+    <AuthShell data-portal="staff">
+      <form
+        className="w-full max-w-sm rounded-3xl border border-outline-variant bg-surface-container-lowest p-7 shadow-sm space-y-5"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div>
+          <h2 className="text-xl font-bold text-on-surface">Lupa kata sandi</h2>
+          <p className="mt-1 text-sm text-on-surface-variant">Masukkan email kamu, nanti kami kirim link buat atur ulang kata sandi.</p>
+        </div>
 
         <FormField label="Email" htmlFor="email" error={errors.email?.message}>
-          <div className="auth-input-wrap">
-            <input
-              id="email"
-              className="auth-input"
-              type="email"
-              autoComplete="email"
-              autoFocus
-              {...register("email")}
-            />
-          </div>
+          <input id="email" className={inputClasses} type="email" autoComplete="email" autoFocus {...register("email")} />
         </FormField>
 
         <ApiErrorMessage error={mutation.error} />
 
-        <button className="auth-button" type="submit" disabled={mutation.isPending}>
+        <Button type="submit" fullWidth isLoading={mutation.isPending}>
           {mutation.isPending ? "Mengirim..." : "Kirim link reset"}
-        </button>
+        </Button>
 
-        <hr className="auth-divider" />
+        <hr className="border-outline-variant" />
 
-        <p className="auth-link">
-          <Link to="/staff/login">Kembali ke halaman masuk</Link>
+        <p className="text-center text-sm text-on-surface-variant">
+          <Link to="/staff/login" className="font-semibold text-primary hover:underline">Kembali ke halaman masuk</Link>
         </p>
       </form>
-    </div>
+    </AuthShell>
   );
 }

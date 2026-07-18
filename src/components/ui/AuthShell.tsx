@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from "react";
+import { ClaimTag } from "./ClaimTag";
 
 export function AuthShell({ className = "", ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
@@ -10,10 +11,5 @@ export function AuthShell({ className = "", ...props }: HTMLAttributes<HTMLDivEl
 }
 
 export function AuthCard({ className = "", ...props }: HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={`w-full max-w-sm rounded-3xl border border-outline-variant bg-surface-container-lowest p-8 shadow-sm space-y-5 ${className}`}
-      {...props}
-    />
-  );
+  return <ClaimTag className={`w-full max-w-sm space-y-5 ${className}`} {...props} />;
 }

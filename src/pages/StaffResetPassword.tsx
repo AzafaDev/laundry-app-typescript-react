@@ -6,7 +6,9 @@ import { resetPasswordSchema, type ResetPasswordFormValues } from "../schemas/au
 import { PasswordInput } from "../components/PasswordInput";
 import { FormField } from "../components/FormField";
 import { ApiErrorMessage } from "../components/ApiErrorMessage";
-import "../styles/auth.css";
+import { Button } from "../components/ui/Button";
+import { inputClasses } from "../components/ui/Input";
+import { AuthShell } from "../components/ui/AuthShell";
 
 export function StaffResetPassword() {
   const [searchParams] = useSearchParams();
@@ -31,58 +33,48 @@ export function StaffResetPassword() {
   };
 
   return (
-    <div className="auth-shell" data-portal="staff">
-      <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Atur ulang kata sandi</h2>
-        <p>
-          {tokenFromUrl
-            ? "Pilih kata sandi baru."
-            : "Masukkan token dari email kamu, lalu pilih kata sandi baru."}
-        </p>
+    <AuthShell data-portal="staff">
+      <form
+        className="w-full max-w-sm rounded-3xl border border-outline-variant bg-surface-container-lowest p-7 shadow-sm space-y-5"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div>
+          <h2 className="text-xl font-bold text-on-surface">Atur ulang kata sandi</h2>
+          <p className="mt-1 text-sm text-on-surface-variant">
+            {tokenFromUrl
+              ? "Pilih kata sandi baru."
+              : "Masukkan token dari email kamu, lalu pilih kata sandi baru."}
+          </p>
+        </div>
 
         {tokenFromUrl ? (
           <input type="hidden" {...register("token")} />
         ) : (
           <FormField label="Token" htmlFor="token" hint="salin kode panjang dari link di email" error={errors.token?.message}>
-            <div className="auth-input-wrap">
-              <input
-                id="token"
-                className="auth-input"
-                autoComplete="off"
-                {...register("token")}
-              />
-            </div>
+            <input id="token" className={inputClasses} autoComplete="off" {...register("token")} />
           </FormField>
         )}
 
         <FormField label="Kata sandi baru" htmlFor="new_password" hint="minimal 8 karakter" error={errors.new_password?.message}>
-          <PasswordInput
-            id="new_password"
-            autoComplete="new-password"
-            {...register("new_password")}
-          />
+          <PasswordInput id="new_password" autoComplete="new-password" {...register("new_password")} />
         </FormField>
 
         <FormField label="Konfirmasi kata sandi" htmlFor="confirm_password" error={errors.confirm_password?.message}>
-          <PasswordInput
-            id="confirm_password"
-            autoComplete="new-password"
-            {...register("confirm_password")}
-          />
+          <PasswordInput id="confirm_password" autoComplete="new-password" {...register("confirm_password")} />
         </FormField>
 
         <ApiErrorMessage error={mutation.error} />
 
-        <button className="auth-button" type="submit" disabled={mutation.isPending}>
+        <Button type="submit" fullWidth isLoading={mutation.isPending}>
           {mutation.isPending ? "Memproses..." : "Atur ulang kata sandi"}
-        </button>
+        </Button>
 
-        <hr className="auth-divider" />
+        <hr className="border-outline-variant" />
 
-        <p className="auth-link">
-          <Link to="/staff/login">Kembali ke halaman masuk</Link>
+        <p className="text-center text-sm text-on-surface-variant">
+          <Link to="/staff/login" className="font-semibold text-primary hover:underline">Kembali ke halaman masuk</Link>
         </p>
       </form>
-    </div>
+    </AuthShell>
   );
 }

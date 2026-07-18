@@ -40,37 +40,48 @@
   --border: rgba(28, 36, 34, 0.16);
 }
 
+/*
+ * Staff portal keeps its own amber/rust identity, distinct from the
+ * customer app's wash-teal — scoped to [data-portal="staff"] so it only
+ * ever applies within the staff auth shell, never bleeding into the
+ * customer-facing M3 tokens defined in index.css.
+ */
 [data-portal="staff"] {
   --accent: #a85a26;
+
+  --color-primary: #a85a26;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #fbe4d1;
+  --color-on-primary-container: #4a2a0d;
 }
 
 @media (prefers-color-scheme: dark) {
   [data-portal="staff"] {
     --accent: #e08f52;
-  }
 
-  [data-portal="staff"] .auth-button,
-  [data-portal="staff"] .auth-badge-staff {
-    color: #1c2422;
+    --color-primary: #e08f52;
+    --color-on-primary: #1c2422;
+    --color-primary-container: #5c3814;
+    --color-on-primary-container: #ffdbb8;
   }
 }
 
 :root[data-theme="dark"] [data-portal="staff"] {
   --accent: #e08f52;
-}
 
-:root[data-theme="dark"] [data-portal="staff"] .auth-button,
-:root[data-theme="dark"] [data-portal="staff"] .auth-badge-staff {
-  color: #1c2422;
+  --color-primary: #e08f52;
+  --color-on-primary: #1c2422;
+  --color-primary-container: #5c3814;
+  --color-on-primary-container: #ffdbb8;
 }
 
 :root[data-theme="light"] [data-portal="staff"] {
   --accent: #a85a26;
-}
 
-:root[data-theme="light"] [data-portal="staff"] .auth-button,
-:root[data-theme="light"] [data-portal="staff"] .auth-badge-staff {
-  color: #ffffff;
+  --color-primary: #a85a26;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #fbe4d1;
+  --color-on-primary-container: #4a2a0d;
 }
 
 .auth-shell {
@@ -162,20 +173,6 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-soft);
-}
-
-.auth-badge-staff {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #ffffff;
-  background: var(--accent);
-  padding: 3px 8px;
-  border-radius: 999px;
-  margin-bottom: 12px;
 }
 
 .auth-label-row {

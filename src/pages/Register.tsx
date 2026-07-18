@@ -10,6 +10,7 @@ import { Button } from "../components/ui/Button";
 import { buttonClasses } from "../components/ui/buttonStyles";
 import { inputClasses } from "../components/ui/Input";
 import { AuthShell, AuthCard } from "../components/ui/AuthShell";
+import { ClaimTag } from "../components/ui/ClaimTag";
 
 export function Register() {
   const {
@@ -45,44 +46,46 @@ export function Register() {
 
   return (
     <AuthShell>
-      <form className="w-full max-w-sm rounded-3xl border border-outline-variant bg-surface-container-lowest p-8 shadow-sm space-y-5" onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <h2 className="text-xl font-bold text-on-surface">Daftar</h2>
-          <p className="mt-1 text-sm text-on-surface-variant">Simpan alamat dan kelola akun kamu dalam satu tempat, siap dipakai tiap kali butuh layanan laundry.</p>
-        </div>
+      <ClaimTag className="w-full max-w-sm">
+        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <h2 className="text-xl font-bold text-on-surface">Daftar</h2>
+            <p className="mt-1 text-sm text-on-surface-variant">Simpan alamat dan kelola akun kamu dalam satu tempat, siap dipakai tiap kali butuh layanan laundry.</p>
+          </div>
 
-        <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
-          <input id="full_name" className={inputClasses} autoComplete="name" autoFocus {...register("full_name")} />
-        </FormField>
+          <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
+            <input id="full_name" className={inputClasses} autoComplete="name" autoFocus {...register("full_name")} />
+          </FormField>
 
-        <FormField label="Email" htmlFor="email" hint="contoh: nama@email.com" error={errors.email?.message}>
-          <input id="email" className={inputClasses} type="email" autoComplete="email" {...register("email")} />
-        </FormField>
+          <FormField label="Email" htmlFor="email" hint="contoh: nama@email.com" error={errors.email?.message}>
+            <input id="email" className={inputClasses} type="email" autoComplete="email" {...register("email")} />
+          </FormField>
 
-        <FormField label="Nomor HP" htmlFor="phone" error={errors.phone?.message}>
-          <input id="phone" className={inputClasses} type="tel" autoComplete="tel" {...register("phone")} />
-        </FormField>
+          <FormField label="Nomor HP" htmlFor="phone" error={errors.phone?.message}>
+            <input id="phone" className={inputClasses} type="tel" autoComplete="tel" {...register("phone")} />
+          </FormField>
 
-        <FormField label="Kata sandi" htmlFor="password" hint="minimal 8 karakter" error={errors.password?.message}>
-          <PasswordInput id="password" autoComplete="new-password" {...register("password")} />
-        </FormField>
+          <FormField label="Kata sandi" htmlFor="password" hint="minimal 8 karakter" error={errors.password?.message}>
+            <PasswordInput id="password" autoComplete="new-password" {...register("password")} />
+          </FormField>
 
-        <FormField label="Konfirmasi kata sandi" htmlFor="confirm_password" error={errors.confirm_password?.message}>
-          <PasswordInput id="confirm_password" autoComplete="new-password" {...register("confirm_password")} />
-        </FormField>
+          <FormField label="Konfirmasi kata sandi" htmlFor="confirm_password" error={errors.confirm_password?.message}>
+            <PasswordInput id="confirm_password" autoComplete="new-password" {...register("confirm_password")} />
+          </FormField>
 
-        <ApiErrorMessage error={mutation.error} />
+          <ApiErrorMessage error={mutation.error} />
 
-        <Button type="submit" fullWidth isLoading={mutation.isPending}>
-          {mutation.isPending ? "Mendaftar..." : "Daftar"}
-        </Button>
+          <Button type="submit" fullWidth isLoading={mutation.isPending}>
+            {mutation.isPending ? "Mendaftar..." : "Daftar"}
+          </Button>
 
-        <hr className="border-outline-variant" />
+          <hr className="border-outline-variant" />
 
-        <p className="text-center text-sm text-on-surface-variant">
-          Sudah punya akun? <Link to="/login" className="font-semibold text-primary hover:underline">Masuk</Link>
-        </p>
-      </form>
+          <p className="text-center text-sm text-on-surface-variant">
+            Sudah punya akun? <Link to="/login" className="font-semibold text-primary hover:underline">Masuk</Link>
+          </p>
+        </form>
+      </ClaimTag>
     </AuthShell>
   );
 }
