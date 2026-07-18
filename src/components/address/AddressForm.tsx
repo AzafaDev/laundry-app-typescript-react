@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addressSchema, type AddressFormValues } from "../../schemas/address";
@@ -17,9 +18,10 @@ import { inputClasses } from "../ui/Input";
 interface AddressFormProps {
   initialData?: Address;
   onSuccess?: () => void;
+  onDirtyChange?: (isDirty: boolean) => void;
 }
 
-export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
+export function AddressForm({ initialData, onSuccess, onDirtyChange }: AddressFormProps) {
   const isEdit = !!initialData;
 
   const {
@@ -28,7 +30,7 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
     watch,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
     defaultValues: initialData
@@ -56,6 +58,10 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
   const isFirstAddress = !isEdit && addressesQuery.data?.length === 0;
   const isPrimaryLocked = isEdit && initialData!.is_primary;
 
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
   const wilayahValue: WilayahValue = {
     provinceId: watch("province_id"),
     cityId: watch("city_id"),
@@ -63,9 +69,9 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
   };
 
   const handleWilayahChange = (next: WilayahValue) => {
-    setValue("province_id", next.provinceId, { shouldValidate: true });
-    setValue("city_id", next.cityId, { shouldValidate: true });
-    setValue("district_id", next.districtId, { shouldValidate: true });
+    setValue("province_id", next.provinceId, { shouldValidate: true, shouldDirty: true });
+    setValue("city_id", next.cityId, { shouldValidate: true, shouldDirty: true });
+    setValue("district_id", next.districtId, { shouldValidate: true, shouldDirty: true });
   };
 
   const handleAutocompleteSelect = (result: { formatted: string; latitude: number; longitude: number }) => {
@@ -75,9 +81,9 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
     // snapshot (e.g. latitude set but longitude not yet), incorrectly
     // re-adding the error on "latitude" right before the next call could
     // otherwise clear it.
-    setValue("address", result.formatted);
-    setValue("latitude", result.latitude);
-    setValue("longitude", result.longitude);
+    setValue("address", result.formatted, { shouldDirty: true });
+    setValue("latitude", result.latitude, { shouldDirty: true });
+    setValue("longitude", result.longitude, { shouldDirty: true });
     trigger(["address", "latitude", "longitude"]);
 
     // A new search result may point to a different region than whatever
@@ -99,8 +105,8 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
     // same "no reliable link to our wilayah IDs" problem a new search
     // result does, and the two lat/lng fields must be validated together
     // against a fully-updated snapshot, not one-at-a-time.
-    setValue("latitude", lat);
-    setValue("longitude", lng);
+    setValue("latitude", lat, { shouldDirty: true });
+    setValue("longitude", lng, { shouldDirty: true });
     trigger(["latitude", "longitude"]);
     setValue("province_id", undefined);
     setValue("city_id", undefined);
