@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { UserRound } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useUploadAvatarMutation } from "../../hooks/profile/useUploadAvatarMutation";
 import { FormField } from "../FormField";
@@ -8,11 +9,23 @@ import { Button } from "../ui/Button";
 const sectionHeaderClasses = "flex items-center justify-between mb-2";
 const toggleClasses = "text-xs font-bold uppercase tracking-[0.06em] text-primary hover:underline";
 
+function AvatarPreview({ url, alt, broken, onError }: { url: string; alt: string; broken: boolean; onError: () => void }) {
+  if (broken) {
+    return (
+      <div className="h-24 w-24 rounded-full bg-surface-container flex items-center justify-center">
+        <UserRound className="h-10 w-10 text-outline" />
+      </div>
+    );
+  }
+  return <img src={url} alt={alt} onError={onError} className="h-24 w-24 rounded-full object-cover" />;
+}
+
 export function AvatarSection() {
   const { customer } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [brokenUrl, setBrokenUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const mutation = useUploadAvatarMutation();
@@ -47,6 +60,7 @@ export function AvatarSection() {
   };
 
   const displayUrl = previewUrl ?? customer?.avatar_url;
+  const isBroken = !!displayUrl && displayUrl === brokenUrl;
 
   if (!isEditing) {
     return (
@@ -56,7 +70,7 @@ export function AvatarSection() {
           <button type="button" className={toggleClasses} onClick={startEditing}>EDIT</button>
         </div>
         {displayUrl ? (
-          <img src={displayUrl} alt="Foto profil" className="h-24 w-24 rounded-full object-cover" />
+          <AvatarPreview url={displayUrl} alt="Foto profil" broken={isBroken} onError={() => setBrokenUrl(displayUrl)} />
         ) : (
           <p className="text-sm text-on-surface-variant">Belum ada foto profil.</p>
         )}
@@ -73,7 +87,7 @@ export function AvatarSection() {
       <p className="text-sm text-on-surface-variant">Unggah foto buat profil kamu.</p>
 
       {displayUrl && (
-        <img src={displayUrl} alt="Pratinjau foto profil" className="h-24 w-24 rounded-full object-cover" />
+        <AvatarPreview url={displayUrl} alt="Pratinjau foto profil" broken={isBroken} onError={() => setBrokenUrl(displayUrl)} />
       )}
 
       <FormField label="File gambar" htmlFor="avatar">
