@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, ClipboardList, RefreshCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, ClipboardList, RefreshCw } from "lucide-react";
 import { useOrdersQuery } from "../hooks/orders/useOrdersQuery";
 import { OrderCard } from "../components/orders/OrderCard";
 import { OrderFilters } from "../components/orders/OrderFilters";
 import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
 import { buttonClasses } from "../components/ui/buttonStyles";
+import { BackLink } from "../components/ui/BackLink";
 import type { OrderStatus } from "../types/order";
 
 const LIMIT = 10;
@@ -50,10 +51,7 @@ export function Orders() {
   return (
     <main className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-6">
       <div className="space-y-4">
-        <Link to="/pickup" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Buat order baru
-        </Link>
+        <BackLink to="/pickup">Buat order baru</BackLink>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-2">

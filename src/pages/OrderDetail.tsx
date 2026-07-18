@@ -1,6 +1,5 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import { useOrderDetailQuery } from "../hooks/orders/useOrderDetailQuery";
 import { useCompleteOrderMutation } from "../hooks/orders/useCompleteOrderMutation";
@@ -10,6 +9,7 @@ import { COMPLAINT_STATUS_LABEL, formatDateTime } from "../components/orders/ord
 import { formatRupiah } from "../utils/formatPrice";
 import { ApiError } from "../api/client";
 import { LoadingState, ErrorState } from "../components/ui/PageState";
+import { BackLink } from "../components/ui/BackLink";
 
 export function OrderDetail() {
   const { id } = useParams<{ id: string }>();
@@ -29,10 +29,7 @@ export function OrderDetail() {
     return (
       <main className="max-w-2xl mx-auto px-4 md:px-8 py-10 space-y-4">
         <ErrorState message="Pesanan tidak ditemukan atau kamu tidak punya akses ke pesanan ini." />
-        <Link to="/orders" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
-          <ArrowLeft className="w-4 h-4" />
-          Kembali ke daftar pesanan
-        </Link>
+        <BackLink to="/orders" variant="underline">Kembali ke daftar pesanan</BackLink>
       </main>
     );
   }
@@ -41,10 +38,7 @@ export function OrderDetail() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <Link to="/orders" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Kembali ke daftar pesanan
-      </Link>
+      <BackLink to="/orders">Kembali ke daftar pesanan</BackLink>
 
       <div className="rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm space-y-5">
         <div>

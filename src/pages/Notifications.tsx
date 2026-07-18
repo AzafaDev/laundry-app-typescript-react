@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ArrowLeft, Bell, CheckCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bell, CheckCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNotificationsQuery } from "../hooks/notifications/useNotificationsQuery";
 import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
@@ -8,6 +7,7 @@ import { useMarkNotificationReadMutation } from "../hooks/notifications/useMarkN
 import { useMarkAllNotificationsReadMutation } from "../hooks/notifications/useMarkAllNotificationsReadMutation";
 import { NotificationItem } from "../components/notifications/NotificationItem";
 import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
+import { BackLink } from "../components/ui/BackLink";
 
 const LIMIT = 10;
 
@@ -27,10 +27,7 @@ export function Notifications() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Kembali ke beranda
-      </Link>
+      <BackLink to="/">Kembali ke beranda</BackLink>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-2">

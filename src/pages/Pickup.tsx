@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, CheckCircle2, Loader2, MapPin, Truck } from "lucide-react";
+import { CheckCircle2, Loader2, MapPin, Truck } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
 import { useCreateOrderMutation } from "../hooks/orders/useCreateOrderMutation";
 import { createOrderSchema, type CreateOrderFormValues } from "../schemas/order";
 import { ApiErrorMessage } from "../components/ApiErrorMessage";
-import "../styles/auth.css";
+import { BackLink } from "../components/ui/BackLink";
 
 const getTodayDateKey = () => {
   const now = new Date();
@@ -74,10 +74,7 @@ export function Pickup() {
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-10 space-y-8">
       <div className="space-y-4">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Kembali ke beranda
-        </Link>
+        <BackLink to="/">Kembali ke beranda</BackLink>
         <div>
           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
             Pickup Laundry

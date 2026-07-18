@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../hooks/auth/useLogoutMutation";
 import { ProfileInfoSection } from "../components/profile/ProfileInfoSection";
 import { ChangePasswordSection } from "../components/profile/ChangePasswordSection";
@@ -7,6 +6,7 @@ import { ChangeEmailSection } from "../components/profile/ChangeEmailSection";
 import { AvatarSection } from "../components/profile/AvatarSection";
 import { Button } from "../components/ui/Button";
 import { AuthShell, AuthCard } from "../components/ui/AuthShell";
+import { BackLink } from "../components/ui/BackLink";
 
 export function Profile() {
   const navigate = useNavigate();
@@ -20,10 +20,7 @@ export function Profile() {
   return (
     <AuthShell>
       <AuthCard className="max-w-md">
-        <Link to="/" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Kembali ke beranda
-        </Link>
+        <BackLink to="/">Kembali ke beranda</BackLink>
 
         <h1 className="text-xl font-bold text-on-surface">Profil</h1>
 

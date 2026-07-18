@@ -1,6 +1,6 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, ArrowLeft, CheckCircle2, CreditCard, Loader2, RefreshCw, XCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, CreditCard, Loader2, RefreshCw, XCircle } from "lucide-react";
 import { useOrderDetailQuery } from "../hooks/orders/useOrderDetailQuery";
 import { usePaymentStatusQuery } from "../hooks/payments/usePaymentStatusQuery";
 import { useCreateTransactionMutation } from "../hooks/payments/useCreateTransactionMutation";
@@ -9,6 +9,7 @@ import { formatRupiah } from "../utils/formatPrice";
 import { formatDateTime } from "../components/orders/orderConstants";
 import { ApiError } from "../api/client";
 import { LoadingState, ErrorState } from "../components/ui/PageState";
+import { BackLink } from "../components/ui/BackLink";
 
 export function Payment() {
   const { id } = useParams<{ id: string }>();
@@ -70,10 +71,7 @@ export function Payment() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <Link to="/orders" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Kembali ke pesanan
-      </Link>
+      <BackLink to="/orders">Kembali ke pesanan</BackLink>
       <div>
         <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-2">
           Pembayaran
