@@ -43,6 +43,8 @@ import { LaundryItems } from "./pages/admin/LaundryItems";
 import { LaundryItemForm } from "./pages/admin/LaundryItemForm";
 import { ClothingTypes } from "./pages/admin/ClothingTypes";
 import { ClothingTypeForm } from "./pages/admin/ClothingTypeForm";
+import { WorkShifts } from "./pages/admin/WorkShifts";
+import { WorkShiftForm } from "./pages/admin/WorkShiftForm";
 import { PendingProcessOrders } from "./pages/admin/PendingProcessOrders";
 import { ProcessOrderForm } from "./pages/admin/ProcessOrderForm";
 import { StaffProfile } from "./pages/staff/StaffProfile";
@@ -95,6 +97,9 @@ function App() {
         <Route path="/staff/admin/clothing-types" element={<SuperAdminRoute><ClothingTypes /></SuperAdminRoute>} />
         <Route path="/staff/admin/clothing-types/new" element={<SuperAdminRoute><ClothingTypeForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/clothing-types/:id/edit" element={<SuperAdminRoute><ClothingTypeForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/shifts" element={<SuperAdminRoute><WorkShifts /></SuperAdminRoute>} />
+        <Route path="/staff/admin/shifts/new" element={<SuperAdminRoute><WorkShiftForm /></SuperAdminRoute>} />
+        <Route path="/staff/admin/shifts/:id/edit" element={<SuperAdminRoute><WorkShiftForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/orders/pending-process" element={<OutletAdminRoute><PendingProcessOrders /></OutletAdminRoute>} />
         <Route path="/staff/admin/orders/:id/process" element={<OutletAdminRoute><ProcessOrderForm /></OutletAdminRoute>} />
         <Route path="/staff/admin/bypass-requests" element={<OutletAdminRoute><BypassRequests /></OutletAdminRoute>} />

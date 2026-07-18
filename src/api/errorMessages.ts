@@ -89,4 +89,11 @@ export const errorMessages: Record<string, string> = {
   name_already_exists: "Nama ini sudah dipakai",
   invalid_notification_id: "ID notifikasi tidak valid",
   payment_not_found: "Data pembayaran tidak ditemukan",
+  work_shift_not_found: "Shift tidak ditemukan",
+  work_shift_still_assigned: "Shift masih digunakan karyawan, hapus penugasan dulu",
+  work_shift_must_be_deleted_first: "Shift harus dinonaktifkan terlebih dahulu sebelum dihapus permanen",
+  employee_shift_already_assigned: "Karyawan sudah memiliki penugasan untuk jadwal ini",
+  invalid_day_of_week: "Hari dalam minggu tidak valid (harus 0–6)",
+  must_set_day_of_week_xor_date: "Pilih salah satu: hari dalam minggu atau tanggal spesifik",
+  invalid_date: "Format tanggal tidak valid (gunakan YYYY-MM-DD)",
 };

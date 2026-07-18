@@ -34,6 +34,10 @@ export function StaffDashboard() {
             <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
               <Link to="/staff/admin/outlets" className="auth-button">Kelola Outlet</Link>
               <Link to="/staff/admin/employees" className="auth-button">Kelola Karyawan</Link>
+              <Link to="/staff/admin/shifts" className="auth-button">
+                <Clock className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+                Kelola Shift
+              </Link>
               <Link to="/staff/admin/laundry-items" className="auth-button auth-button-secondary">
                 <Package className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
                 Item Laundry

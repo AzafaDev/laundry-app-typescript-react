@@ -16,6 +16,7 @@ import { useAssignEmployeeOutletMutation } from "../../hooks/employees/useAssign
 import { useOutletsQuery, OUTLET_SELECT_LIMIT } from "../../hooks/outlets/useOutletsQuery";
 import { FormField } from "../../components/FormField";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
+import { EmployeeShiftAssignment } from "../../components/EmployeeShiftAssignment";
 import "../../styles/auth.css";
 import "../../styles/admin.css";
 
@@ -237,6 +238,14 @@ function EditEmployeeFormFields({ initialData, onSuccess }: { initialData: Emplo
   );
 }
 
+function EditEmployeeShiftSection({ employeeId }: { employeeId: string }) {
+  return (
+    <div className="mt-8 pt-8 border-t border-on-surface/10">
+      <EmployeeShiftAssignment employeeId={employeeId} />
+    </div>
+  );
+}
+
 export function EmployeeForm() {
   const { id } = useParams();
   const isEdit = !!id;
@@ -257,7 +266,10 @@ export function EmployeeForm() {
       ) : isEdit && employeeQuery.isError ? (
         <p>Karyawan tidak ditemukan.</p>
       ) : isEdit && employeeQuery.data ? (
-        <EditEmployeeFormFields initialData={employeeQuery.data} onSuccess={handleSuccess} />
+        <>
+          <EditEmployeeFormFields initialData={employeeQuery.data} onSuccess={handleSuccess} />
+          <EditEmployeeShiftSection employeeId={employeeQuery.data.id} />
+        </>
       ) : (
         <CreateEmployeeFormFields onSuccess={handleSuccess} />
       )}

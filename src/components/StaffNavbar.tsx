@@ -71,6 +71,7 @@ export function StaffNavbar() {
               <>
                 <Link to="/staff/admin/outlets" className="navbar-link" onClick={closeMenu}>Outlet</Link>
                 <Link to="/staff/admin/employees" className="navbar-link" onClick={closeMenu}>Karyawan</Link>
+                <Link to="/staff/admin/shifts" className="navbar-link" onClick={closeMenu}>Shift</Link>
                 <Link to="/staff/admin/laundry-items" className="navbar-link" onClick={closeMenu}>Item Laundry</Link>
                 <Link to="/staff/admin/clothing-types" className="navbar-link" onClick={closeMenu}>Jenis Pakaian</Link>
               </>
