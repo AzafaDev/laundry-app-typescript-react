@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { Moon, Sun } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useLogoutMutation } from "../hooks/auth/useLogoutMutation";
@@ -31,7 +32,10 @@ export function Navbar() {
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Ganti ke mode terang" : "Ganti ke mode gelap"}
           >
-            {theme === "dark" ? "☀️ Terang" : "🌙 Gelap"}
+            <span className="inline-flex items-center gap-1.5">
+              {theme === "dark" ? <Sun className="w-4 h-4" aria-hidden="true" /> : <Moon className="w-4 h-4" aria-hidden="true" />}
+              {theme === "dark" ? "Terang" : "Gelap"}
+            </span>
           </button>
           {isAuthenticated ? (
             <>
