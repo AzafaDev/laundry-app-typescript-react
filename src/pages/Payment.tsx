@@ -10,6 +10,7 @@ import { formatDateTime } from "../components/orders/orderConstants";
 import { ApiError } from "../api/client";
 import { LoadingState, ErrorState } from "../components/ui/PageState";
 import { BackLink } from "../components/ui/BackLink";
+import { Eyebrow } from "../components/ui/Eyebrow";
 
 export function Payment() {
   const { id } = useParams<{ id: string }>();
@@ -73,11 +74,9 @@ export function Payment() {
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
       <BackLink to="/orders">Kembali ke pesanan</BackLink>
       <div>
-        <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-2">
-          Pembayaran
-        </span>
-        <h1 className="text-3xl font-bold text-on-surface">Selesaikan pembayaran kamu.</h1>
-        <p className="text-sm text-on-surface-variant mt-1">Pembayaran diproses secara aman melalui Midtrans.</p>
+        <Eyebrow className="mb-2">Pembayaran</Eyebrow>
+        <h1 className="text-2xl md:text-3xl font-bold text-on-surface">Selesaikan pembayaran kamu.</h1>
+        <p className="text-base text-on-surface-variant mt-1">Pembayaran diproses secara aman melalui Midtrans.</p>
       </div>
 
       <div className="rounded-2xl border border-outline-variant bg-surface p-4 md:p-6 shadow-sm space-y-3">
@@ -110,7 +109,7 @@ export function Payment() {
             </span>
           )}
           {!isPaid && !isExpiredOrFailed && payment?.status === "pending" && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-tertiary-container px-3 py-1 text-xs font-semibold text-on-tertiary-container">
               <AlertCircle className="w-3.5 h-3.5" />
               Menunggu Pembayaran
             </span>

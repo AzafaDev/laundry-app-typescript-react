@@ -9,6 +9,7 @@ import { useCreateOrderMutation } from "../hooks/orders/useCreateOrderMutation";
 import { createOrderSchema, type CreateOrderFormValues } from "../schemas/order";
 import { ApiErrorMessage } from "../components/ApiErrorMessage";
 import { BackLink } from "../components/ui/BackLink";
+import { Eyebrow } from "../components/ui/Eyebrow";
 
 const getTodayDateKey = () => {
   const now = new Date();
@@ -76,11 +77,9 @@ export function Pickup() {
       <div className="space-y-4">
         <BackLink to="/">Kembali ke beranda</BackLink>
         <div>
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-            Pickup Laundry
-          </span>
+          <Eyebrow>Pickup Laundry</Eyebrow>
           <h1 className="mt-3 text-2xl md:text-3xl font-bold text-on-surface">Pesan pickup laundry</h1>
-          <p className="mt-1 text-sm text-on-surface-variant">Pilih alamat penjemputan, lalu konfirmasi. Kurir kami akan segera datang.</p>
+          <p className="mt-1 text-base text-on-surface-variant">Pilih alamat penjemputan, lalu konfirmasi. Kurir kami akan segera datang.</p>
         </div>
       </div>
 

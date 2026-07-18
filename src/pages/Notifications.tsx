@@ -8,6 +8,7 @@ import { useMarkAllNotificationsReadMutation } from "../hooks/notifications/useM
 import { NotificationItem } from "../components/notifications/NotificationItem";
 import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
 import { BackLink } from "../components/ui/BackLink";
+import { Eyebrow } from "../components/ui/Eyebrow";
 
 const LIMIT = 10;
 
@@ -30,10 +31,8 @@ export function Notifications() {
       <BackLink to="/">Kembali ke beranda</BackLink>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-2">
-            Notifikasi
-          </span>
-          <h1 className="text-3xl font-bold text-on-surface">Update pesanan kamu.</h1>
+          <Eyebrow className="mb-2">Notifikasi</Eyebrow>
+          <h1 className="text-2xl md:text-3xl font-bold text-on-surface">Update pesanan kamu.</h1>
           {unreadCount > 0 && <p className="text-sm text-on-surface-variant mt-1">{unreadCount} notifikasi belum dibaca</p>}
         </div>
         {unreadCount > 0 && (
