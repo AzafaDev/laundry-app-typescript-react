@@ -75,6 +75,7 @@ export function StaffNavbar() {
                 <Link to="/staff/admin/attendance" className="navbar-link" onClick={closeMenu}>Laporan Absensi</Link>
                 <Link to="/staff/admin/reports/sales" className="navbar-link" onClick={closeMenu}>Laporan Penjualan</Link>
                 <Link to="/staff/admin/reports/employee-performance" className="navbar-link" onClick={closeMenu}>Laporan Performa Karyawan</Link>
+                <Link to="/staff/admin/complaints" className="navbar-link" onClick={closeMenu}>Manajemen Komplain</Link>
                 <Link to="/staff/admin/laundry-items" className="navbar-link" onClick={closeMenu}>Item Laundry</Link>
                 <Link to="/staff/admin/clothing-types" className="navbar-link" onClick={closeMenu}>Jenis Pakaian</Link>
               </>
@@ -95,6 +96,7 @@ export function StaffNavbar() {
                 <Link to="/staff/admin/orders" className="navbar-link" onClick={closeMenu}>Semua Pesanan</Link>
                 <Link to="/staff/admin/orders/pending-process" className="navbar-link" onClick={closeMenu}>Proses Pesanan</Link>
                 <Link to="/staff/admin/bypass-requests" className="navbar-link" onClick={closeMenu}>Bypass</Link>
+                <Link to="/staff/admin/complaints" className="navbar-link" onClick={closeMenu}>Manajemen Komplain</Link>
               </>
             )}
             {employee?.role === "driver" && (
