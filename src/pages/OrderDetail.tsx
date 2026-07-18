@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import { useOrderDetailQuery } from "../hooks/orders/useOrderDetailQuery";
 import { useCompleteOrderMutation } from "../hooks/orders/useCompleteOrderMutation";
@@ -9,6 +9,7 @@ import { ComplaintModal } from "../components/orders/ComplaintModal";
 import { COMPLAINT_STATUS_LABEL, formatDateTime } from "../components/orders/orderConstants";
 import { formatRupiah } from "../utils/formatPrice";
 import { ApiError } from "../api/client";
+import { LoadingState, ErrorState } from "../components/ui/PageState";
 
 export function OrderDetail() {
   const { id } = useParams<{ id: string }>();
@@ -18,9 +19,8 @@ export function OrderDetail() {
 
   if (orderQuery.isLoading) {
     return (
-      <main className="max-w-2xl mx-auto px-4 md:px-8 py-10 flex items-center justify-center gap-3 text-sm text-on-surface-variant">
-        <Loader2 className="w-5 h-5 animate-spin text-primary" />
-        Memuat detail pesanan...
+      <main className="max-w-2xl mx-auto px-4 md:px-8 py-10">
+        <LoadingState label="Memuat detail pesanan..." bordered={false} />
       </main>
     );
   }
@@ -28,9 +28,7 @@ export function OrderDetail() {
   if (orderQuery.isError || !orderQuery.data) {
     return (
       <main className="max-w-2xl mx-auto px-4 md:px-8 py-10 space-y-4">
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-5 text-sm text-red-700">
-          Pesanan tidak ditemukan atau kamu tidak punya akses ke pesanan ini.
-        </div>
+        <ErrorState message="Pesanan tidak ditemukan atau kamu tidak punya akses ke pesanan ini." />
         <Link to="/orders" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
           <ArrowLeft className="w-4 h-4" />
           Kembali ke daftar pesanan

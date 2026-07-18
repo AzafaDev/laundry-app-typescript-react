@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, ClipboardList, Loader2, RefreshCw } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, ClipboardList, RefreshCw } from "lucide-react";
 import { useOrdersQuery } from "../hooks/orders/useOrdersQuery";
 import { OrderCard } from "../components/orders/OrderCard";
 import { OrderFilters } from "../components/orders/OrderFilters";
+import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
+import { buttonClasses } from "../components/ui/buttonStyles";
 import type { OrderStatus } from "../types/order";
 
 const LIMIT = 10;
@@ -79,51 +81,40 @@ export function Orders() {
         onClear={clearFilters}
       />
 
-      {ordersQuery.isLoading && (
-        <div className="rounded-2xl border border-outline-variant bg-surface px-4 py-8 flex items-center justify-center gap-3 text-sm text-on-surface-variant">
-          <Loader2 className="w-5 h-5 animate-spin text-primary" />
-          Memuat pesanan...
-        </div>
-      )}
+      {ordersQuery.isLoading && <LoadingState label="Memuat pesanan..." />}
 
       {!ordersQuery.isLoading && ordersQuery.isError && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-5 text-sm text-red-700">
-          <p className="font-semibold mb-2">Gagal memuat data pesanan.</p>
-          <button
-            onClick={() => ordersQuery.refetch()}
-            className="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700 transition-colors"
-          >
-            Coba lagi
-          </button>
-        </div>
+        <ErrorState message="Gagal memuat data pesanan." onRetry={() => ordersQuery.refetch()} />
       )}
 
       {!ordersQuery.isLoading && !ordersQuery.isError && orders.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-outline-variant bg-surface px-6 py-12 text-center">
-          <div className="w-14 h-14 rounded-full bg-surface-container mx-auto flex items-center justify-center mb-4">
-            <ClipboardList className="w-6 h-6 text-outline" />
-          </div>
-          {hasFilters ? (
-            <>
-              <p className="font-semibold text-on-surface mb-1">Tidak ada pesanan ditemukan</p>
-              <p className="text-sm text-on-surface-variant mb-5">Coba ubah filter atau hapus pencarian.</p>
+        hasFilters ? (
+          <EmptyState
+            icon={ClipboardList}
+            title="Tidak ada pesanan ditemukan"
+            description="Coba ubah filter atau hapus pencarian."
+            action={
               <button
+                type="button"
                 onClick={clearFilters}
                 className="inline-flex items-center gap-2 rounded-xl border border-outline-variant px-5 py-2.5 text-sm font-bold text-on-surface hover:border-primary hover:text-primary transition-colors"
               >
                 Hapus Filter
               </button>
-            </>
-          ) : (
-            <>
-              <p className="font-semibold text-on-surface mb-1">Belum ada pesanan</p>
-              <p className="text-sm text-on-surface-variant mb-5">Buat order pertama Anda untuk mulai melihat tracking progress.</p>
-              <Link to="/pickup" className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white hover:bg-primary-container transition-colors">
+            }
+          />
+        ) : (
+          <EmptyState
+            icon={ClipboardList}
+            title="Belum ada pesanan"
+            description="Buat order pertama Anda untuk mulai melihat tracking progress."
+            action={
+              <Link to="/pickup" className={buttonClasses("primary", "md")}>
                 Buat Order Sekarang
               </Link>
-            </>
-          )}
-        </div>
+            }
+          />
+        )
       )}
 
       {!ordersQuery.isLoading && !ordersQuery.isError && orders.length > 0 && (

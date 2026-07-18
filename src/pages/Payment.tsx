@@ -8,6 +8,7 @@ import { useSyncPaymentStatusMutation } from "../hooks/payments/useSyncPaymentSt
 import { formatRupiah } from "../utils/formatPrice";
 import { formatDateTime } from "../components/orders/orderConstants";
 import { ApiError } from "../api/client";
+import { LoadingState, ErrorState } from "../components/ui/PageState";
 
 export function Payment() {
   const { id } = useParams<{ id: string }>();
@@ -51,9 +52,8 @@ export function Payment() {
 
   if (orderQuery.isLoading) {
     return (
-      <main className="max-w-2xl mx-auto px-4 md:px-8 py-10 flex items-center justify-center gap-3 text-sm text-on-surface-variant">
-        <Loader2 className="w-5 h-5 animate-spin text-primary" />
-        Memuat detail pesanan...
+      <main className="max-w-2xl mx-auto px-4 md:px-8 py-10">
+        <LoadingState label="Memuat detail pesanan..." bordered={false} />
       </main>
     );
   }
@@ -61,7 +61,7 @@ export function Payment() {
   if (orderQuery.isError || !orderQuery.data) {
     return (
       <main className="max-w-2xl mx-auto px-4 md:px-8 py-10">
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-5 text-sm text-red-700">Gagal memuat detail pesanan.</div>
+        <ErrorState message="Gagal memuat detail pesanan." />
       </main>
     );
   }

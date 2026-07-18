@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ArrowLeft, Bell, CheckCheck, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ArrowLeft, Bell, CheckCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNotificationsQuery } from "../hooks/notifications/useNotificationsQuery";
 import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
 import { useMarkNotificationReadMutation } from "../hooks/notifications/useMarkNotificationReadMutation";
 import { useMarkAllNotificationsReadMutation } from "../hooks/notifications/useMarkAllNotificationsReadMutation";
 import { NotificationItem } from "../components/notifications/NotificationItem";
+import { LoadingState, ErrorState, EmptyState } from "../components/ui/PageState";
 
 const LIMIT = 10;
 
@@ -54,33 +55,18 @@ export function Notifications() {
         )}
       </div>
 
-      {notificationsQuery.isLoading && (
-        <div className="rounded-2xl border border-outline-variant bg-surface px-4 py-8 flex items-center justify-center gap-3 text-sm text-on-surface-variant">
-          <Loader2 className="w-5 h-5 animate-spin text-primary" />
-          Memuat notifikasi...
-        </div>
-      )}
+      {notificationsQuery.isLoading && <LoadingState label="Memuat notifikasi..." />}
 
       {!notificationsQuery.isLoading && notificationsQuery.isError && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-5 text-sm text-red-700">
-          <p className="font-semibold mb-2">Gagal memuat notifikasi.</p>
-          <button
-            onClick={() => notificationsQuery.refetch()}
-            className="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700 transition-colors"
-          >
-            Coba lagi
-          </button>
-        </div>
+        <ErrorState message="Gagal memuat notifikasi." onRetry={() => notificationsQuery.refetch()} />
       )}
 
       {!notificationsQuery.isLoading && !notificationsQuery.isError && notifications.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-outline-variant bg-surface px-6 py-12 text-center">
-          <div className="w-14 h-14 rounded-full bg-surface-container mx-auto flex items-center justify-center mb-4">
-            <Bell className="w-6 h-6 text-outline" />
-          </div>
-          <p className="font-semibold text-on-surface mb-1">Belum ada notifikasi</p>
-          <p className="text-sm text-on-surface-variant">Update pesanan kamu akan muncul di sini.</p>
-        </div>
+        <EmptyState
+          icon={Bell}
+          title="Belum ada notifikasi"
+          description="Update pesanan kamu akan muncul di sini."
+        />
       )}
 
       {!notificationsQuery.isLoading && !notificationsQuery.isError && notifications.length > 0 && (
