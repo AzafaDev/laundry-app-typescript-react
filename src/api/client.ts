@@ -71,3 +71,35 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
     throw err;
   }
 }
+
+// A handful of endpoints (e.g. worker SubmitItems) use a non-2xx status as
+// a meaningful business response rather than a hard error — a plain
+// `request()` would discard that body behind a generic ApiError. This
+// treats any status in `allowedStatuses` as a normal successful parse.
+export async function requestAllowStatus<T>(
+  path: string,
+  allowedStatuses: number[],
+  options: RequestInit = {},
+): Promise<T> {
+  const isFormData = options.body instanceof FormData;
+  const method = (options.method ?? "GET").toUpperCase();
+  const csrfToken = MUTATING_METHODS.has(method) ? getCsrfToken() : null;
+
+  const res = await fetch(`${BASE_URL}${path}`, {
+    ...options,
+    credentials: "include",
+    headers: {
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}),
+      ...options.headers,
+    },
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok && !allowedStatuses.includes(res.status)) {
+    throw new ApiError(res.status, data.error ?? data.message ?? "Terjadi kesalahan");
+  }
+
+  return data as T;
+}

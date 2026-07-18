@@ -5,6 +5,7 @@ import { GuestRoute } from "./components/GuestRoute";
 import { StaffProtectedRoute } from "./components/StaffProtectedRoute";
 import { StaffGuestRoute } from "./components/StaffGuestRoute";
 import { SuperAdminRoute } from "./components/SuperAdminRoute";
+import { WorkerRoute } from "./components/WorkerRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -29,6 +30,10 @@ import { Outlets } from "./pages/admin/Outlets";
 import { OutletForm } from "./pages/admin/OutletForm";
 import { Employees } from "./pages/admin/Employees";
 import { EmployeeForm } from "./pages/admin/EmployeeForm";
+import { Attendance } from "./pages/staff/Attendance";
+import { AttendanceHistory } from "./pages/staff/AttendanceHistory";
+import { Station } from "./pages/staff/Station";
+import { StationHistory } from "./pages/staff/StationHistory";
 
 function App() {
   return (
@@ -60,6 +65,10 @@ function App() {
         <Route path="/staff/admin/employees" element={<SuperAdminRoute><Employees /></SuperAdminRoute>} />
         <Route path="/staff/admin/employees/new" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/employees/:id/edit" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
+        <Route path="/staff/attendance" element={<StaffProtectedRoute><Attendance /></StaffProtectedRoute>} />
+        <Route path="/staff/attendance/history" element={<StaffProtectedRoute><AttendanceHistory /></StaffProtectedRoute>} />
+        <Route path="/staff/station" element={<WorkerRoute><Station /></WorkerRoute>} />
+        <Route path="/staff/station/history" element={<WorkerRoute><StationHistory /></WorkerRoute>} />
       </Routes>
     </Layout>
   );
