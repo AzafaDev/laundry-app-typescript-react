@@ -1,20 +1,21 @@
 import { forwardRef, useState, type InputHTMLAttributes } from "react";
+import { inputClasses } from "./ui/Input";
 
 export const PasswordInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function PasswordInput({ className, ...rest }, ref) {
     const [visible, setVisible] = useState(false);
 
     return (
-      <div className="auth-input-wrap">
+      <div className="relative">
         <input
           {...rest}
           ref={ref}
           type={visible ? "text" : "password"}
-          className={className ?? "auth-input"}
+          className={className ?? `${inputClasses} pr-28`}
         />
         <button
           type="button"
-          className="auth-toggle"
+          className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.06em] text-on-surface-variant hover:text-primary"
           onClick={() => setVisible((v) => !v)}
         >
           {visible ? (

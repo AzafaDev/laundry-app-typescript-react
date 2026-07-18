@@ -1,27 +1,18 @@
 import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
-import "../styles/auth.css";
+import { Card } from "../components/ui/Card";
+import { buttonClasses } from "../components/ui/buttonStyles";
 
 export function Home() {
   const { customer, isLoading: authLoading, isAuthenticated } = useAuth();
   const addressesQuery = useAddressesQuery(isAuthenticated);
 
-  if (authLoading) {
-    return <div className="home-landing" />;
-  }
-
-  if (isAuthenticated && addressesQuery.isLoading) {
+  if (authLoading || (isAuthenticated && addressesQuery.isLoading)) {
     return (
-      <div className="home-landing">
-        <div className="home-dashboard">
-          <div className="home-dashboard-ticket-skeleton">
-            <span className="skeleton-bar skeleton-bar-label" />
-            <span className="skeleton-bar skeleton-bar-title" />
-            <span className="skeleton-bar skeleton-bar-text" />
-            <span className="skeleton-bar skeleton-bar-action" />
-          </div>
-        </div>
+      <div className="min-h-[100svh] flex items-center justify-center px-6 py-12">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
       </div>
     );
   }
@@ -32,65 +23,65 @@ export function Home() {
     const firstName = customer?.full_name?.split(" ")[0] ?? "";
 
     return (
-      <div className="home-landing">
-        <div className="home-dashboard">
-          <div className="home-dashboard-ticket">
-            <span className="auth-label">Halo</span>
-            <h1 className="home-dashboard-greeting">{firstName || "kamu"}</h1>
+      <div className="min-h-[100svh] flex flex-col items-center justify-center gap-5 px-6 py-12">
+        <Card className="w-full max-w-sm">
+          <span className="text-xs font-bold uppercase tracking-[0.08em] text-on-surface-variant">Halo</span>
+          <h1 className="mt-1 mb-5 text-2xl font-bold text-on-surface">{firstName || "kamu"}</h1>
 
-            {primary ? (
-              <>
-                <p className="home-dashboard-address">
-                  <span className="home-dashboard-address-label">{primary.label}</span>
-                  {" — "}
-                  {primary.city}
-                </p>
-                <Link to="/addresses" className="auth-toggle">LIHAT ALAMAT</Link>
-              </>
-            ) : (
-              <>
-                <p className="home-dashboard-address home-dashboard-address-empty">
-                  Belum ada alamat tersimpan.
-                </p>
-                <Link to="/addresses/new" className="auth-button">Tambah alamat pertama</Link>
-              </>
-            )}
-          </div>
+          {primary ? (
+            <>
+              <p className="mb-3.5 text-sm text-on-surface">
+                <span className="font-bold">{primary.label}</span>
+                {" — "}
+                {primary.city}
+              </p>
+              <Link to="/addresses" className="text-xs font-bold uppercase tracking-[0.06em] text-primary hover:underline">
+                Lihat alamat
+              </Link>
+            </>
+          ) : (
+            <>
+              <p className="mb-3.5 text-sm text-on-surface-variant">Belum ada alamat tersimpan.</p>
+              <Link to="/addresses/new" className={buttonClasses("primary", "md")}>Tambah alamat pertama</Link>
+            </>
+          )}
+        </Card>
 
-          <Link to="/profile" className="auth-toggle home-dashboard-profile-link">LIHAT PROFIL</Link>
-        </div>
+        <Link to="/profile" className="text-xs font-bold uppercase tracking-[0.06em] text-on-surface-variant hover:text-primary">
+          Lihat profil
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="home-landing">
-      <div className="home-landing-content home-landing-ticket">
-        <h1>Laundry jadi lebih mudah</h1>
-        <p>Simpan alamat dan kelola akun kamu dalam satu tempat, siap dipakai tiap kali butuh layanan laundry.</p>
-        <div className="home-landing-actions">
-          <Link to="/register" className="auth-button">Daftar</Link>
-          <Link to="/login" className="auth-button auth-button-secondary">Masuk</Link>
+    <div className="min-h-[100svh] flex flex-col items-center justify-center text-center px-6 py-12">
+      <Card className="max-w-[420px] w-full text-left">
+        <h1 className="text-3xl font-bold text-on-surface">Laundry jadi lebih mudah</h1>
+        <p className="mt-2 mb-7 text-sm text-on-surface-variant">Simpan alamat dan kelola akun kamu dalam satu tempat, siap dipakai tiap kali butuh layanan laundry.</p>
+        <div className="flex flex-col gap-2.5">
+          <Link to="/register" className={buttonClasses("primary", "md")}>Daftar</Link>
+          <Link to="/login" className={buttonClasses("secondary", "md")}>Masuk</Link>
         </div>
 
-        <ol className="home-landing-steps">
-          <li>
-            <span className="home-landing-step-index">01</span>
-            <span className="home-landing-step-label">Pesan</span>
-            <span className="home-landing-step-text">Jadwalkan jemput dari alamat kamu.</span>
+        <ol className="mt-7 pt-5 border-t border-outline-variant flex flex-col gap-4 list-none">
+          <li className="grid grid-cols-[auto_1fr] gap-x-2.5">
+            <span className="row-span-2 pt-0.5 text-xs font-bold text-primary">01</span>
+            <span className="font-bold text-sm text-on-surface">Pesan</span>
+            <span className="text-sm text-on-surface-variant">Jadwalkan jemput dari alamat kamu.</span>
           </li>
-          <li>
-            <span className="home-landing-step-index">02</span>
-            <span className="home-landing-step-label">Kami jemput &amp; cuci</span>
-            <span className="home-landing-step-text">Laundry diproses dan dijaga kualitasnya.</span>
+          <li className="grid grid-cols-[auto_1fr] gap-x-2.5">
+            <span className="row-span-2 pt-0.5 text-xs font-bold text-primary">02</span>
+            <span className="font-bold text-sm text-on-surface">Kami jemput &amp; cuci</span>
+            <span className="text-sm text-on-surface-variant">Laundry diproses dan dijaga kualitasnya.</span>
           </li>
-          <li>
-            <span className="home-landing-step-index">03</span>
-            <span className="home-landing-step-label">Kami antar kembali</span>
-            <span className="home-landing-step-text">Bersih, terlipat, tiba di alamatmu.</span>
+          <li className="grid grid-cols-[auto_1fr] gap-x-2.5">
+            <span className="row-span-2 pt-0.5 text-xs font-bold text-primary">03</span>
+            <span className="font-bold text-sm text-on-surface">Kami antar kembali</span>
+            <span className="text-sm text-on-surface-variant">Bersih, terlipat, tiba di alamatmu.</span>
           </li>
         </ol>
-      </div>
+      </Card>
     </div>
   );
 }

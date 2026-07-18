@@ -10,17 +10,25 @@ interface FormFieldProps {
 
 export function FormField({ label, htmlFor, hint, error, children }: FormFieldProps) {
   return (
-    <div className="auth-field">
+    <div className="space-y-1.5">
       {hint ? (
-        <div className="auth-label-row">
-          <label className="auth-label" htmlFor={htmlFor}>{label}</label>
-          <span className="auth-hint">{hint}</span>
+        <div className="flex items-baseline justify-between gap-2">
+          <label className="text-xs font-bold uppercase tracking-[0.08em] text-on-surface-variant" htmlFor={htmlFor}>
+            {label}
+          </label>
+          <span className="text-xs text-on-surface-variant">{hint}</span>
         </div>
       ) : (
-        <label className="auth-label" htmlFor={htmlFor}>{label}</label>
+        <label className="text-xs font-bold uppercase tracking-[0.08em] text-on-surface-variant" htmlFor={htmlFor}>
+          {label}
+        </label>
       )}
       {children}
-      {error && <span className="auth-error">{error}</span>}
+      {error && (
+        <span role="alert" className="block text-xs text-error">
+          {error}
+        </span>
+      )}
     </div>
   );
 }

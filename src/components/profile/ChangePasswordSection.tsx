@@ -6,6 +6,10 @@ import { changePasswordSchema, type ChangePasswordFormValues } from "../../schem
 import { PasswordInput } from "../PasswordInput";
 import { FormField } from "../FormField";
 import { ApiErrorMessage } from "../ApiErrorMessage";
+import { Button } from "../ui/Button";
+
+const sectionHeaderClasses = "flex items-center justify-between mb-2";
+const toggleClasses = "text-xs font-bold uppercase tracking-[0.06em] text-primary hover:underline";
 
 export function ChangePasswordSection() {
   const [isEditing, setIsEditing] = useState(false);
@@ -42,22 +46,22 @@ export function ChangePasswordSection() {
   if (!isEditing) {
     return (
       <div>
-        <div className="profile-section-header">
-          <h2>Ubah kata sandi</h2>
-          <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
+        <div className={sectionHeaderClasses}>
+          <h2 className="text-base font-bold text-on-surface">Ubah kata sandi</h2>
+          <button type="button" className={toggleClasses} onClick={startEditing}>EDIT</button>
         </div>
-        <p className="profile-summary">••••••••</p>
+        <p className="text-sm text-on-surface-variant">••••••••</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="profile-section-header">
-        <h2>Ubah kata sandi</h2>
-        <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
+    <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+      <div className={sectionHeaderClasses}>
+        <h2 className="text-base font-bold text-on-surface">Ubah kata sandi</h2>
+        <button type="button" className={toggleClasses} onClick={cancelEditing}>BATAL</button>
       </div>
-      <p>Perbarui kata sandi yang kamu pakai buat masuk.</p>
+      <p className="text-sm text-on-surface-variant">Perbarui kata sandi yang kamu pakai buat masuk.</p>
 
       <FormField label="Kata sandi saat ini" htmlFor="current_password" error={errors.current_password?.message}>
         <PasswordInput
@@ -86,9 +90,9 @@ export function ChangePasswordSection() {
 
       <ApiErrorMessage error={mutation.error} />
 
-      <button className="auth-button" type="submit" disabled={mutation.isPending}>
+      <Button type="submit" fullWidth isLoading={mutation.isPending}>
         {mutation.isPending ? "Menyimpan..." : "Ubah kata sandi"}
-      </button>
+      </Button>
     </form>
   );
 }

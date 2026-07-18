@@ -6,6 +6,11 @@ import { useUpdateProfileMutation } from "../../hooks/profile/useUpdateProfileMu
 import { updateProfileSchema, type UpdateProfileFormValues } from "../../schemas/profile";
 import { FormField } from "../FormField";
 import { ApiErrorMessage } from "../ApiErrorMessage";
+import { Button } from "../ui/Button";
+import { inputClasses } from "../ui/Input";
+
+const sectionHeaderClasses = "flex items-center justify-between mb-2";
+const toggleClasses = "text-xs font-bold uppercase tracking-[0.06em] text-primary hover:underline";
 
 export function ProfileInfoSection() {
   const { customer } = useAuth();
@@ -47,11 +52,11 @@ export function ProfileInfoSection() {
   if (!isEditing) {
     return (
       <div>
-        <div className="profile-section-header">
-          <h2>Info profil</h2>
-          <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
+        <div className={sectionHeaderClasses}>
+          <h2 className="text-base font-bold text-on-surface">Info profil</h2>
+          <button type="button" className={toggleClasses} onClick={startEditing}>EDIT</button>
         </div>
-        <p className="profile-summary">
+        <p className="text-sm text-on-surface-variant">
           {customer?.full_name}
           {customer?.phone && <> &middot; {customer.phone}</>}
         </p>
@@ -60,44 +65,29 @@ export function ProfileInfoSection() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="profile-section-header">
-        <h2>Info profil</h2>
-        <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
+    <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+      <div className={sectionHeaderClasses}>
+        <h2 className="text-base font-bold text-on-surface">Info profil</h2>
+        <button type="button" className={toggleClasses} onClick={cancelEditing}>BATAL</button>
       </div>
-      <p>Nama dan nomor HP kamu.</p>
+      <p className="text-sm text-on-surface-variant">Nama dan nomor HP kamu.</p>
       {!customer?.phone && (
-        <p className="profile-notice">Lengkapi nomor HP kamu juga, ya — supaya kami bisa menghubungimu soal pesanan.</p>
+        <p className="text-sm text-on-surface-variant">Lengkapi nomor HP kamu juga, ya — supaya kami bisa menghubungimu soal pesanan.</p>
       )}
 
       <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
-        <div className="auth-input-wrap">
-          <input
-            id="full_name"
-            className="auth-input"
-            autoComplete="name"
-            autoFocus
-            {...register("full_name")}
-          />
-        </div>
+        <input id="full_name" className={inputClasses} autoComplete="name" autoFocus {...register("full_name")} />
       </FormField>
 
       <FormField label="Nomor HP" htmlFor="phone" error={errors.phone?.message}>
-        <div className="auth-input-wrap">
-          <input
-            id="phone"
-            className="auth-input"
-            autoComplete="tel"
-            {...register("phone")}
-          />
-        </div>
+        <input id="phone" className={inputClasses} autoComplete="tel" {...register("phone")} />
       </FormField>
 
       <ApiErrorMessage error={mutation.error} />
 
-      <button className="auth-button" type="submit" disabled={mutation.isPending}>
+      <Button type="submit" fullWidth isLoading={mutation.isPending}>
         {mutation.isPending ? "Menyimpan..." : "Simpan perubahan"}
-      </button>
+      </Button>
     </form>
   );
 }

@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import type { Address } from "../../types/address";
 import { useDeleteAddressMutation } from "../../hooks/addresses/useDeleteAddressMutation";
 import { useSetPrimaryAddressMutation } from "../../hooks/addresses/useSetPrimaryAddressMutation";
+import { Card } from "../ui/Card";
+
+const toggleClasses = "text-xs font-bold uppercase tracking-[0.06em] text-primary hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline";
 
 interface AddressCardProps {
   address: Address;
@@ -26,24 +29,28 @@ export function AddressCard({ address }: AddressCardProps) {
   };
 
   return (
-    <div className="address-card">
-      <div className="address-card-top">
-        <span className="address-card-label">{address.label}</span>
-        {address.is_primary && <span className="address-badge">Utama</span>}
+    <Card className="p-5">
+      <div className="flex items-center justify-between flex-wrap gap-2 mb-1.5">
+        <span className="text-sm font-bold text-on-surface">{address.label}</span>
+        {address.is_primary && (
+          <span className="inline-block rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold uppercase tracking-[0.04em] text-on-primary">
+            Utama
+          </span>
+        )}
       </div>
 
-      <p className="address-card-text">
+      <p className="text-sm text-on-surface-variant mb-3">
         {address.address}, {address.district}, {address.city}, {address.province}
         {address.postal_code ? ` ${address.postal_code}` : ""}
       </p>
 
-      <div className="address-actions">
-        <Link to={`/addresses/${address.id}/edit`} className="auth-toggle">EDIT</Link>
+      <div className="flex flex-wrap gap-x-4 gap-y-2.5">
+        <Link to={`/addresses/${address.id}/edit`} className={toggleClasses}>EDIT</Link>
 
         {!address.is_primary && (
           <button
             type="button"
-            className="auth-toggle"
+            className={toggleClasses}
             onClick={handleSetPrimary}
             disabled={setPrimaryMutation.isPending}
           >
@@ -53,13 +60,13 @@ export function AddressCard({ address }: AddressCardProps) {
 
         <button
           type="button"
-          className="auth-toggle auth-toggle-danger"
+          className={`${toggleClasses} text-error`}
           onClick={handleDelete}
           disabled={deleteMutation.isPending}
         >
           {deleteMutation.isPending ? "MENGHAPUS..." : "HAPUS"}
         </button>
       </div>
-    </div>
+    </Card>
   );
 }

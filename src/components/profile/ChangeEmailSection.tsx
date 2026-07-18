@@ -13,6 +13,11 @@ import {
 import { PasswordInput } from "../PasswordInput";
 import { FormField } from "../FormField";
 import { ApiErrorMessage } from "../ApiErrorMessage";
+import { Button } from "../ui/Button";
+import { inputClasses } from "../ui/Input";
+
+const sectionHeaderClasses = "flex items-center justify-between mb-2";
+const toggleClasses = "text-xs font-bold uppercase tracking-[0.06em] text-primary hover:underline";
 
 export function ChangeEmailSection() {
   const { customer } = useAuth();
@@ -63,26 +68,24 @@ export function ChangeEmailSection() {
   };
 
   return (
-    <div>
+    <div className="space-y-5">
       {isEditing ? (
-        <form onSubmit={requestForm.handleSubmit(onRequestSubmit)}>
-          <div className="profile-section-header">
-            <h2>Ubah email</h2>
-            <button type="button" className="auth-toggle" onClick={cancelEditing}>BATAL</button>
+        <form className="space-y-5" onSubmit={requestForm.handleSubmit(onRequestSubmit)}>
+          <div className={sectionHeaderClasses}>
+            <h2 className="text-base font-bold text-on-surface">Ubah email</h2>
+            <button type="button" className={toggleClasses} onClick={cancelEditing}>BATAL</button>
           </div>
-          <p>Perbarui alamat email yang terhubung ke akun kamu.</p>
+          <p className="text-sm text-on-surface-variant">Perbarui alamat email yang terhubung ke akun kamu.</p>
 
           <FormField label="Email baru" htmlFor="new_email" error={requestForm.formState.errors.new_email?.message}>
-            <div className="auth-input-wrap">
-              <input
-                id="new_email"
-                className="auth-input"
-                type="email"
-                autoComplete="email"
-                autoFocus
-                {...requestForm.register("new_email")}
-              />
-            </div>
+            <input
+              id="new_email"
+              className={inputClasses}
+              type="email"
+              autoComplete="email"
+              autoFocus
+              {...requestForm.register("new_email")}
+            />
           </FormField>
 
           <FormField
@@ -100,53 +103,51 @@ export function ChangeEmailSection() {
           <ApiErrorMessage error={requestMutation.error} />
 
           {requestMutation.isSuccess && (
-            <p className="auth-success-text">{requestMutation.data?.message}</p>
+            <p className="text-sm text-primary">{requestMutation.data?.message}</p>
           )}
 
-          <button className="auth-button" type="submit" disabled={requestMutation.isPending}>
+          <Button type="submit" fullWidth isLoading={requestMutation.isPending}>
             {requestMutation.isPending ? "Mengirim..." : "Kirim email verifikasi"}
-          </button>
+          </Button>
         </form>
       ) : (
         <div>
-          <div className="profile-section-header">
-            <h2>Ubah email</h2>
-            <button type="button" className="auth-toggle" onClick={startEditing}>EDIT</button>
+          <div className={sectionHeaderClasses}>
+            <h2 className="text-base font-bold text-on-surface">Ubah email</h2>
+            <button type="button" className={toggleClasses} onClick={startEditing}>EDIT</button>
           </div>
-          <p className="profile-summary">{customer?.email}</p>
+          <p className="text-sm text-on-surface-variant">{customer?.email}</p>
         </div>
       )}
 
-      <hr className="auth-divider" />
+      <hr className="border-outline-variant" />
 
       {isVerifying ? (
-        <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>
-          <div className="profile-section-header">
-            <h2>Verifikasi email baru</h2>
-            <button type="button" className="auth-toggle" onClick={cancelVerifying}>BATAL</button>
+        <form className="space-y-5" onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>
+          <div className={sectionHeaderClasses}>
+            <h2 className="text-base font-bold text-on-surface">Verifikasi email baru</h2>
+            <button type="button" className={toggleClasses} onClick={cancelVerifying}>BATAL</button>
           </div>
           <FormField label="Token" htmlFor="email_change_token" error={verifyForm.formState.errors.token?.message}>
-            <div className="auth-input-wrap">
-              <input
-                id="email_change_token"
-                className="auth-input"
-                autoComplete="off"
-                autoFocus
-                {...verifyForm.register("token")}
-              />
-            </div>
+            <input
+              id="email_change_token"
+              className={inputClasses}
+              autoComplete="off"
+              autoFocus
+              {...verifyForm.register("token")}
+            />
           </FormField>
 
           <ApiErrorMessage error={verifyMutation.error} />
 
-          <button className="auth-button" type="submit" disabled={verifyMutation.isPending}>
+          <Button type="submit" fullWidth isLoading={verifyMutation.isPending}>
             {verifyMutation.isPending ? "Memverifikasi..." : "Verifikasi email baru"}
-          </button>
+          </Button>
         </form>
       ) : (
-        <div className="profile-section-header">
-          <p className="profile-summary" style={{ margin: 0 }}>Sudah punya token?</p>
-          <button type="button" className="auth-toggle" onClick={startVerifying}>MASUKKAN TOKEN</button>
+        <div className={sectionHeaderClasses}>
+          <p className="text-sm text-on-surface-variant">Sudah punya token?</p>
+          <button type="button" className={toggleClasses} onClick={startVerifying}>MASUKKAN TOKEN</button>
         </div>
       )}
     </div>

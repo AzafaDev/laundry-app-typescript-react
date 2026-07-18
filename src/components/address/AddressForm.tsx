@@ -11,6 +11,8 @@ import { AddressMap } from "./AddressMap";
 import { WilayahSelect, type WilayahValue } from "./WilayahSelect";
 import { FormField } from "../FormField";
 import { ApiErrorMessage } from "../ApiErrorMessage";
+import { Button } from "../ui/Button";
+import { inputClasses } from "../ui/Input";
 
 interface AddressFormProps {
   initialData?: Address;
@@ -129,11 +131,9 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
       <FormField label="Label" htmlFor="label" error={errors.label?.message}>
-        <div className="auth-input-wrap">
-          <input id="label" className="auth-input" {...register("label")} />
-        </div>
+        <input id="label" className={inputClasses} {...register("label")} />
       </FormField>
 
       <AddressAutocomplete onSelect={handleAutocompleteSelect} />
@@ -141,12 +141,10 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
         value={{ latitude: watch("latitude"), longitude: watch("longitude") }}
         onChange={handleMapChange}
       />
-      {errors.latitude && <p className="auth-error">{errors.latitude.message}</p>}
+      {errors.latitude && <p role="alert" className="text-xs text-error">{errors.latitude.message}</p>}
 
       <FormField label="Alamat" htmlFor="address" error={errors.address?.message}>
-        <div className="auth-input-wrap">
-          <input id="address" className="auth-input" {...register("address")} />
-        </div>
+        <input id="address" className={inputClasses} {...register("address")} />
       </FormField>
 
       <WilayahSelect
@@ -158,28 +156,27 @@ export function AddressForm({ initialData, onSuccess }: AddressFormProps) {
       />
 
       <FormField label="Kode pos" htmlFor="postal_code">
-        <div className="auth-input-wrap">
-          <input id="postal_code" className="auth-input" {...register("postal_code")} />
-        </div>
+        <input id="postal_code" className={inputClasses} {...register("postal_code")} />
       </FormField>
 
       {!isFirstAddress && (
-        <div className="auth-checkbox-row">
+        <div className="flex items-center gap-2">
           <input
             id="is_primary"
             type="checkbox"
+            className="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary/30"
             {...register("is_primary")}
             disabled={isPrimaryLocked}
           />
-          <label htmlFor="is_primary">Jadikan alamat utama</label>
+          <label htmlFor="is_primary" className="text-sm text-on-surface">Jadikan alamat utama</label>
         </div>
       )}
 
       <ApiErrorMessage error={mutation.error} />
 
-      <button className="auth-button" type="submit" disabled={mutation.isPending}>
+      <Button type="submit" fullWidth isLoading={mutation.isPending}>
         {mutation.isPending ? "Menyimpan..." : isEdit ? "Simpan perubahan" : "Tambah alamat"}
-      </button>
+      </Button>
     </form>
   );
 }

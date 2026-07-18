@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useSearchParams } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 import { useVerifyEmailQuery } from "../hooks/auth/useVerifyEmailQuery";
 import { useVerifyEmailMutation } from "../hooks/auth/useVerifyEmailMutation";
 import { useResendVerificationMutation } from "../hooks/auth/useResendVerificationMutation";
@@ -12,7 +13,10 @@ import {
 } from "../schemas/auth";
 import { FormField } from "../components/FormField";
 import { ApiErrorMessage } from "../components/ApiErrorMessage";
-import "../styles/auth.css";
+import { Button } from "../components/ui/Button";
+import { buttonClasses } from "../components/ui/buttonStyles";
+import { inputClasses } from "../components/ui/Input";
+import { AuthShell, AuthCard } from "../components/ui/AuthShell";
 
 export function VerifyEmail() {
   const [searchParams] = useSearchParams();
@@ -34,80 +38,68 @@ export function VerifyEmail() {
 
   if (autoVerifyQuery.isSuccess || verifyMutation.isSuccess) {
     return (
-      <div className="auth-shell">
-        <div className="auth-card auth-success">
-          <h2>Email terverifikasi</h2>
-          <p className="auth-success-text">Akun kamu sudah siap. Sekarang kamu bisa masuk.</p>
-          <Link to="/login" className="auth-button">Ke halaman masuk</Link>
-        </div>
-      </div>
+      <AuthShell>
+        <AuthCard className="text-center">
+          <h2 className="text-xl font-bold text-on-surface">Email terverifikasi</h2>
+          <p className="text-sm text-on-surface-variant">Akun kamu sudah siap. Sekarang kamu bisa masuk.</p>
+          <Link to="/login" className={buttonClasses("primary", "md", "w-full")}>Ke halaman masuk</Link>
+        </AuthCard>
+      </AuthShell>
     );
   }
 
   if (tokenFromUrl && autoVerifyQuery.isPending) {
     return (
-      <div className="auth-shell">
-        <div className="auth-card">
-          <h2>Memverifikasi email kamu...</h2>
-        </div>
-      </div>
+      <AuthShell>
+        <AuthCard className="flex flex-col items-center text-center gap-2">
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+          <h2 className="text-xl font-bold text-on-surface">Memverifikasi email kamu...</h2>
+        </AuthCard>
+      </AuthShell>
     );
   }
 
   const displayError = verifyMutation.error ?? autoVerifyQuery.error;
 
   return (
-    <div className="auth-shell">
-      <div className="auth-card">
-        <h2>Verifikasi email kamu</h2>
-        <p>Tempel token verifikasi yang kami kirim ke email kamu.</p>
+    <AuthShell>
+      <AuthCard>
+        <div>
+          <h2 className="text-xl font-bold text-on-surface">Verifikasi email kamu</h2>
+          <p className="mt-1 text-sm text-on-surface-variant">Tempel token verifikasi yang kami kirim ke email kamu.</p>
+        </div>
 
-        <form onSubmit={verifyForm.handleSubmit((data) => verifyMutation.mutate(data))}>
+        <form className="space-y-5" onSubmit={verifyForm.handleSubmit((data) => verifyMutation.mutate(data))}>
           <FormField label="Token" htmlFor="token" hint="salin kode panjang dari link di email" error={verifyForm.formState.errors.token?.message}>
-            <div className="auth-input-wrap">
-              <input
-                id="token"
-                className="auth-input"
-                autoComplete="off"
-                {...verifyForm.register("token")}
-              />
-            </div>
+            <input id="token" className={inputClasses} autoComplete="off" {...verifyForm.register("token")} />
           </FormField>
 
           <ApiErrorMessage error={displayError} />
 
-          <button className="auth-button" type="submit" disabled={verifyMutation.isPending}>
+          <Button type="submit" fullWidth isLoading={verifyMutation.isPending}>
             {verifyMutation.isPending ? "Memverifikasi..." : "Verifikasi"}
-          </button>
+          </Button>
         </form>
 
-        <hr className="auth-divider" />
+        <hr className="border-outline-variant" />
 
         {resendMutation.isSuccess ? (
-          <p className="auth-success-text">{resendMutation.data?.message}</p>
+          <p className="text-sm text-on-surface-variant">{resendMutation.data?.message}</p>
         ) : (
-          <form onSubmit={resendForm.handleSubmit((data) => resendMutation.mutate(data))}>
+          <form className="space-y-5" onSubmit={resendForm.handleSubmit((data) => resendMutation.mutate(data))}>
             <FormField label="Belum dapat emailnya?" htmlFor="resend_email" error={resendForm.formState.errors.email?.message}>
-              <div className="auth-input-wrap">
-                <input
-                  id="resend_email"
-                  className="auth-input"
-                  type="email"
-                  autoComplete="email"
-                  {...resendForm.register("email")}
-                />
-              </div>
+              <input id="resend_email" className={inputClasses} type="email" autoComplete="email" {...resendForm.register("email")} />
             </FormField>
-            <button className="auth-button" type="submit" disabled={resendMutation.isPending}>
+            <Button type="submit" fullWidth isLoading={resendMutation.isPending}>
               {resendMutation.isPending ? "Mengirim..." : "Kirim ulang"}
-            </button>
+            </Button>
           </form>
         )}
 
-        <p className="auth-link">
-          <Link to="/login">Kembali ke halaman masuk</Link>
+        <p className="text-center text-sm text-on-surface-variant">
+          <Link to="/login" className="font-semibold text-primary hover:underline">Kembali ke halaman masuk</Link>
         </p>
-      </div>
-    </div>
+      </AuthCard>
+    </AuthShell>
   );
 }
