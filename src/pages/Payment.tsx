@@ -103,7 +103,7 @@ export function Payment() {
             </span>
           )}
           {isExpiredOrFailed && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-error-container/60 px-3 py-1 text-xs font-semibold text-on-error-container">
               <XCircle className="w-3.5 h-3.5" />
               {payment?.status === "expired" ? "Kedaluwarsa" : "Gagal"}
             </span>
@@ -129,7 +129,11 @@ export function Payment() {
         )}
       </div>
 
-      {errorMessage && <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</div>}
+      {errorMessage && (
+        <p role="alert" className="rounded-xl border border-error/30 bg-error-container/40 px-4 py-2.5 text-sm text-on-error-container">
+          {errorMessage}
+        </p>
+      )}
 
       {isPaid ? (
         <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-5 text-center text-sm text-green-700 font-medium">

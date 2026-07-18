@@ -7,7 +7,6 @@ import { useCreateComplaintMutation } from "../../hooks/orders/useCreateComplain
 import type { ComplaintType } from "../../types/order";
 import { MAX_COMPLAINT_PHOTOS, createComplaintSchema, type CreateComplaintFormValues } from "../../schemas/complaint";
 import { ApiErrorMessage } from "../ApiErrorMessage";
-import "../../styles/auth.css";
 
 interface Props {
   orderId: string;
