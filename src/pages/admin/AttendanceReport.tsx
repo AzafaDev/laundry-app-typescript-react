@@ -186,7 +186,7 @@ export function AttendanceReport() {
               <tbody>
                 {data.map((record) => (
                   <tr key={record.id} className="border-b border-outline-variant last:border-0">
-                    <td className="py-3 px-2 text-sm text-on-surface">{record.employee_id.slice(0, 8)}</td>
+                    <td className="py-3 px-2 text-sm text-on-surface">{record.employee_name || "—"}</td>
                     <td className="py-3 px-2 text-sm text-on-surface">{record.outlet_name || "—"}</td>
                     <td className="py-3 px-2 text-sm text-on-surface">{record.date}</td>
                     <td className="py-3 px-2 text-sm text-on-surface">

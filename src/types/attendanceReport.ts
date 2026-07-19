@@ -1,6 +1,7 @@
 export interface AttendanceRecord {
   id: string;
   employee_id: string;
+  employee_name?: string;
   outlet_id: string;
   outlet_name?: string;
   date: string;

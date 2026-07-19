@@ -36,6 +36,12 @@
   --color-error-container: #ffdad6;
   --color-on-error-container: #93000a;
 
+  --color-success: #2d6a4f;
+  --color-on-success: #ffffff;
+
+  --color-warning: #b8860b;
+  --color-on-warning: #ffffff;
+
   --color-surface: #fafbf9;
   --color-surface-container: #edf1ee;
   --color-surface-container-low: #f3f5f2;
