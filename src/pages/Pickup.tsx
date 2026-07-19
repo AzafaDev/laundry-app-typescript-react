@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Loader2, MapPin, Truck } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAddressesQuery } from "../hooks/addresses/useAddressesQuery";
 import { useCreateOrderMutation } from "../hooks/orders/useCreateOrderMutation";
+import { useEstimateDeliveryFeeQuery } from "../hooks/orders/useEstimateDeliveryFeeQuery";
 import { createOrderSchema, type CreateOrderFormValues } from "../schemas/order";
+import { formatRupiah } from "../utils/formatPrice";
+import { ApiError } from "../api/client";
 import { ApiErrorMessage } from "../components/ApiErrorMessage";
 import { BackLink } from "../components/ui/BackLink";
 import { Eyebrow } from "../components/ui/Eyebrow";
@@ -29,6 +32,7 @@ export function Pickup() {
   const createOrderMutation = useCreateOrderMutation();
 
   const [successInvoice, setSuccessInvoice] = useState<string | null>(null);
+  const [lastFetchedAddressId, setLastFetchedAddressId] = useState<string | null>(null);
 
   const {
     watch,
@@ -50,7 +54,15 @@ export function Pickup() {
   const effectiveAddressId = watchedAddressId || defaultAddressId;
   const selectedDate = watch("pickup_date");
 
-  const canOrder = !!effectiveAddressId && !addressesQuery.isLoading && !createOrderMutation.isPending && !successInvoice;
+  // Track when we've fetched the fee for the current address (for race condition guard)
+  useEffect(() => {
+    setLastFetchedAddressId(effectiveAddressId);
+  }, [effectiveAddressId]);
+
+  const feeQuery = useEstimateDeliveryFeeQuery(effectiveAddressId);
+  const feeIsStale = lastFetchedAddressId !== effectiveAddressId || feeQuery.isFetching;
+
+  const canOrder = !!effectiveAddressId && !addressesQuery.isLoading && !createOrderMutation.isPending && !successInvoice && !feeIsStale;
 
   const onSubmit = (values: CreateOrderFormValues) => {
     setSuccessInvoice(null);
@@ -159,6 +171,51 @@ export function Pickup() {
           ))}
         </div>
       </section>
+
+      {effectiveAddressId && (
+        <section className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="rounded-2xl bg-primary/10 p-3 text-primary">
+              <Truck className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-on-surface">Estimasi Ongkir</h2>
+              <p className="text-sm text-on-surface-variant">Dari outlet terdekat ke alamat pickup.</p>
+            </div>
+          </div>
+
+          {feeQuery.isLoading && (
+            <div className="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface px-4 py-5 text-sm text-on-surface-variant">
+              <Loader2 className="w-4 h-4 animate-spin text-primary" />
+              Menghitung estimasi ongkir...
+            </div>
+          )}
+
+          {feeQuery.isError && (
+            <div className="rounded-2xl border border-error/30 bg-error/10 px-4 py-3 text-sm text-error">
+              {feeQuery.error instanceof ApiError && feeQuery.error.status === 404
+                ? "Alamat pickup tidak ditemukan. Coba ubah atau tambah alamat baru."
+                : feeQuery.error instanceof ApiError && feeQuery.error.status === 400
+                  ? "Alamat pickup tidak valid. Pastikan koordinat ada dan benar."
+                  : "Tidak bisa menghitung ongkir. Coba lagi atau ubah alamat pickup."}
+            </div>
+          )}
+
+          {feeQuery.isSuccess && feeQuery.data && (
+            <div className="rounded-2xl border border-outline-variant bg-surface px-4 py-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-on-surface-variant">Ongkir</span>
+                <span className="text-base font-bold text-on-surface">
+                  {feeQuery.data.delivery_fee === 0 ? "Gratis" : formatRupiah(feeQuery.data.delivery_fee)}
+                </span>
+              </div>
+              <div className="text-xs text-on-surface-variant border-t border-outline-variant pt-2">
+                Dari: <span className="font-medium text-on-surface">{feeQuery.data.outlet_name}</span>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       <ApiErrorMessage error={createOrderMutation.error} />
       {(errors.pickup_address_id || errors.pickup_date) && (

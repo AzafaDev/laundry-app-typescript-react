@@ -31,6 +31,17 @@ export const getOrderDetail = (id: string) =>
 export const createOrder = (data: { pickup_address_id: string; pickup_date: string }) =>
   request<Order>("/api/v1/customer/orders", { method: "POST", body: JSON.stringify(data) });
 
+export interface EstimateFeeResponse {
+  delivery_fee: number;
+  outlet_name: string;
+}
+
+export const estimateDeliveryFee = (pickupAddressId: string) => {
+  const params = new URLSearchParams();
+  params.set("pickup_address_id", pickupAddressId);
+  return request<EstimateFeeResponse>(`/api/v1/customer/orders/estimate-fee?${params.toString()}`);
+};
+
 export const completeOrder = (id: string) =>
   request<Order>(`/api/v1/customer/orders/${id}/complete`, { method: "PATCH" });
 
