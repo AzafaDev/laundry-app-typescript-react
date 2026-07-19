@@ -9,14 +9,14 @@ import { Pagination } from "../components/ui/Pagination";
 import { buttonClasses } from "../components/ui/buttonStyles";
 import { BackLink } from "../components/ui/BackLink";
 import { Eyebrow } from "../components/ui/Eyebrow";
-import type { OrderStatus } from "../types/order";
+import { STATUS_GROUPS } from "../components/orders/orderConstants";
 
 const LIMIT = 10;
 
 export function Orders() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<OrderStatus | "">("");
+  const [statusGroup, setStatusGroup] = useState<string>(STATUS_GROUPS[0].key);
   const [page, setPage] = useState(1);
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -29,21 +29,27 @@ export function Orders() {
     }, 400);
   };
 
-  const handleStatusChange = (value: OrderStatus | "") => {
-    setStatus(value);
+  const handleStatusGroupChange = (key: string) => {
+    setStatusGroup(key);
     setPage(1);
   };
 
-  const hasFilters = !!search || !!status;
+  const hasFilters = !!search || statusGroup !== STATUS_GROUPS[0].key;
   const clearFilters = () => {
     setSearchInput("");
     setSearch("");
-    setStatus("");
+    setStatusGroup(STATUS_GROUPS[0].key);
     setPage(1);
   };
 
+  const activeGroup = STATUS_GROUPS.find((g) => g.key === statusGroup) ?? STATUS_GROUPS[0];
   const offset = (page - 1) * LIMIT;
-  const query = { status: status || undefined, search: search || undefined, limit: LIMIT, offset };
+  const query = {
+    status: activeGroup.statuses.length > 0 ? activeGroup.statuses : undefined,
+    search: search || undefined,
+    limit: LIMIT,
+    offset,
+  };
   const ordersQuery = useOrdersQuery(query);
 
   const orders = ordersQuery.data?.data ?? [];
@@ -71,11 +77,11 @@ export function Orders() {
 
       <OrderFilters
         searchInput={searchInput}
-        status={status}
+        statusGroup={statusGroup}
         hasFilters={hasFilters}
         isSearching={ordersQuery.isFetching && !ordersQuery.isLoading}
         onSearchChange={handleSearchChange}
-        onStatusChange={handleStatusChange}
+        onStatusGroupChange={handleStatusGroupChange}
         onClear={clearFilters}
       />
 

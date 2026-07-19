@@ -2,7 +2,7 @@ import { request } from "./client";
 import type { ComplaintType, Order, OrderDetail, OrderListResponse, OrderStatus } from "../types/order";
 
 export interface ListOrdersQuery {
-  status?: OrderStatus | "";
+  status?: OrderStatus[];
   search?: string;
   date_from?: string;
   date_to?: string;
@@ -12,7 +12,7 @@ export interface ListOrdersQuery {
 
 function buildQueryString(query: ListOrdersQuery): string {
   const params = new URLSearchParams();
-  if (query.status) params.set("status", query.status);
+  if (query.status && query.status.length > 0) params.set("status", query.status.join(","));
   if (query.search) params.set("search", query.search);
   if (query.date_from) params.set("date_from", query.date_from);
   if (query.date_to) params.set("date_to", query.date_to);

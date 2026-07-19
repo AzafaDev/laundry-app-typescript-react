@@ -14,9 +14,33 @@ export const ORDER_PROGRESS_STEPS: Array<{ key: OrderStatus; label: string }> = 
   { key: "completed", label: "Selesai" },
 ];
 
-export const STATUS_FILTER_OPTIONS: Array<{ value: OrderStatus | ""; label: string }> = [
-  { value: "", label: "Semua status" },
-  ...ORDER_PROGRESS_STEPS.map((s) => ({ value: s.key, label: s.label })),
+export interface StatusGroup {
+  key: string;
+  label: string;
+  statuses: OrderStatus[];
+}
+
+export const STATUS_GROUPS: StatusGroup[] = [
+  { key: "all", label: "Semua", statuses: [] },
+  {
+    key: "processing",
+    label: "Diproses",
+    statuses: [
+      "waiting_pickup_driver",
+      "laundry_to_outlet",
+      "laundry_arrived_outlet",
+      "washing",
+      "ironing",
+      "packing",
+    ],
+  },
+  { key: "waiting_payment", label: "Menunggu Pembayaran", statuses: ["waiting_payment"] },
+  {
+    key: "delivery",
+    label: "Pengiriman",
+    statuses: ["ready_for_delivery", "delivery_to_customer", "received_by_customer"],
+  },
+  { key: "completed", label: "Selesai", statuses: ["completed"] },
 ];
 
 export const ORDER_STATUS_LABEL = Object.fromEntries(
