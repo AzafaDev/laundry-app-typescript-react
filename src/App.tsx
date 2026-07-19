@@ -9,6 +9,7 @@ import { WorkerRoute } from "./components/WorkerRoute";
 import { DriverRoute } from "./components/DriverRoute";
 import { OutletAdminRoute } from "./components/OutletAdminRoute";
 import { AdminRoute } from "./components/AdminRoute";
+import { StaffOnlyRoute } from "./components/StaffOnlyRoute";
 import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { VerifyEmail } from "./pages/VerifyEmail";
@@ -89,8 +90,8 @@ function App() {
         <Route path="/staff/admin/employees" element={<SuperAdminRoute><Employees /></SuperAdminRoute>} />
         <Route path="/staff/admin/employees/new" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
         <Route path="/staff/admin/employees/:id/edit" element={<SuperAdminRoute><EmployeeForm /></SuperAdminRoute>} />
-        <Route path="/staff/attendance" element={<StaffProtectedRoute><Attendance /></StaffProtectedRoute>} />
-        <Route path="/staff/attendance/history" element={<StaffProtectedRoute><AttendanceHistory /></StaffProtectedRoute>} />
+        <Route path="/staff/attendance" element={<StaffOnlyRoute><Attendance /></StaffOnlyRoute>} />
+        <Route path="/staff/attendance/history" element={<StaffOnlyRoute><AttendanceHistory /></StaffOnlyRoute>} />
         <Route path="/staff/station" element={<WorkerRoute><Station /></WorkerRoute>} />
         <Route path="/staff/station/history" element={<WorkerRoute><StationHistory /></WorkerRoute>} />
         <Route path="/staff/driver/tasks" element={<DriverRoute><DriverTasks /></DriverRoute>} />
