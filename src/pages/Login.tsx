@@ -12,22 +12,35 @@ import { inputClasses } from "../components/ui/Input";
 import { AuthShell } from "../components/ui/AuthShell";
 import { ClaimTag } from "../components/ui/ClaimTag";
 
+const DEMO_ACCOUNTS = {
+  customer: [
+    { email: "rina@demo.customer", name: "Rina Marlina" },
+  ],
+};
+
 export function Login() {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
   const mutation = useLoginMutation();
+  const isDemoMode = import.meta.env.VITE_DEMO_MODE === "true";
 
   const onSubmit = (data: LoginFormValues) => {
     mutation.mutate(data, {
       onSuccess: () => navigate("/"),
     });
+  };
+
+  const fillDemoAccount = (email: string) => {
+    setValue("email", email);
+    setValue("password", "demo123");
   };
 
   return (
@@ -67,6 +80,29 @@ export function Login() {
           <LinkButton href={googleLoginUrl()} variant="secondary" fullWidth>
             Lanjutkan dengan Google
           </LinkButton>
+
+          {isDemoMode && (
+            <>
+              <hr className="border-outline-variant" />
+              <div className="space-y-3">
+                <p className="text-center text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+                  Akun Demo
+                </p>
+                {DEMO_ACCOUNTS.customer.map((account) => (
+                  <button
+                    key={account.email}
+                    type="button"
+                    onClick={() => fillDemoAccount(account.email)}
+                    className="block w-full text-left rounded border border-outline-variant bg-surface-container-lowest p-3 transition-colors hover:bg-surface-container text-sm"
+                  >
+                    <div className="font-medium text-on-surface">{account.name}</div>
+                    <div className="text-xs text-on-surface-variant">{account.email}</div>
+                    <div className="text-xs text-on-surface-variant">Password: demo123</div>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
 
           <hr className="border-outline-variant" />
 
