@@ -30,10 +30,14 @@ export function Layout({ children }: { children: ReactNode }) {
     }
   };
 
+  const isAdminArea = isStaffArea && (employee?.role === "super_admin" || employee?.role === "outlet_admin");
+
   return (
     <>
       {isStaffArea ? renderStaffNav() : <Navbar />}
-      {children}
+      <div className={isAdminArea ? "admin-sidebar-layout" : ""}>
+        {children}
+      </div>
     </>
   );
 }
