@@ -12,10 +12,10 @@ import { AuthShell } from "../components/ui/AuthShell";
 
 const DEMO_ACCOUNTS = {
   staff: [
-    { email: "admin@demo.laundry", name: "Budi Santoso", role: "Super Admin" },
-    { email: "outlet.admin@demo.laundry", name: "Siti Aminah", role: "Outlet Admin" },
-    { email: "driver@demo.laundry", name: "Dedi Kurniawan", role: "Driver" },
-    { email: "washing@demo.laundry", name: "Dewi Lestari", role: "Washing Worker" },
+    { email: "admin@demo.laundry", name: "Super Admin", role: "Super Admin" },
+    { email: "outlet.admin@demo.laundry", name: "Outlet Admin", role: "Outlet Admin" },
+    { email: "driver@demo.laundry", name: "Driver", role: "Driver" },
+    { email: "washing@demo.laundry", name: "Washing Worker", role: "Washing Worker" },
   ],
 };
 
