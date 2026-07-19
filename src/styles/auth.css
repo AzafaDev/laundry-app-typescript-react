@@ -1,10 +1,10 @@
 :root {
-  --bg: #eef1f0;
-  --card-bg: #ffffff;
-  --ink: #1c2422;
-  --ink-soft: #5c6764;
-  --accent: #2e6f6b;
-  --error: #b23a2e;
+  --bg: var(--color-background);
+  --card-bg: var(--color-surface-container-lowest);
+  --ink: var(--color-on-surface);
+  --ink-soft: var(--color-on-surface-variant);
+  --accent: var(--color-primary);
+  --error: var(--color-error);
   --border: rgba(28, 36, 34, 0.16);
 }
 
