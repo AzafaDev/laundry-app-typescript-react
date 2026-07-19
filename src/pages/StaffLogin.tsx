@@ -73,6 +73,10 @@ export function StaffLogin() {
           <Link to="/staff/forgot-password" className="font-semibold text-primary hover:underline">Lupa kata sandi?</Link>
         </p>
       </form>
+
+      <p className="text-sm text-on-surface-variant">
+        Pelanggan? <Link to="/" className="font-semibold text-primary hover:underline">Masuk di sini</Link>
+      </p>
     </AuthShell>
   );
 }

@@ -1,48 +1,23 @@
-import { useRef, useState } from "react";
 import { Circle, ClipboardList, RefreshCw } from "lucide-react";
 import { useOutletOrdersQuery } from "../../hooks/adminOrders/useOutletOrdersQuery";
-import { OrderFilters } from "../../components/orders/OrderFilters";
 import { LoadingState, ErrorState, EmptyState } from "../../components/ui/PageState";
 import { Pagination } from "../../components/ui/Pagination";
 import { BackLink } from "../../components/ui/BackLink";
 import { ORDER_STATUS_LABEL, formatDateTime } from "../../components/orders/orderConstants";
 import { STEP_ICON, statusBadgeClasses } from "../../components/orders/statusIcons";
 import { formatRupiah } from "../../utils/formatPrice";
-import type { OrderStatus } from "../../types/order";
+import { useState } from "react";
 
 const LIMIT = 15;
 
 export function OutletOrders() {
-  const [searchInput, setSearchInput] = useState("");
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<OrderStatus | "">("");
+  const [search] = useState("");
   const [page, setPage] = useState(1);
-  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleSearchChange = (value: string) => {
-    setSearchInput(value);
-    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
-    searchTimerRef.current = setTimeout(() => {
-      setSearch(value.trim());
-      setPage(1);
-    }, 400);
-  };
-
-  const handleStatusChange = (value: OrderStatus | "") => {
-    setStatus(value);
-    setPage(1);
-  };
-
-  const hasFilters = !!search || !!status;
-  const clearFilters = () => {
-    setSearchInput("");
-    setSearch("");
-    setStatus("");
-    setPage(1);
-  };
+  const hasFilters = !!search;
 
   const offset = (page - 1) * LIMIT;
-  const ordersQuery = useOutletOrdersQuery({ status: status || undefined, search: search || undefined, limit: LIMIT, offset });
+  const ordersQuery = useOutletOrdersQuery({ search: search || undefined, limit: LIMIT, offset });
 
   const orders = ordersQuery.data?.data ?? [];
   const total = ordersQuery.data?.total_count ?? 0;
@@ -63,15 +38,6 @@ export function OutletOrders() {
         </button>
       </div>
 
-      <OrderFilters
-        searchInput={searchInput}
-        status={status}
-        hasFilters={hasFilters}
-        isSearching={ordersQuery.isFetching && !ordersQuery.isLoading}
-        onSearchChange={handleSearchChange}
-        onStatusChange={handleStatusChange}
-        onClear={clearFilters}
-      />
 
       {ordersQuery.isLoading && <LoadingState label="Memuat pesanan..." />}
 
