@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Package } from "lucide-react";
+import { Package } from "lucide-react";
 import { useStaffAuth } from "../../context/StaffAuthContext";
 import { useStationOrdersQuery } from "../../hooks/worker/useStationOrdersQuery";
 import { STATION_FOR_ROLE, STATION_LABEL } from "../../components/worker/workerConstants";
 import { StationProcessModal } from "../../components/worker/StationProcessModal";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
-import "../../styles/auth.css";
+import { BackLink } from "../../components/ui/BackLink";
+import { Card } from "../../components/ui/Card";
+import { LoadingState, EmptyState } from "../../components/ui/PageState";
 
 export function Station() {
   const { employee } = useStaffAuth();
@@ -27,10 +28,7 @@ export function Station() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <Link to="/staff/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Kembali ke dashboard
-      </Link>
+      <BackLink to="/staff/dashboard">Kembali ke dashboard</BackLink>
 
       <div>
         <h1 className="text-2xl font-bold text-on-surface">{STATION_LABEL[station]}</h1>
@@ -39,13 +37,16 @@ export function Station() {
 
       <ApiErrorMessage error={stationOrdersQuery.error} />
 
-      {stationOrdersQuery.isLoading && <p className="text-sm text-on-surface-variant">Memuat...</p>}
+      {stationOrdersQuery.isLoading && (
+        <Card>
+          <LoadingState label="Memuat antrian..." bordered={false} />
+        </Card>
+      )}
 
       {!stationOrdersQuery.isLoading && orders.length === 0 && !stationOrdersQuery.isError && (
-        <div className="rounded-2xl border border-dashed border-outline-variant bg-surface px-6 py-12 text-center">
-          <Package className="w-6 h-6 text-outline mx-auto mb-2" />
-          <p className="text-sm text-on-surface-variant">Belum ada pesanan di antrian.</p>
-        </div>
+        <Card>
+          <EmptyState icon={Package} title="Belum ada pesanan" description="Antrian pesanan di station kamu akan muncul di sini." />
+        </Card>
       )}
 
       <div className="space-y-3">

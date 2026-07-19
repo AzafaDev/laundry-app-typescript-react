@@ -1,13 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Clock, LogIn, LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Clock, LogIn, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
 import { useTodayAttendanceQuery } from "../../hooks/attendance/useTodayAttendanceQuery";
 import { useCurrentShiftQuery } from "../../hooks/attendance/useCurrentShiftQuery";
 import { useCheckInMutation } from "../../hooks/attendance/useCheckInMutation";
 import { useCheckOutMutation } from "../../hooks/attendance/useCheckOutMutation";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
-import "../../styles/auth.css";
+import { BackLink } from "../../components/ui/BackLink";
+import { Eyebrow } from "../../components/ui/Eyebrow";
+import { Card } from "../../components/ui/Card";
+
+function useClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return now;
+}
 
 function getGeolocation(): Promise<GeolocationPosition> {
   return new Promise((resolve, reject) => {
@@ -20,6 +30,7 @@ function getGeolocation(): Promise<GeolocationPosition> {
 }
 
 export function Attendance() {
+  const now = useClock();
   const [geoError, setGeoError] = useState<string | null>(null);
   const todayQuery = useTodayAttendanceQuery();
   const shiftQuery = useCurrentShiftQuery();
@@ -62,17 +73,23 @@ export function Attendance() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <Link to="/staff/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Kembali ke dashboard
-      </Link>
+      <BackLink to="/staff/dashboard">Kembali ke dashboard</BackLink>
 
       <div>
-        <h1 className="text-2xl font-bold text-on-surface">Absensi</h1>
-        <p className="text-sm text-on-surface-variant mt-1">Check-in dan check-out shift hari ini.</p>
+        <Eyebrow className="mb-2">Absensi</Eyebrow>
+        <h1 className="text-2xl md:text-3xl font-bold text-on-surface">Catat kehadiran hari ini.</h1>
       </div>
 
-      <div className="rounded-2xl border border-outline-variant bg-surface p-5 shadow-sm space-y-3">
+      <Card className="flex flex-col items-center gap-1 py-8 text-center">
+        <span className="font-mono text-4xl md:text-5xl font-bold tabular-nums text-on-surface">
+          {now.toLocaleTimeString("id-ID")}
+        </span>
+        <span className="text-sm text-on-surface-variant">
+          {now.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+        </span>
+      </Card>
+
+      <Card className="space-y-3">
         <div className="flex items-center gap-2 text-sm font-bold text-on-surface">
           <Clock className="w-4 h-4 text-primary" />
           Shift hari ini
@@ -86,9 +103,9 @@ export function Attendance() {
             {new Date(shift.end_time).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
           </p>
         )}
-      </div>
+      </Card>
 
-      <div className="rounded-2xl border border-outline-variant bg-surface p-5 shadow-sm space-y-4">
+      <Card className="space-y-4">
         <p className="text-sm font-bold text-on-surface">Status hari ini</p>
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
@@ -133,7 +150,7 @@ export function Attendance() {
         {hasCheckedIn && hasCheckedOut && (
           <p className="text-sm text-center text-on-surface-variant">Absensi hari ini sudah selesai.</p>
         )}
-      </div>
+      </Card>
     </main>
   );
 }

@@ -6,7 +6,6 @@ import { Card } from "../../components/ui/Card";
 import { Pagination } from "../../components/ui/Pagination";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { BackLink } from "../../components/ui/BackLink";
-import "../../styles/auth.css";
 
 const LIMIT = 20;
 const STATUS_LABEL: Record<string, string> = {
@@ -16,7 +15,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 const STATUS_BADGE: Record<string, string> = {
   on_time: "bg-primary/10 text-primary",
-  late: "bg-amber-100 text-amber-700",
+  late: "bg-tertiary-container text-on-tertiary-container",
   absent: "bg-error/10 text-error",
 };
 

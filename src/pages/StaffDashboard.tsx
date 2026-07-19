@@ -7,7 +7,11 @@ import { useDashboardStatsQuery } from "../hooks/admin/useDashboardStatsQuery";
 import { useComplaintStatsQuery } from "../hooks/admin/useComplaintStatsQuery";
 import { STATION_FOR_ROLE, STATION_LABEL } from "../components/worker/workerConstants";
 import { ROLE_LABEL } from "../constants/roleLabels";
-import "../styles/auth.css";
+
+const primaryButton =
+  "block w-full text-center text-sm font-bold tracking-[0.02em] text-on-primary bg-primary rounded px-4 py-3 mt-2 hover:opacity-90 transition-opacity";
+const secondaryButton =
+  "block w-full text-center text-sm font-bold tracking-[0.02em] text-on-surface bg-transparent border border-outline rounded px-4 py-3 mt-2.5 hover:border-primary hover:text-primary transition-colors disabled:opacity-55 disabled:hover:border-outline disabled:hover:text-on-surface";
 
 export function StaffDashboard() {
   const { employee } = useStaffAuth();
@@ -35,12 +39,14 @@ export function StaffDashboard() {
   const station = employee ? STATION_FOR_ROLE[employee.role] : undefined;
 
   return (
-    <div className="home-landing">
-      <div className="home-dashboard">
-        <div className="home-dashboard-ticket">
-          <span className="auth-label">Staf</span>
-          <h1 className="home-dashboard-greeting">{employee?.full_name}</h1>
-          <span className="auth-label">{employee ? ROLE_LABEL[employee.role] ?? employee.role : ""}</span>
+    <div className="min-h-svh flex flex-col items-center justify-center text-center px-6 py-12 bg-background">
+      <div className="w-full max-w-[380px] flex flex-col items-center gap-5">
+        <div className="relative w-full bg-surface-container-lowest border border-dashed border-outline text-left px-7 pt-7 pb-6 before:content-[''] before:absolute before:-top-px before:-left-px before:w-[22px] before:h-[22px] before:bg-background before:border-r before:border-b before:border-dashed before:border-outline">
+          <span className="font-mono text-[11px] font-bold tracking-[0.08em] uppercase text-on-surface-variant">Staf</span>
+          <h1 className="text-2xl md:text-3xl font-bold text-on-surface my-1">{employee?.full_name}</h1>
+          <span className="font-mono text-[11px] font-bold tracking-[0.08em] uppercase text-on-surface-variant">
+            {employee ? ROLE_LABEL[employee.role] ?? employee.role : ""}
+          </span>
 
           {isAdmin && (
             <div className="grid grid-cols-2 gap-3 w-full mt-4">
@@ -84,98 +90,98 @@ export function StaffDashboard() {
           )}
 
           {employee?.role === "super_admin" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
-              <Link to="/staff/admin/outlets" className="auth-button">Kelola Outlet</Link>
-              <Link to="/staff/admin/employees" className="auth-button">Kelola Karyawan</Link>
-              <Link to="/staff/admin/shifts" className="auth-button">
-                <Clock className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+            <div className="flex flex-col gap-2.5 w-full mt-4">
+              <Link to="/staff/admin/outlets" className={primaryButton}>Kelola Outlet</Link>
+              <Link to="/staff/admin/employees" className={primaryButton}>Kelola Karyawan</Link>
+              <Link to="/staff/admin/shifts" className={`${primaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Clock className="w-4 h-4" />
                 Kelola Shift
               </Link>
-              <Link to="/staff/admin/laundry-items" className="auth-button auth-button-secondary">
-                <Package className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/admin/laundry-items" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Package className="w-4 h-4" />
                 Item Laundry
               </Link>
-              <Link to="/staff/admin/clothing-types" className="auth-button auth-button-secondary">
-                <Shirt className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/admin/clothing-types" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Shirt className="w-4 h-4" />
                 Jenis Pakaian
               </Link>
             </div>
           )}
 
           {station && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
-              <Link to="/staff/attendance" className="auth-button auth-button-secondary">
-                <Clock className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+            <div className="flex flex-col gap-2.5 w-full mt-4">
+              <Link to="/staff/attendance" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Clock className="w-4 h-4" />
                 Absensi
               </Link>
-              <Link to="/staff/station" className="auth-button">
-                <Package className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/station" className={`${primaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Package className="w-4 h-4" />
                 {STATION_LABEL[station]}
               </Link>
-              <Link to="/staff/station/history" className="auth-button auth-button-secondary">
-                <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/station/history" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <History className="w-4 h-4" />
                 Riwayat {STATION_LABEL[station]}
               </Link>
-              <Link to="/staff/attendance/history" className="auth-button auth-button-secondary">
-                <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/attendance/history" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <History className="w-4 h-4" />
                 Riwayat Absensi
               </Link>
             </div>
           )}
 
           {employee?.role === "outlet_admin" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
-              <Link to="/staff/admin/orders" className="auth-button">
-                <ClipboardList className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+            <div className="flex flex-col gap-2.5 w-full mt-4">
+              <Link to="/staff/admin/orders" className={`${primaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <ClipboardList className="w-4 h-4" />
                 Semua Pesanan
               </Link>
-              <Link to="/staff/admin/orders/pending-process" className="auth-button auth-button-secondary">
-                <PackageSearch className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/admin/orders/pending-process" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <PackageSearch className="w-4 h-4" />
                 Proses Pesanan
               </Link>
-              <Link to="/staff/admin/bypass-requests" className="auth-button auth-button-secondary">
-                <ShieldAlert className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/admin/bypass-requests" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <ShieldAlert className="w-4 h-4" />
                 Permintaan Bypass
               </Link>
             </div>
           )}
 
           {employee?.role === "driver" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
-              <Link to="/staff/attendance" className="auth-button auth-button-secondary">
-                <Clock className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+            <div className="flex flex-col gap-2.5 w-full mt-4">
+              <Link to="/staff/attendance" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Clock className="w-4 h-4" />
                 Absensi
               </Link>
-              <Link to="/staff/driver/tasks" className="auth-button">
-                <ListChecks className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/driver/tasks" className={`${primaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <ListChecks className="w-4 h-4" />
                 Task Tersedia
               </Link>
-              <Link to="/staff/driver/active" className="auth-button auth-button-secondary">
-                <Truck className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/driver/active" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <Truck className="w-4 h-4" />
                 Task Aktif
               </Link>
-              <Link to="/staff/driver/history" className="auth-button auth-button-secondary">
-                <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/driver/history" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <History className="w-4 h-4" />
                 Riwayat Task
               </Link>
-              <Link to="/staff/attendance/history" className="auth-button auth-button-secondary">
-                <History className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+              <Link to="/staff/attendance/history" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+                <History className="w-4 h-4" />
                 Riwayat Absensi
               </Link>
             </div>
           )}
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
-            <Link to="/staff/notifications" className="auth-button auth-button-secondary">
-              <Bell className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+          <div className="flex flex-col gap-2.5 w-full mt-4">
+            <Link to="/staff/notifications" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+              <Bell className="w-4 h-4" />
               Notifikasi{unreadCount > 0 ? ` (${unreadCount})` : ""}
             </Link>
-            <Link to="/staff/profile" className="auth-button auth-button-secondary">
-              <UserRound className="w-4 h-4" style={{ display: "inline", marginRight: 6 }} />
+            <Link to="/staff/profile" className={`${secondaryButton} inline-flex items-center justify-center gap-1.5`}>
+              <UserRound className="w-4 h-4" />
               Profil
             </Link>
             <button
-              className="auth-button auth-button-secondary"
+              className={secondaryButton}
               type="button"
               onClick={handleLogout}
               disabled={logoutMutation.isPending}

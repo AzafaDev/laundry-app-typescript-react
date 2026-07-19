@@ -5,6 +5,7 @@ import { useActiveTaskQuery } from "../../hooks/driver/useActiveTaskQuery";
 import { useCompleteTaskMutation } from "../../hooks/driver/useCompleteTaskMutation";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
 import { BackLink } from "../../components/ui/BackLink";
+import { Card } from "../../components/ui/Card";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { buttonClasses } from "../../components/ui/buttonStyles";
 
@@ -46,7 +47,7 @@ export function DriverActiveTask() {
       )}
 
       {task && (
-        <div className="rounded-2xl border border-outline-variant bg-surface p-5 shadow-sm space-y-4">
+        <Card className="space-y-4">
           <div className="flex items-center gap-3">
             <div className="rounded-2xl bg-primary/10 p-3 text-primary">
               {task.task_type === "pickup" ? <Package className="w-5 h-5" /> : <Truck className="w-5 h-5" />}
@@ -68,7 +69,7 @@ export function DriverActiveTask() {
             {completeMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
             {completeMutation.isPending ? "Memproses..." : "Selesaikan Task"}
           </button>
-        </div>
+        </Card>
       )}
     </main>
   );

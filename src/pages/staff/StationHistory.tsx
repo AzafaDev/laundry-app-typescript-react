@@ -10,7 +10,6 @@ import { Card } from "../../components/ui/Card";
 import { Pagination } from "../../components/ui/Pagination";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { BackLink } from "../../components/ui/BackLink";
-import "../../styles/auth.css";
 
 const LIMIT = 20;
 
