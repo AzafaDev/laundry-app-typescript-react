@@ -2,7 +2,7 @@ import { request } from "./client";
 import type { OrderListResponse, OrderStatus, OrderDetail } from "../types/order";
 
 export interface ListOutletOrdersQuery {
-  status?: OrderStatus | "";
+  status?: OrderStatus | string | "";
   search?: string;
   date_from?: string;
   date_to?: string;
