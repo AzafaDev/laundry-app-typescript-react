@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
 import { useLogoutMutation } from "../hooks/auth/useLogoutMutation";
 import { useUnreadCountQuery } from "../hooks/notifications/useUnreadCountQuery";
 import { BottomNav } from "./BottomNav";
@@ -10,7 +9,6 @@ import "../styles/navbar.css";
 
 export function Navbar() {
   const { isLoading, isAuthenticated } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const logoutMutation = useLogoutMutation();
   const unreadCountQuery = useUnreadCountQuery(isAuthenticated);
@@ -55,17 +53,6 @@ export function Navbar() {
             {menuOpen && <div className="navbar-backdrop" onClick={closeMenu} />}
 
             <div className={`navbar-links ${menuOpen ? "navbar-links-open" : ""}`}>
-              <button
-                type="button"
-                className="navbar-link navbar-theme-toggle"
-                onClick={toggleTheme}
-                aria-label={theme === "dark" ? "Ganti ke mode terang" : "Ganti ke mode gelap"}
-              >
-                <span className="inline-flex items-center gap-1.5">
-                  {theme === "dark" ? <Sun className="w-4 h-4" aria-hidden="true" /> : <Moon className="w-4 h-4" aria-hidden="true" />}
-                  {theme === "dark" ? "Terang" : "Gelap"}
-                </span>
-              </button>
               {isAuthenticated ? (
                 <>
                   <Link to="/pickup" className="navbar-link" onClick={closeMenu}>Pesan Laundry</Link>

@@ -8,38 +8,6 @@
   --border: rgba(28, 36, 34, 0.16);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14181a;
-    --card-bg: #1b2220;
-    --ink: #e7ecea;
-    --ink-soft: #93a19d;
-    --accent: #6fbfb8;
-    --error: #e08469;
-    --border: rgba(231, 236, 234, 0.18);
-  }
-}
-
-:root[data-theme="dark"] {
-  --bg: #14181a;
-  --card-bg: #1b2220;
-  --ink: #e7ecea;
-  --ink-soft: #93a19d;
-  --accent: #6fbfb8;
-  --error: #e08469;
-  --border: rgba(231, 236, 234, 0.18);
-}
-
-:root[data-theme="light"] {
-  --bg: #eef1f0;
-  --card-bg: #ffffff;
-  --ink: #1c2422;
-  --ink-soft: #5c6764;
-  --accent: #2e6f6b;
-  --error: #b23a2e;
-  --border: rgba(28, 36, 34, 0.16);
-}
-
 /*
  * Staff portal keeps its own amber/rust identity, distinct from the
  * customer app's wash-teal — scoped to [data-portal="staff"] so it only
@@ -47,35 +15,6 @@
  * customer-facing M3 tokens defined in index.css.
  */
 [data-portal="staff"] {
-  --accent: #a85a26;
-
-  --color-primary: #a85a26;
-  --color-on-primary: #ffffff;
-  --color-primary-container: #fbe4d1;
-  --color-on-primary-container: #4a2a0d;
-}
-
-@media (prefers-color-scheme: dark) {
-  [data-portal="staff"] {
-    --accent: #e08f52;
-
-    --color-primary: #e08f52;
-    --color-on-primary: #1c2422;
-    --color-primary-container: #5c3814;
-    --color-on-primary-container: #ffdbb8;
-  }
-}
-
-:root[data-theme="dark"] [data-portal="staff"] {
-  --accent: #e08f52;
-
-  --color-primary: #e08f52;
-  --color-on-primary: #1c2422;
-  --color-primary-container: #5c3814;
-  --color-on-primary-container: #ffdbb8;
-}
-
-:root[data-theme="light"] [data-portal="staff"] {
   --accent: #a85a26;
 
   --color-primary: #a85a26;
