@@ -40,6 +40,15 @@ export function Profile() {
 
         <hr className="border-outline-variant" />
 
+        <div className="space-y-2">
+          <h2 className="text-sm font-semibold text-on-surface">Manajemen Alamat</h2>
+          <Button variant="secondary" fullWidth onClick={() => navigate("/addresses")}>
+            Atur Alamat
+          </Button>
+        </div>
+
+        <hr className="border-outline-variant" />
+
         <Button variant="secondary" fullWidth onClick={handleLogout} isLoading={logoutMutation.isPending}>
           {logoutMutation.isPending ? "Keluar..." : "Keluar"}
         </Button>

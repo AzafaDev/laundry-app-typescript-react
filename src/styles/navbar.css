@@ -43,6 +43,10 @@
    mobile layout — otherwise the full inline nav shows on a narrower
    viewport than the content below it, which looks broken. */
 @media (max-width: 767px) {
+  .navbar-desktop {
+    display: none;
+  }
+
   .navbar {
     padding: 12px 16px;
   }
