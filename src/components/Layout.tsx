@@ -22,7 +22,9 @@ export function Layout({ children }: { children: ReactNode }) {
       case "super_admin":
       case "outlet_admin":
         return <AdminSidebar />;
-      case "worker":
+      case "washing_worker":
+      case "ironing_worker":
+      case "packing_worker":
       default:
         return <WorkerNav />;
     }
