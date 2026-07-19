@@ -13,6 +13,15 @@ import { inputClasses } from "../../components/ui/Input";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { BackLink } from "../../components/ui/BackLink";
 
+const ROLE_LABELS: Record<string, string> = {
+  super_admin: "Super Admin",
+  outlet_admin: "Admin Outlet",
+  washing_worker: "Pekerja Pencuci",
+  ironing_worker: "Pekerja Setrika",
+  packing_worker: "Pekerja Packing",
+  driver: "Pengemudi",
+};
+
 export function EmployeePerformanceReport() {
   const { employee } = useStaffAuth();
   const isSuperAdmin = employee?.role === "super_admin";
@@ -25,6 +34,8 @@ export function EmployeePerformanceReport() {
 
   const outletsQuery = useOutletsQuery(OUTLET_SELECT_LIMIT, 0);
   const outlets = outletsQuery.data?.data ?? [];
+
+  const outletLookup = new Map(outlets.map((o) => [o.id, o.name]));
 
   const handleExport = async () => {
     setExportError(null);
@@ -142,11 +153,11 @@ export function EmployeePerformanceReport() {
                     <td className="py-3 px-4 text-on-surface font-medium">{row.name}</td>
                     <td className="py-3 px-4">
                       <span className="text-xs bg-surface-variant text-on-surface px-2 py-1 rounded">
-                        {row.role}
+                        {ROLE_LABELS[row.role] || row.role}
                       </span>
                     </td>
                     {isSuperAdmin && (
-                      <td className="py-3 px-4 text-on-surface text-sm">{row.outlet_id ?? "-"}</td>
+                      <td className="py-3 px-4 text-on-surface text-sm">{row.outlet_id ? outletLookup.get(row.outlet_id) || row.outlet_id : "—"}</td>
                     )}
                     <td className="py-3 px-4 text-right text-on-surface font-medium">{row.worker_jobs}</td>
                     <td className="py-3 px-4 text-right text-on-surface font-medium">{row.driver_jobs}</td>
