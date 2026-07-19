@@ -55,6 +55,30 @@ export function StaffProfile() {
         <StaffChangePasswordSection />
       </Card>
 
+      <Card className="space-y-3">
+        <div>
+          <h2 className="text-sm font-semibold text-on-surface mb-2">Manajemen Absensi</h2>
+          <div className="space-y-2">
+            <Button
+              variant="secondary"
+              fullWidth
+              onClick={() => navigate("/staff/attendance")}
+              size="sm"
+            >
+              Absensi
+            </Button>
+            <Button
+              variant="secondary"
+              fullWidth
+              onClick={() => navigate("/staff/attendance/history")}
+              size="sm"
+            >
+              Riwayat Absensi
+            </Button>
+          </div>
+        </div>
+      </Card>
+
       <Button variant="secondary" fullWidth onClick={handleLogout} disabled={logoutMutation.isPending}>
         {logoutMutation.isPending ? "Keluar..." : "Keluar"}
       </Button>
