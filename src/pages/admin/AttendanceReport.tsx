@@ -12,11 +12,11 @@ import { exportAttendanceReport } from "../../api/attendanceAdmin";
 import { ApiError } from "../../api/client";
 import { buttonClasses } from "../../components/ui/buttonStyles";
 import { Card } from "../../components/ui/Card";
+import { inputClasses } from "../../components/ui/Input";
 import { Pagination } from "../../components/ui/Pagination";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { BackLink } from "../../components/ui/BackLink";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
-import "../../styles/admin.css";
 
 export function AttendanceReport() {
   const { employee } = useStaffAuth();
@@ -70,7 +70,7 @@ export function AttendanceReport() {
                 </label>
                 <select
                   id="outlet_id"
-                  className="auth-input"
+                  className={inputClasses}
                   value={filters.outlet_id ?? ""}
                   onChange={(e) => setFilters({ ...filters, outlet_id: e.target.value || undefined })}
                 >
@@ -89,7 +89,7 @@ export function AttendanceReport() {
               </label>
               <select
                 id="employee_id"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.employee_id ?? ""}
                 onChange={(e) => setFilters({ ...filters, employee_id: e.target.value || undefined })}
               >
@@ -107,9 +107,9 @@ export function AttendanceReport() {
               </label>
               <select
                 id="status"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.status ?? ""}
-                onChange={(e) => setFilters({ ...filters, status: (e.target.value as any) || undefined })}
+                onChange={(e) => setFilters({ ...filters, status: (e.target.value || undefined) as typeof filters.status })}
               >
                 <option value="">Semua status</option>
                 <option value="on_time">Tepat waktu</option>
@@ -127,7 +127,7 @@ export function AttendanceReport() {
               <input
                 id="date_from"
                 type="date"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.date_from ?? ""}
                 onChange={(e) => setFilters({ ...filters, date_from: e.target.value || undefined })}
               />
@@ -139,7 +139,7 @@ export function AttendanceReport() {
               <input
                 id="date_to"
                 type="date"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.date_to ?? ""}
                 onChange={(e) => setFilters({ ...filters, date_to: e.target.value || undefined })}
               />
@@ -261,7 +261,7 @@ function SweepSection() {
             <input
               id="sweep_date"
               type="date"
-              className="auth-input"
+              className={inputClasses}
               value={sweepDate}
               onChange={(e) => setSweepDate(e.target.value)}
               disabled={sweepMutation.isPending}

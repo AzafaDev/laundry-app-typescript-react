@@ -9,9 +9,9 @@ import { exportEmployeePerformanceReport } from "../../api/reports";
 import { ApiError } from "../../api/client";
 import { buttonClasses } from "../../components/ui/buttonStyles";
 import { Card } from "../../components/ui/Card";
+import { inputClasses } from "../../components/ui/Input";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { BackLink } from "../../components/ui/BackLink";
-import "../../styles/admin.css";
 
 export function EmployeePerformanceReport() {
   const { employee } = useStaffAuth();
@@ -60,7 +60,7 @@ export function EmployeePerformanceReport() {
                 </label>
                 <select
                   id="outlet_id"
-                  className="auth-input"
+                  className={inputClasses}
                   value={filters.outlet_id ?? ""}
                   onChange={(e) => setFilters({ ...filters, outlet_id: e.target.value || undefined })}
                 >
@@ -81,7 +81,7 @@ export function EmployeePerformanceReport() {
               <input
                 id="date_from"
                 type="date"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.date_from ?? ""}
                 onChange={(e) => setFilters({ ...filters, date_from: e.target.value || undefined })}
               />
@@ -94,7 +94,7 @@ export function EmployeePerformanceReport() {
               <input
                 id="date_to"
                 type="date"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.date_to ?? ""}
                 onChange={(e) => setFilters({ ...filters, date_to: e.target.value || undefined })}
               />

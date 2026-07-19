@@ -9,9 +9,9 @@ import { exportSalesReport } from "../../api/reports";
 import { ApiError } from "../../api/client";
 import { buttonClasses } from "../../components/ui/buttonStyles";
 import { Card } from "../../components/ui/Card";
+import { inputClasses } from "../../components/ui/Input";
 import { LoadingState, EmptyState } from "../../components/ui/PageState";
 import { BackLink } from "../../components/ui/BackLink";
-import "../../styles/admin.css";
 
 export function SalesReport() {
   const { employee } = useStaffAuth();
@@ -67,7 +67,7 @@ export function SalesReport() {
               </label>
               <select
                 id="group_by"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.group_by ?? "month"}
                 onChange={(e) =>
                   setFilters({ ...filters, group_by: e.target.value as "day" | "month" | "year" })
@@ -86,7 +86,7 @@ export function SalesReport() {
                 </label>
                 <select
                   id="outlet_id"
-                  className="auth-input"
+                  className={inputClasses}
                   value={filters.outlet_id ?? ""}
                   onChange={(e) => setFilters({ ...filters, outlet_id: e.target.value || undefined })}
                 >
@@ -107,7 +107,7 @@ export function SalesReport() {
               <input
                 id="date_from"
                 type="date"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.date_from ?? ""}
                 onChange={(e) => setFilters({ ...filters, date_from: e.target.value || undefined })}
               />
@@ -120,7 +120,7 @@ export function SalesReport() {
               <input
                 id="date_to"
                 type="date"
-                className="auth-input"
+                className={inputClasses}
                 value={filters.date_to ?? ""}
                 onChange={(e) => setFilters({ ...filters, date_to: e.target.value || undefined })}
               />

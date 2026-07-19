@@ -9,8 +9,9 @@ import { useResendInviteMutation } from "../../hooks/employees/useResendInviteMu
 import { useStaffAuth } from "../../context/StaffAuthContext";
 import type { Employee, EmployeeRole } from "../../types/employee";
 import { BackLink } from "../../components/ui/BackLink";
-import "../../styles/auth.css";
-import "../../styles/admin.css";
+import { Card } from "../../components/ui/Card";
+import { inputClasses } from "../../components/ui/Input";
+import { Pagination } from "../../components/ui/Pagination";
 
 const ROLES: EmployeeRole[] = [
   "super_admin",
@@ -28,6 +29,12 @@ const ROLE_LABELS: Record<EmployeeRole, string> = {
   ironing_worker: "Pekerja Setrika",
   packing_worker: "Pekerja Kemas",
   driver: "Kurir",
+};
+
+const STATUS_BADGE: Record<string, string> = {
+  active: "bg-primary/10 text-primary",
+  inactive: "bg-surface-container text-on-surface-variant",
+  deleted: "bg-error/10 text-error",
 };
 
 interface EmployeeRowProps {
@@ -60,59 +67,61 @@ function EmployeeRow({ employee, isSelf }: EmployeeRowProps) {
   };
 
   return (
-    <div className="admin-table-row">
-      <span className="admin-table-cell" data-label="Nama">{employee.full_name}</span>
-      <span className="admin-table-cell" data-label="Email">{employee.email}</span>
-      <span className="admin-table-cell" data-label="Peran" style={{ flex: "0 0 140px" }}>{ROLE_LABELS[employee.role]}</span>
-      <span className="admin-table-cell" data-label="Outlet" style={{ flex: "0 0 140px" }}>
+    <tr className="border-b border-outline-variant last:border-0">
+      <td className="py-3 px-4 text-sm text-on-surface font-medium">{employee.full_name}</td>
+      <td className="py-3 px-4 text-sm text-on-surface">{employee.email}</td>
+      <td className="py-3 px-4 text-sm text-on-surface">{ROLE_LABELS[employee.role]}</td>
+      <td className="py-3 px-4 text-sm text-on-surface">
         {employee.outlet_deleted ? (
-          <span className="admin-status-badge admin-status-badge-danger">Outlet dihapus</span>
+          <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${STATUS_BADGE.deleted}`}>Outlet dihapus</span>
         ) : (
           employee.outlet_name ?? "—"
         )}
-      </span>
-      <span className="admin-table-cell" data-label="Status" style={{ flex: "0 0 110px" }}>
+      </td>
+      <td className="py-3 px-4 text-sm">
         {isDeleted ? (
-          <span className="admin-status-badge">Dihapus</span>
+          <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${STATUS_BADGE.deleted}`}>Dihapus</span>
         ) : (
-          <span className={`admin-status-badge ${employee.is_active ? "admin-status-badge-active" : ""}`}>
+          <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${employee.is_active ? STATUS_BADGE.active : STATUS_BADGE.inactive}`}>
             {employee.is_active ? "Aktif" : "Nonaktif"}
           </span>
         )}
-      </span>
-      <span className="admin-table-cell-actions" style={{ flex: "0 0 260px" }}>
-        <Link to={`/staff/admin/employees/${employee.id}/edit`} className="auth-toggle">UBAH</Link>
-        {!employee.is_active && !isDeleted && (
-          <button
-            type="button"
-            className="auth-toggle"
-            onClick={handleResendInvite}
-            disabled={resendInvite.isPending}
-          >
-            KIRIM ULANG UNDANGAN
-          </button>
-        )}
-        {!isDeleted ? (
-          <button
-            type="button"
-            className="auth-toggle auth-toggle-danger"
-            onClick={handleSoftDelete}
-            disabled={isSelf || softDelete.isPending}
-          >
-            NONAKTIFKAN
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="auth-toggle auth-toggle-danger"
-            onClick={handleHardDelete}
-            disabled={isSelf || hardDelete.isPending}
-          >
-            HAPUS PERMANEN
-          </button>
-        )}
-      </span>
-    </div>
+      </td>
+      <td className="py-3 px-4">
+        <div className="flex gap-2 flex-wrap">
+          <Link to={`/staff/admin/employees/${employee.id}/edit`} className="text-xs font-semibold text-primary hover:underline">UBAH</Link>
+          {!employee.is_active && !isDeleted && (
+            <button
+              type="button"
+              className="text-xs font-semibold text-primary hover:underline disabled:opacity-50"
+              onClick={handleResendInvite}
+              disabled={resendInvite.isPending}
+            >
+              KIRIM ULANG
+            </button>
+          )}
+          {!isDeleted ? (
+            <button
+              type="button"
+              className="text-xs font-semibold text-error hover:underline disabled:opacity-50"
+              onClick={handleSoftDelete}
+              disabled={isSelf || softDelete.isPending}
+            >
+              NONAKTIFKAN
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="text-xs font-semibold text-error hover:underline disabled:opacity-50"
+              onClick={handleHardDelete}
+              disabled={isSelf || hardDelete.isPending}
+            >
+              HAPUS
+            </button>
+          )}
+        </div>
+      </td>
+    </tr>
   );
 }
 
@@ -133,105 +142,96 @@ export function Employees() {
   });
   const employees = employeesQuery.data?.data ?? [];
   const totalCount = employeesQuery.data?.total_count ?? 0;
-  const rangeStart = totalCount === 0 ? 0 : offset + 1;
-  const rangeEnd = Math.min(offset + limit, totalCount);
 
   return (
-    <div className="admin-page admin-page-wide">
-      <BackLink to="/staff/dashboard" className="mb-4">Kembali ke dashboard</BackLink>
-      <div className="admin-page-header">
-        <h1>Karyawan</h1>
-        <Link to="/staff/admin/employees/new" className="auth-toggle">TAMBAH KARYAWAN</Link>
+    <main className="max-w-6xl mx-auto px-4 md:px-8 py-8 space-y-6">
+      <BackLink to="/staff/dashboard">Kembali ke dashboard</BackLink>
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-2xl font-bold text-on-surface">Karyawan</h1>
+        <Link to="/staff/admin/employees/new" className="text-sm font-semibold text-primary hover:underline">TAMBAH KARYAWAN</Link>
       </div>
 
-      <div className="admin-filter-row">
-        <select
-          className="auth-input"
-          value={role}
-          onChange={(e) => {
-            setRole(e.target.value as EmployeeRole | "");
-            setPage(1);
-          }}
-        >
-          <option value="">Semua peran</option>
-          {ROLES.map((r) => (
-            <option key={r} value={r}>{ROLE_LABELS[r]}</option>
-          ))}
-        </select>
+      <Card className="p-4">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <select
+              className={inputClasses}
+              value={role}
+              onChange={(e) => {
+                setRole(e.target.value as EmployeeRole | "");
+                setPage(1);
+              }}
+            >
+              <option value="">Semua peran</option>
+              {ROLES.map((r) => (
+                <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+              ))}
+            </select>
 
-        <input
-          className="auth-input"
-          type="text"
-          placeholder="Cari nama atau email..."
-          value={searchInput}
-          onChange={(e) => {
-            setSearchInput(e.target.value);
-            setPage(1);
-          }}
-        />
-
-        <div className="auth-checkbox-row">
-          <input
-            id="include_deleted"
-            type="checkbox"
-            checked={includeDeleted}
-            onChange={(e) => {
-              setIncludeDeleted(e.target.checked);
-              setPage(1);
-            }}
-          />
-          <label htmlFor="include_deleted">Tampilkan yang dihapus</label>
-        </div>
-      </div>
-
-      <div className="admin-table">
-        <div className="admin-table-header">
-          <span className="admin-table-cell">Nama</span>
-          <span className="admin-table-cell">Email</span>
-          <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>Peran</span>
-          <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>Outlet</span>
-          <span className="admin-table-cell" style={{ flex: "0 0 110px" }}>Status</span>
-          <span className="admin-table-cell-actions" style={{ flex: "0 0 260px" }}>Aksi</span>
-        </div>
-
-        {employeesQuery.isLoading ? (
-          <div className="admin-table-empty">Memuat...</div>
-        ) : employees.length === 0 ? (
-          <div className="admin-table-empty">Belum ada karyawan.</div>
-        ) : (
-          employees.map((employee) => (
-            <EmployeeRow
-              key={employee.id}
-              employee={employee}
-              isSelf={employee.id === currentEmployee?.id}
+            <input
+              className={inputClasses}
+              type="text"
+              placeholder="Cari nama atau email..."
+              value={searchInput}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                setPage(1);
+              }}
             />
-          ))
-        )}
-      </div>
 
-      <div className="admin-pagination">
-        <span className="admin-pagination-info">
-          {totalCount === 0 ? "Tidak ada karyawan" : `Menampilkan ${rangeStart}–${rangeEnd} dari ${totalCount}`}
-        </span>
-        <div className="admin-pagination-controls">
-          <button
-            type="button"
-            className="auth-toggle"
-            onClick={() => setPage(page - 1)}
-            disabled={page <= 1}
-          >
-            SEBELUMNYA
-          </button>
-          <button
-            type="button"
-            className="auth-toggle"
-            onClick={() => setPage(page + 1)}
-            disabled={rangeEnd >= totalCount}
-          >
-            SELANJUTNYA
-          </button>
+            <div className="flex items-center gap-2">
+              <input
+                id="include_deleted"
+                type="checkbox"
+                checked={includeDeleted}
+                onChange={(e) => {
+                  setIncludeDeleted(e.target.checked);
+                  setPage(1);
+                }}
+              />
+              <label htmlFor="include_deleted" className="text-sm text-on-surface">Tampilkan yang dihapus</label>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </Card>
+
+      <Card className="p-0 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-outline-variant bg-surface-container-low">
+                <th className="py-2.5 px-4 text-left text-xs font-semibold text-on-surface-variant uppercase">Nama</th>
+                <th className="py-2.5 px-4 text-left text-xs font-semibold text-on-surface-variant uppercase">Email</th>
+                <th className="py-2.5 px-4 text-left text-xs font-semibold text-on-surface-variant uppercase">Peran</th>
+                <th className="py-2.5 px-4 text-left text-xs font-semibold text-on-surface-variant uppercase">Outlet</th>
+                <th className="py-2.5 px-4 text-left text-xs font-semibold text-on-surface-variant uppercase">Status</th>
+                <th className="py-2.5 px-4 text-left text-xs font-semibold text-on-surface-variant uppercase">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employeesQuery.isLoading ? (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-on-surface-variant">Memuat...</td>
+                </tr>
+              ) : employees.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-on-surface-variant">Belum ada karyawan.</td>
+                </tr>
+              ) : (
+                employees.map((employee) => (
+                  <EmployeeRow
+                    key={employee.id}
+                    employee={employee}
+                    isSelf={employee.id === currentEmployee?.id}
+                  />
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
+      <Pagination page={page} limit={limit} totalCount={totalCount} onPageChange={setPage} />
+    </main>
   );
 }

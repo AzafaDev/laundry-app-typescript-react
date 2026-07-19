@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
@@ -17,8 +17,10 @@ import { useOutletsQuery, OUTLET_SELECT_LIMIT } from "../../hooks/outlets/useOut
 import { FormField } from "../../components/FormField";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
 import { EmployeeShiftAssignment } from "../../components/EmployeeShiftAssignment";
-import "../../styles/auth.css";
-import "../../styles/admin.css";
+import { Card } from "../../components/ui/Card";
+import { Button } from "../../components/ui/Button";
+import { inputClasses } from "../../components/ui/Input";
+import { BackLink } from "../../components/ui/BackLink";
 
 const ROLE_LABELS: Record<EmployeeRole, string> = {
   super_admin: "Super Admin",
@@ -38,7 +40,7 @@ function OutletSelect({ id, value, onChange }: { id: string; value: string | nul
   return (
     <select
       id={id}
-      className="auth-input"
+      className={inputClasses}
       value={value ?? ""}
       onChange={(e) => onChange(e.target.value || null)}
     >
@@ -79,23 +81,17 @@ function CreateEmployeeFormFields({ onSuccess }: { onSuccess: () => void }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
-        <div className="auth-input-wrap">
-          <input id="full_name" className="auth-input" {...register("full_name")} />
-        </div>
+        <input id="full_name" className={inputClasses} {...register("full_name")} />
       </FormField>
 
       <FormField label="Email" htmlFor="email" error={errors.email?.message}>
-        <div className="auth-input-wrap">
-          <input id="email" type="email" className="auth-input" {...register("email")} />
-        </div>
+        <input id="email" type="email" className={inputClasses} {...register("email")} />
       </FormField>
 
       <FormField label="Nomor telepon" htmlFor="phone" error={errors.phone?.message}>
-        <div className="auth-input-wrap">
-          <input id="phone" className="auth-input" {...register("phone")} />
-        </div>
+        <input id="phone" className={inputClasses} {...register("phone")} />
       </FormField>
 
       <FormField
@@ -104,13 +100,11 @@ function CreateEmployeeFormFields({ onSuccess }: { onSuccess: () => void }) {
         hint="Kosongkan untuk mengirim undangan lewat email"
         error={errors.password?.message}
       >
-        <div className="auth-input-wrap">
-          <input id="password" type="password" className="auth-input" {...register("password")} />
-        </div>
+        <input id="password" type="password" className={inputClasses} {...register("password")} />
       </FormField>
 
       <FormField label="Peran" htmlFor="role" error={errors.role?.message}>
-        <select id="role" className="auth-input" {...register("role")}>
+        <select id="role" className={inputClasses} {...register("role")}>
           {ROLES.map((r) => (
             <option key={r} value={r}>{ROLE_LABELS[r]}</option>
           ))}
@@ -123,9 +117,9 @@ function CreateEmployeeFormFields({ onSuccess }: { onSuccess: () => void }) {
 
       <ApiErrorMessage error={createMutation.error} />
 
-      <button className="auth-button" type="submit" disabled={createMutation.isPending}>
-        {createMutation.isPending ? "Menyimpan..." : "Tambah karyawan"}
-      </button>
+      <Button type="submit" isLoading={createMutation.isPending} fullWidth>
+        Tambah karyawan
+      </Button>
     </form>
   );
 }
@@ -197,27 +191,21 @@ function EditEmployeeFormFields({ initialData, onSuccess }: { initialData: Emplo
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <FormField label="Nama lengkap" htmlFor="full_name" error={errors.full_name?.message}>
-        <div className="auth-input-wrap">
-          <input id="full_name" className="auth-input" {...register("full_name")} />
-        </div>
+        <input id="full_name" className={inputClasses} {...register("full_name")} />
       </FormField>
 
       <FormField label="Email" htmlFor="email">
-        <div className="auth-input-wrap">
-          <input id="email" className="auth-input" value={initialData.email} disabled />
-        </div>
+        <input id="email" className={inputClasses} value={initialData.email} disabled />
       </FormField>
 
       <FormField label="Nomor telepon" htmlFor="phone" error={errors.phone?.message}>
-        <div className="auth-input-wrap">
-          <input id="phone" className="auth-input" {...register("phone")} />
-        </div>
+        <input id="phone" className={inputClasses} {...register("phone")} />
       </FormField>
 
       <FormField label="Peran" htmlFor="role" error={errors.role?.message}>
-        <select id="role" className="auth-input" {...register("role")}>
+        <select id="role" className={inputClasses} {...register("role")}>
           {ROLES.map((r) => (
             <option key={r} value={r}>{ROLE_LABELS[r]}</option>
           ))}
@@ -228,12 +216,12 @@ function EditEmployeeFormFields({ initialData, onSuccess }: { initialData: Emplo
         <OutletSelect id="outlet_id" value={watch("outlet_id")} onChange={(v) => setValue("outlet_id", v)} />
       </FormField>
 
-      {partialFailureMessage && <p className="auth-error">{partialFailureMessage}</p>}
+      {partialFailureMessage && <p className="text-xs text-error">{partialFailureMessage}</p>}
       <ApiErrorMessage error={updateMutation.error ?? assignMutation.error} />
 
-      <button className="auth-button" type="submit" disabled={isPending}>
-        {isPending ? "Menyimpan..." : "Simpan perubahan"}
-      </button>
+      <Button type="submit" isLoading={isPending} fullWidth>
+        Simpan perubahan
+      </Button>
     </form>
   );
 }
@@ -255,24 +243,23 @@ export function EmployeeForm() {
   const handleSuccess = () => navigate("/staff/admin/employees");
 
   return (
-    <div className="admin-page">
-      <div className="admin-page-header">
-        <h1>{isEdit ? "Ubah Karyawan" : "Tambah Karyawan"}</h1>
-        <Link to="/staff/admin/employees" className="auth-toggle">BATAL</Link>
-      </div>
-
-      {isEdit && employeeQuery.isLoading ? (
-        <p>Memuat...</p>
-      ) : isEdit && employeeQuery.isError ? (
-        <p>Karyawan tidak ditemukan.</p>
-      ) : isEdit && employeeQuery.data ? (
-        <>
-          <EditEmployeeFormFields initialData={employeeQuery.data} onSuccess={handleSuccess} />
-          <EditEmployeeShiftSection employeeId={employeeQuery.data.id} />
-        </>
-      ) : (
-        <CreateEmployeeFormFields onSuccess={handleSuccess} />
-      )}
-    </div>
+    <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
+      <BackLink to="/staff/admin/employees">Kembali ke daftar karyawan</BackLink>
+      <h1 className="text-2xl font-bold text-on-surface">{isEdit ? "Ubah Karyawan" : "Tambah Karyawan"}</h1>
+      <Card>
+        {isEdit && employeeQuery.isLoading ? (
+          <p>Memuat...</p>
+        ) : isEdit && employeeQuery.isError ? (
+          <p>Karyawan tidak ditemukan.</p>
+        ) : isEdit && employeeQuery.data ? (
+          <>
+            <EditEmployeeFormFields initialData={employeeQuery.data} onSuccess={handleSuccess} />
+            <EditEmployeeShiftSection employeeId={employeeQuery.data.id} />
+          </>
+        ) : (
+          <CreateEmployeeFormFields onSuccess={handleSuccess} />
+        )}
+      </Card>
+    </main>
   );
 }

@@ -18,7 +18,7 @@ const STATUS_TABS: Array<{ value: string; label: string }> = [
 ];
 
 const STATUS_BADGE: Record<string, string> = {
-  pending: "bg-amber-100 text-amber-700",
+  pending: "bg-tertiary-container text-on-tertiary-container",
   approved: "bg-primary/10 text-primary",
   rejected: "bg-error/10 text-error",
 };

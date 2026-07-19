@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { outletSchema, type OutletFormValues } from "../../schemas/outlet";
 import type { OutletRequestData } from "../../api/outlets";
 import type { Outlet } from "../../types/outlet";
@@ -12,8 +12,10 @@ import { AddressMap } from "../../components/address/AddressMap";
 import { useStaffGeocodeSearchQuery } from "../../hooks/geocode/useStaffGeocodeSearchQuery";
 import { FormField } from "../../components/FormField";
 import { ApiErrorMessage } from "../../components/ApiErrorMessage";
-import "../../styles/auth.css";
-import "../../styles/admin.css";
+import { Card } from "../../components/ui/Card";
+import { Button } from "../../components/ui/Button";
+import { inputClasses } from "../../components/ui/Input";
+import { BackLink } from "../../components/ui/BackLink";
 
 interface OutletFormFieldsProps {
   initialData?: Outlet;
@@ -85,24 +87,20 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormField label="Nama" htmlFor="name" error={errors.name?.message}>
-        <div className="auth-input-wrap">
-          <input id="name" className="auth-input" {...register("name")} />
-        </div>
+        <input id="name" className={inputClasses} {...register("name")} />
       </FormField>
 
       <AddressAutocomplete useSearchQuery={useStaffGeocodeSearchQuery} onSelect={handleAutocompleteSelect} />
 
       <FormField label="Alamat" htmlFor="address" error={errors.address?.message}>
-        <div className="auth-input-wrap">
-          <input id="address" className="auth-input" {...register("address")} />
-        </div>
+        <input id="address" className={inputClasses} {...register("address")} />
       </FormField>
 
       <AddressMap
         value={{ latitude: watch("latitude"), longitude: watch("longitude") }}
         onChange={handleMapChange}
       />
-      {errors.latitude && <p className="auth-error">{errors.latitude.message}</p>}
+      {errors.latitude && <p className="text-xs text-error">{errors.latitude.message}</p>}
 
       <FormField
         label="Radius jangkauan (km)"
@@ -110,28 +108,26 @@ function OutletFormFields({ initialData, onSuccess }: OutletFormFieldsProps) {
         hint="Jarak maksimum dari outlet ini yang masih otomatis dilayani saat pelanggan membuat pesanan"
         error={errors.service_radius_km?.message}
       >
-        <div className="auth-input-wrap">
-          <input
-            id="service_radius_km"
-            className="auth-input"
-            type="number"
-            step="0.1"
-            min="0.1"
-            {...register("service_radius_km", { valueAsNumber: true })}
-          />
-        </div>
+        <input
+          id="service_radius_km"
+          className={inputClasses}
+          type="number"
+          step="0.1"
+          min="0.1"
+          {...register("service_radius_km", { valueAsNumber: true })}
+        />
       </FormField>
 
-      <div className="auth-checkbox-row">
+      <div className="flex items-center gap-2">
         <input id="is_active" type="checkbox" {...register("is_active")} />
-        <label htmlFor="is_active">Outlet aktif</label>
+        <label htmlFor="is_active" className="text-sm text-on-surface">Outlet aktif</label>
       </div>
 
       <ApiErrorMessage error={mutation.error} />
 
-      <button className="auth-button" type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Menyimpan..." : isEdit ? "Simpan perubahan" : "Tambah outlet"}
-      </button>
+      <Button type="submit" isLoading={mutation.isPending} fullWidth>
+        {isEdit ? "Simpan perubahan" : "Tambah outlet"}
+      </Button>
     </form>
   );
 }
@@ -145,19 +141,18 @@ export function OutletForm() {
   const handleSuccess = () => navigate("/staff/admin/outlets");
 
   return (
-    <div className="admin-page">
-      <div className="admin-page-header">
-        <h1>{isEdit ? "Ubah Outlet" : "Tambah Outlet"}</h1>
-        <Link to="/staff/admin/outlets" className="auth-toggle">BATAL</Link>
-      </div>
-
-      {isEdit && outletQuery.isLoading ? (
-        <p>Memuat...</p>
-      ) : isEdit && outletQuery.isError ? (
-        <p>Outlet tidak ditemukan.</p>
-      ) : (
-        <OutletFormFields initialData={outletQuery.data} onSuccess={handleSuccess} />
-      )}
-    </div>
+    <main className="max-w-2xl mx-auto px-4 md:px-8 py-8 space-y-6">
+      <BackLink to="/staff/admin/outlets">Kembali ke daftar outlet</BackLink>
+      <h1 className="text-2xl font-bold text-on-surface">{isEdit ? "Ubah Outlet" : "Tambah Outlet"}</h1>
+      <Card>
+        {isEdit && outletQuery.isLoading ? (
+          <p>Memuat...</p>
+        ) : isEdit && outletQuery.isError ? (
+          <p>Outlet tidak ditemukan.</p>
+        ) : (
+          <OutletFormFields initialData={outletQuery.data} onSuccess={handleSuccess} />
+        )}
+      </Card>
+    </main>
   );
 }
