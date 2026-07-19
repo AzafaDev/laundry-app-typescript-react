@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Bell, ClipboardList, Clock, History, ListChecks, Package, PackageSearch, ShieldAlert, Shirt, Truck, UserRound } from "lucide-react";
+import { AlertTriangle, Bell, ClipboardList, Clock, History, ListChecks, MessageCircleWarning, Package, PackageCheck, PackageSearch, ShieldAlert, Shirt, Truck, UserRound } from "lucide-react";
 import { useStaffAuth } from "../context/StaffAuthContext";
 import { useStaffLogoutMutation } from "../hooks/staffAuth/useStaffLogoutMutation";
 import { useStaffUnreadCountQuery } from "../hooks/staffNotifications/useStaffUnreadCountQuery";
+import { useDashboardStatsQuery } from "../hooks/admin/useDashboardStatsQuery";
+import { useComplaintStatsQuery } from "../hooks/admin/useComplaintStatsQuery";
 import { STATION_FOR_ROLE, STATION_LABEL } from "../components/worker/workerConstants";
 import { ROLE_LABEL } from "../constants/roleLabels";
 import "../styles/auth.css";
@@ -13,6 +15,16 @@ export function StaffDashboard() {
   const logoutMutation = useStaffLogoutMutation();
   const unreadCountQuery = useStaffUnreadCountQuery();
   const unreadCount = unreadCountQuery.data?.unread_count ?? 0;
+
+  const isAdmin = employee?.role === "super_admin" || employee?.role === "outlet_admin";
+
+  const dashboardStatsQuery = useDashboardStatsQuery({
+    enabled: isAdmin,
+  });
+  const complaintStatsQuery = useComplaintStatsQuery({
+    outlet_id: employee?.outlet_id,
+    enabled: isAdmin,
+  });
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
@@ -29,6 +41,47 @@ export function StaffDashboard() {
           <span className="auth-label">Staf</span>
           <h1 className="home-dashboard-greeting">{employee?.full_name}</h1>
           <span className="auth-label">{employee ? ROLE_LABEL[employee.role] ?? employee.role : ""}</span>
+
+          {isAdmin && (
+            <div className="grid grid-cols-2 gap-3 w-full mt-4">
+              <div className="rounded-2xl border border-outline-variant bg-surface p-3 flex items-center gap-3">
+                <PackageCheck className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <div className="text-lg font-semibold text-on-surface leading-tight">
+                    {dashboardStatsQuery.data?.needs_processing ?? "-"}
+                  </div>
+                  <div className="text-xs text-on-surface-variant">Perlu Diproses</div>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-outline-variant bg-surface p-3 flex items-center gap-3">
+                <Clock className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <div className="text-lg font-semibold text-on-surface leading-tight">
+                    {dashboardStatsQuery.data?.awaiting_payment ?? "-"}
+                  </div>
+                  <div className="text-xs text-on-surface-variant">Menunggu Pembayaran</div>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-outline-variant bg-surface p-3 flex items-center gap-3">
+                <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <div className="text-lg font-semibold text-on-surface leading-tight">
+                    {dashboardStatsQuery.data?.bypass_pending ?? "-"}
+                  </div>
+                  <div className="text-xs text-on-surface-variant">Bypass Tertunda</div>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-outline-variant bg-surface p-3 flex items-center gap-3">
+                <MessageCircleWarning className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <div className="text-lg font-semibold text-on-surface leading-tight">
+                    {complaintStatsQuery.data?.open ?? "-"}
+                  </div>
+                  <div className="text-xs text-on-surface-variant">Komplain Terbuka</div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {employee?.role === "super_admin" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", marginTop: 16 }}>
