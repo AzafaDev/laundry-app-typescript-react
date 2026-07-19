@@ -1,75 +1,46 @@
-# React + TypeScript + Vite
+# Laundry Management — Frontend (React + TypeScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Customer- and staff-facing web app for a multi-outlet laundry service, consuming the [Go backend API](https://github.com/AzafaDev/laundry-app-golang). Covers the full customer journey (order, pay, track) and the full staff/admin operational pipeline (intake, wash/iron/pack stations, driver dispatch, attendance, reporting) behind role-based routing.
 
-Currently, two official plugins are available:
+- Live demo: https://laundry-app-typescript-react.vercel.app
+- Backend repo: https://github.com/AzafaDev/laundry-app-golang
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+| | |
+|---|---|
+| Framework | React 19 + TypeScript, Vite |
+| Routing | React Router v7 |
+| Server state | TanStack Query |
+| Forms & validation | React Hook Form + Zod |
+| Styling | Tailwind CSS v4 |
+| Maps | Leaflet / React-Leaflet (address picking, geocoding) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Role-based access
 
-## Expanding the ESLint configuration
+Routes are gated by dedicated guard components (`ProtectedRoute`, `StaffProtectedRoute`, `SuperAdminRoute`, `AdminRoute`, `OutletAdminRoute`, `WorkerRoute`, `DriverRoute`, `StaffOnlyRoute`, `GuestRoute`) rather than one generic auth check, so each role only sees the routes it's actually authorized for:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Customer** — register/login (incl. Google OAuth), profile, addresses, place orders, track orders, pay (Midtrans), view notifications.
+- **Worker (washing/ironing/packing)** — station queue and history for their pipeline stage.
+- **Driver** — pickup/delivery task list, active task, history.
+- **Outlet admin** — order intake/processing, bypass requests, outlet-scoped orders and complaints.
+- **Super admin** — outlets, employees, laundry items, clothing types, work shifts, attendance/sales/employee-performance reports.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+cp .env.example .env   # set VITE_API_BASE_URL to your backend
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Available scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `npm run dev` — start dev server
+- `npm run build` — type-check (`tsc -b`) + production build
+- `npm run lint` — ESLint
+- `npm run preview` — preview production build locally
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Deployment
 
-```
+Deployed on Vercel. `vercel.json` rewrites all paths to `index.html` so client-side routes (e.g. the OAuth callback) resolve correctly instead of 404ing on direct navigation.
