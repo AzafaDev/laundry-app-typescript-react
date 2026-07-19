@@ -56,6 +56,7 @@ import { StaffProfile } from "./pages/staff/StaffProfile";
 import { StaffNotifications } from "./pages/staff/StaffNotifications";
 import { BypassRequests } from "./pages/admin/BypassRequests";
 import { OutletOrders } from "./pages/admin/OutletOrders";
+import { OutletOrderDetail } from "./pages/admin/OutletOrderDetail";
 import { AdminComplaints } from "./pages/admin/AdminComplaints";
 
 function App() {
@@ -111,8 +112,9 @@ function App() {
         <Route path="/staff/admin/reports/employee-performance" element={<AdminRoute><EmployeePerformanceReport /></AdminRoute>} />
         <Route path="/staff/admin/orders/pending-process" element={<OutletAdminRoute><PendingProcessOrders /></OutletAdminRoute>} />
         <Route path="/staff/admin/orders/:id/process" element={<OutletAdminRoute><ProcessOrderForm /></OutletAdminRoute>} />
-        <Route path="/staff/admin/bypass-requests" element={<OutletAdminRoute><BypassRequests /></OutletAdminRoute>} />
+        <Route path="/staff/admin/orders/:id" element={<OutletAdminRoute><OutletOrderDetail /></OutletAdminRoute>} />
         <Route path="/staff/admin/orders" element={<OutletAdminRoute><OutletOrders /></OutletAdminRoute>} />
+        <Route path="/staff/admin/bypass-requests" element={<OutletAdminRoute><BypassRequests /></OutletAdminRoute>} />
         <Route path="/staff/admin/complaints" element={<AdminRoute><AdminComplaints /></AdminRoute>} />
       </Routes>
     </Layout>

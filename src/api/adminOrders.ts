@@ -1,5 +1,5 @@
 import { request } from "./client";
-import type { OrderListResponse, OrderStatus } from "../types/order";
+import type { OrderListResponse, OrderStatus, OrderDetail } from "../types/order";
 
 export interface ListOutletOrdersQuery {
   status?: OrderStatus | "";
@@ -24,3 +24,6 @@ function buildQueryString(query: ListOutletOrdersQuery): string {
 
 export const listOutletOrders = (query: ListOutletOrdersQuery = {}) =>
   request<OrderListResponse>(`/api/v1/employee/admin/orders${buildQueryString(query)}`);
+
+export const getOutletOrderDetail = (id: string) =>
+  request<OrderDetail>(`/api/v1/employee/admin/orders/${id}`);
