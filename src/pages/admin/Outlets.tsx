@@ -18,10 +18,10 @@ function OutletRow({ outlet }: { outlet: Outlet }) {
 
   return (
     <div className="admin-table-row">
-      <span className="admin-table-cell">{outlet.name}</span>
-      <span className="admin-table-cell">{outlet.address}</span>
-      <span className="admin-table-cell" style={{ flex: "0 0 90px" }}>{outlet.service_radius_km} km</span>
-      <span className="admin-table-cell" style={{ flex: "0 0 90px" }}>
+      <span className="admin-table-cell" data-label="Nama">{outlet.name}</span>
+      <span className="admin-table-cell" data-label="Alamat">{outlet.address}</span>
+      <span className="admin-table-cell" data-label="Radius" style={{ flex: "0 0 90px" }}>{outlet.service_radius_km} km</span>
+      <span className="admin-table-cell" data-label="Status" style={{ flex: "0 0 90px" }}>
         <span className={`admin-status-badge ${outlet.is_active ? "admin-status-badge-active" : ""}`}>
           {outlet.is_active ? "Aktif" : "Nonaktif"}
         </span>

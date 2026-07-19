@@ -612,6 +612,40 @@
 }
 
 /* Responsive */
+@media (max-width: 767px) {
+  .complaint-col-invoice,
+  .complaint-col-customer,
+  .complaint-col-type,
+  .complaint-col-date,
+  .complaint-col-status {
+    flex: 1;
+    min-width: auto;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .complaint-col-invoice:before,
+  .complaint-col-customer:before,
+  .complaint-col-type:before,
+  .complaint-col-date:before,
+  .complaint-col-status:before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-right: 12px;
+    min-width: 0;
+  }
+
+  .complaint-col-status:last-of-type {
+    border-bottom: none;
+  }
+}
+
 @media (max-width: 640px) {
   .complaint-stats-grid {
     grid-template-columns: repeat(2, 1fr);

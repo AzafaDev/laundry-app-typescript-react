@@ -38,6 +38,74 @@
   overflow: hidden;
 }
 
+@media (max-width: 767px) {
+  .admin-table {
+    border: none;
+    border-radius: 0;
+  }
+
+  .admin-table-header {
+    display: none;
+  }
+
+  .admin-table-row {
+    display: block;
+    margin-bottom: 16px;
+    border-bottom: none;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0;
+  }
+
+  .admin-table-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    flex: 1;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .admin-table-cell:last-of-type {
+    border-bottom: none;
+  }
+
+  .admin-table-cell:before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-right: 12px;
+    min-width: 0;
+  }
+
+  .admin-table-cell-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: none;
+  }
+
+  .admin-table-cell-actions:before {
+    content: "Aksi";
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .admin-table-cell-actions a,
+  .admin-table-cell-actions button {
+    text-align: left;
+  }
+}
+
 .admin-table-header,
 .admin-table-row {
   display: flex;

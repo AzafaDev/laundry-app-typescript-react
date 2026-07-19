@@ -169,19 +169,19 @@ export function AdminComplaints() {
             onClick={() => setSelectedComplaint(complaint)}
             style={{ cursor: "pointer" }}
           >
-            <div className="complaint-col-invoice">
+            <div className="complaint-col-invoice" data-label="No. Invoice">
               <span className="complaint-invoice-number">{complaint.invoice_number}</span>
             </div>
-            <div className="complaint-col-customer">
+            <div className="complaint-col-customer" data-label="Customer">
               <span className="complaint-customer-name">{complaint.customer_name}</span>
             </div>
-            <div className="complaint-col-type">
+            <div className="complaint-col-type" data-label="Tipe">
               <span className="complaint-type-badge">{complaintTypeLabel[complaint.complaint_type]}</span>
             </div>
-            <div className="complaint-col-date">
+            <div className="complaint-col-date" data-label="Tgl. Dikirim">
               <span className="complaint-date">{new Date(complaint.created_at).toLocaleDateString("id-ID")}</span>
             </div>
-            <div className="complaint-col-status">
+            <div className="complaint-col-status" data-label="Status">
               <span className={`complaint-status-badge complaint-status-${complaint.status}`}>
                 {statusIcon[complaint.status]}
                 {statusLabel[complaint.status]}

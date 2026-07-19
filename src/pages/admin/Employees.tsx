@@ -61,17 +61,17 @@ function EmployeeRow({ employee, isSelf }: EmployeeRowProps) {
 
   return (
     <div className="admin-table-row">
-      <span className="admin-table-cell">{employee.full_name}</span>
-      <span className="admin-table-cell">{employee.email}</span>
-      <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>{ROLE_LABELS[employee.role]}</span>
-      <span className="admin-table-cell" style={{ flex: "0 0 140px" }}>
+      <span className="admin-table-cell" data-label="Nama">{employee.full_name}</span>
+      <span className="admin-table-cell" data-label="Email">{employee.email}</span>
+      <span className="admin-table-cell" data-label="Peran" style={{ flex: "0 0 140px" }}>{ROLE_LABELS[employee.role]}</span>
+      <span className="admin-table-cell" data-label="Outlet" style={{ flex: "0 0 140px" }}>
         {employee.outlet_deleted ? (
           <span className="admin-status-badge admin-status-badge-danger">Outlet dihapus</span>
         ) : (
           employee.outlet_name ?? "—"
         )}
       </span>
-      <span className="admin-table-cell" style={{ flex: "0 0 110px" }}>
+      <span className="admin-table-cell" data-label="Status" style={{ flex: "0 0 110px" }}>
         {isDeleted ? (
           <span className="admin-status-badge">Dihapus</span>
         ) : (

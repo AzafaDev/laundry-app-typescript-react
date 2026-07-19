@@ -16,7 +16,7 @@
    * blue-tinted M3 default. Tertiary terracotta is reserved narrowly for
    * "claim tag" / needs-action semantics, not general decoration.
    */
-  --color-primary: #0b6b5c;
+  --color-primary: #0d4a40;
   --color-on-primary: #ffffff;
   --color-primary-container: #dcf2ec;
   --color-on-primary-container: #04332a;
@@ -48,7 +48,7 @@
   --color-on-surface: #17201d;
   --color-on-surface-variant: #47534e;
   --color-outline: #77837d;
-  --color-outline-variant: #c7d1cb;
+  --color-outline-variant: #e4e0d4;
 
   --color-background: #fafbf9;
   --color-on-background: #17201d;
@@ -208,7 +208,7 @@
 }
 
 :root[data-theme="light"] {
-  --color-primary: #0b6b5c;
+  --color-primary: #0d4a40;
   --color-on-primary: #ffffff;
   --color-primary-container: #dcf2ec;
   --color-on-primary-container: #04332a;
@@ -240,7 +240,7 @@
   --color-on-surface: #17201d;
   --color-on-surface-variant: #47534e;
   --color-outline: #77837d;
-  --color-outline-variant: #c7d1cb;
+  --color-outline-variant: #e4e0d4;
 
   --color-background: #fafbf9;
   --color-on-background: #17201d;
