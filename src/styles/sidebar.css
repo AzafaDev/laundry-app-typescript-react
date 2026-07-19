@@ -56,7 +56,7 @@
 
   .admin-sidebar-link:hover {
     color: var(--accent);
-    background-color: var(--surface-container);
+    background-color: var(--color-surface-container);
   }
 
   .admin-sidebar-link:focus-visible {

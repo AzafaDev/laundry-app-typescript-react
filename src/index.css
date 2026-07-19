@@ -83,12 +83,12 @@
 }
 
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
+  --text: var(--color-on-surface-variant);
+  --text-h: var(--color-on-surface);
 
-  --sans: "Inter", system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: "Sora", system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --sans: var(--font-sans);
+  --heading: var(--font-display);
+  --mono: var(--font-mono);
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
